@@ -35,6 +35,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.PanelTwo = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBox1
@@ -58,6 +59,7 @@
             this.label1.Size = new System.Drawing.Size(186, 19);
             this.label1.TabIndex = 3;
             this.label1.Text = "Введите количество тестов";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // button1
             // 
@@ -105,11 +107,22 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Outputs";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(355, 491);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 46);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Создать Inp/Out";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
             // AddTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 553);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.PanelTwo);
             this.Controls.Add(this.label2);
@@ -134,5 +147,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel PanelTwo;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button2;
     }
 }
