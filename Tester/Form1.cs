@@ -16,5 +16,22 @@ namespace Tester
         {
             InitializeComponent();
         }
+
+        private void добавитьТестToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddTest programm = new AddTest();
+            programm.ShowDialog();
+        }
+
+        private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutProgramm programm = new AboutProgramm();
+            programm.ShowDialog();
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }
