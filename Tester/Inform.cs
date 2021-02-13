@@ -9,6 +9,8 @@ namespace Tester
 {
     class Inform
     {
+        public static List<TextBox> elemInp = new List<TextBox> { };
+        public static List<TextBox> elemOut = new List<TextBox> { };
         public static int count;
     }
 }

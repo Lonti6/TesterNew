@@ -13,8 +13,6 @@ namespace Tester
 {
     public partial class AddTest : Form
     {
-        public List<TextBox> elemInp = new List<TextBox> { };
-        public List<TextBox> elemOut = new List<TextBox> { };
         public void Gen(Panel panel, TextBox CountText, string type)
         {
             panel.Controls.Clear();
@@ -31,8 +29,8 @@ namespace Tester
                     textBox.Top = top;
                     textBox.TextAlign = HorizontalAlignment.Center;
                     textBox.Text = "0";
-                    if (type == "inp") elemInp.Add(textBox);
-                    else if (type == "out") elemOut.Add(textBox);
+                    if (type == "inp") Inform.elemInp.Add(textBox);
+                    else if (type == "out") Inform.elemOut.Add(textBox);
                     panel.Controls.Add(textBox);
                     column = 1;
                     left += textBox1.Width + 30;
@@ -43,15 +41,15 @@ namespace Tester
                     textBox.Top = top;
                     textBox.TextAlign = HorizontalAlignment.Center;
                     textBox.Text = "0";
-                    if (type == "inp") elemInp.Add(textBox);
-                    else if (type == "out") elemOut.Add(textBox);
+                    if (type == "inp") Inform.elemInp.Add(textBox);
+                    else if (type == "out") Inform.elemOut.Add(textBox);
                     panel.Controls.Add(textBox);
                     column = 0;
                     left = 10;
                     top += 10;
                 }
                 if (column == 0) top += textBox.Height + 5;
-                Inform.count = elemInp.Count;
+                Inform.count = Inform.elemInp.Count;
             }
         }
         public AddTest()
@@ -131,21 +129,31 @@ namespace Tester
         private void button2_Click_1(object sender, EventArgs e)
         {
             string dirInp = AppDomain.CurrentDomain.BaseDirectory;
-            dirInp += "/data/input.txt";
+            dirInp += "/data/"+textBox2.Text;
+            Directory.CreateDirectory(dirInp);
+            dirInp += "/input.txt";
             for (int i = 0; i<Inform.count; i++) 
             {
-                File.AppendAllText(dirInp, elemInp[i].Text+"\n");
+                File.AppendAllText(dirInp, Inform.elemInp[i].Text+"\n");
             }
 
             string dirOut = AppDomain.CurrentDomain.BaseDirectory;
-            dirOut += "/data/output.txt";
+            dirOut += "/data/" + textBox2.Text;
+            Directory.CreateDirectory(dirOut);
+            dirOut += "/output.txt";
+            
             for (int i = 0; i < Inform.count; i++)
             {
-                File.AppendAllText(dirOut, elemOut[i].Text + "\n");
+                File.AppendAllText(dirOut, Inform.elemOut[i].Text + "\n");
             }
         }
 
         private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
