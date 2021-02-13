@@ -62,20 +62,20 @@
             // добавитьТестToolStripMenuItem
             // 
             this.добавитьТестToolStripMenuItem.Name = "добавитьТестToolStripMenuItem";
-            this.добавитьТестToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.добавитьТестToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
             this.добавитьТестToolStripMenuItem.Text = "Добавить тест";
             this.добавитьТестToolStripMenuItem.Click += new System.EventHandler(this.добавитьТестToolStripMenuItem_Click);
             // 
             // пройтиТестToolStripMenuItem
             // 
             this.пройтиТестToolStripMenuItem.Name = "пройтиТестToolStripMenuItem";
-            this.пройтиТестToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.пройтиТестToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
             this.пройтиТестToolStripMenuItem.Text = "Пройти тест";
             // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
@@ -90,6 +90,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(782, 553);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
