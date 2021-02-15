@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,23 +13,10 @@ namespace Tester
 {
     public partial class Form1 : Form
     {
-        public List<GenerateTable> people { get; set; }
-        public int CountLen; 
         public Form1()
         {
-            people = GetPeople(CountLen);
             InitializeComponent();
         }
-        private List<GenerateTable> GetPeople(int Count) 
-        {
-            var list = new List<GenerateTable>();
-            for (int i = 0; i<Count; i++) 
-            {
-                list.Add(new GenerateTable() { });
-            }
-            return list;
-        }
-
         private void добавитьТестToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddTest programm = new AddTest();
@@ -66,13 +54,31 @@ namespace Tester
 
         private void button1_Click_1(object sender, EventArgs e)
         {
+            //привязываю к кнопке открытие окна в котором выбираем папку с инп и аут
             OpenFileDialog opf = new OpenFileDialog();
-            if (opf.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            //тут задаём нужные колонки
+            List<string> columnsNames= new List<string> { "Input", "Output", "Result",  "Memory", "Time" };
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
             {
-                var people = this.people;
-                dataGridView1.DataSource = people;
-                int countLen = System.IO.File.ReadAllLines(opf.FileName).Length;
-                MessageBox.Show(countLen.ToString());
+                string path = fbd.SelectedPath;
+                int countLen = File.ReadAllLines(path+"/input.txt").Length;
+                //генерирую таблицу
+                GenerateTable.GenerataTable(countLen, columnsNames, dataGridView1);
+                //изменяю данные таблицы считывая по очереди каждую строку из инпута
+                StreamReader sr1 = new StreamReader(path + "/input.txt");
+                for (int i = 0; i<countLen; i++) 
+                {
+                    GenerateTable.ReValue(i, 0, dataGridView1, sr1.ReadLine());
+                }
+                sr1.Close(); //вырубаю чтение инпута
+                //изменяю данные таблицы считывая по очереди каждую строку из инпута
+                StreamReader sr2 = new StreamReader(path + "/output.txt");
+                for (int i = 0; i < countLen; i++)
+                {
+                    GenerateTable.ReValue(i, 1, dataGridView1, sr2.ReadLine());
+                }
+                sr2.Close(); //вырубаю чтение аутпута
             }
         }
     }

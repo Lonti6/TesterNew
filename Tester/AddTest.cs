@@ -13,28 +13,29 @@ namespace Tester
 {
     public partial class AddTest : Form
     {
-        public void Gen(Panel panel, TextBox CountText, string type)
-        {
-            panel.Controls.Clear();
-            int top = 10;
+        public void Gen(Panel panel, TextBox CountText, string type) //генерирует текстовые поля на панели Pane, кол-во полей получаем из CountText
+        {                                                       //type(либо "inp", либо "out"), с помощью него определяем в какой список в Inform засунуть генерируемое текстовое поле
+            panel.Controls.Clear(); //очищаем от предыдущих полей
+            int top = 10;    //изначальные координаты 1го текстового поля по отношению к родительскому объекту  
             int left = 10;
             int column = 0;
             for (int i = 0; i < int.Parse(CountText.Text); i++)
             {
-                TextBox textBox = new TextBox();
-                
+                TextBox textBox = new TextBox(); //создаю текстовое поле
+                //колонка 1
                 if (column == 0)
                 {
                     textBox.Left = left;
                     textBox.Top = top;
                     textBox.TextAlign = HorizontalAlignment.Center;
                     textBox.Text = "0";
-                    if (type == "inp") Inform.elemInp.Add(textBox);
-                    else if (type == "out") Inform.elemOut.Add(textBox);
+                    if (type == "inp") Inform.elemInp.Add(textBox);            //задаю ему настройки, добовляю в список опред. список(в зависимости от типа) в Inform
+                    else if (type == "out") Inform.elemOut.Add(textBox);       //и добавляю на панель
                     panel.Controls.Add(textBox);
                     column = 1;
                     left += textBox1.Width + 30;
                 }
+                //колонка 2
                 else
                 {
                     textBox.Left = left;
@@ -67,6 +68,7 @@ namespace Tester
                 }
         private void button1_Click(object sender, EventArgs e)
         {
+            //когда нажимается кнопка, происходит генерация
             Gen(PanelOne, textBox1, "inp");
             Gen(PanelTwo, textBox1, "out");
         }
@@ -87,7 +89,7 @@ namespace Tester
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if ((e.KeyChar >= '0') && (e.KeyChar <= '0')) return;
+            //возможность генерации тест. полей не по нажатию кнопки, а по клику на Enter
             if (Char.IsControl(e.KeyChar))
             {
                 if (e.KeyChar == (char)Keys.Enter)
@@ -128,7 +130,8 @@ namespace Tester
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            string dirInp = AppDomain.CurrentDomain.BaseDirectory;
+            //создание инпута
+            string dirInp = AppDomain.CurrentDomain.BaseDirectory; //получаем текущую директорию
             dirInp += "/data/"+textBox2.Text;
             Directory.CreateDirectory(dirInp);
             dirInp += "/input.txt";
@@ -136,7 +139,7 @@ namespace Tester
             {
                 File.AppendAllText(dirInp, Inform.elemInp[i].Text+"\n");
             }
-
+            //создание аутпута
             string dirOut = AppDomain.CurrentDomain.BaseDirectory;
             dirOut += "/data/" + textBox2.Text;
             Directory.CreateDirectory(dirOut);
