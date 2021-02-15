@@ -58,6 +58,7 @@
     <Compile Include="AddTest.Designer.cs">
       <DependentUpon>AddTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestTask.cs" />
     <Compile Include="GenerateTable.cs" />
     <Compile Include="Inform.cs" />
     <Compile Include="Form1.cs">
