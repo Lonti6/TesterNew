@@ -104,5 +104,8 @@
   <ItemGroup>
     <None Include="Using Images\USUE.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Using Images\refresh.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

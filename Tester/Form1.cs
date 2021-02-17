@@ -53,6 +53,7 @@ namespace Tester
                 GenerateTable.GenerataTable(countLen, columnsNames, dataGridView1);
                 //изменяю данные таблицы считывая по очереди каждую строку из инпута
                 StreamReader sr1 = new StreamReader(path + "/input.txt");
+                Inform.pathInp = path + "/input.txt";
                 for (int i = 0; i < countLen; i++)
                 {
                     GenerateTable.ReValue(i, 0, dataGridView1, (i+1).ToString());
@@ -64,6 +65,7 @@ namespace Tester
                 sr1.Close(); //вырубаю чтение инпута
                 //изменяю данные таблицы считывая по очереди каждую строку из инпута
                 StreamReader sr2 = new StreamReader(path + "/output.txt");
+                Inform.pathOut = path + "/output.txt";
                 for (int i = 0; i < countLen; i++)
                 {
                     GenerateTable.ReValue(i, 2, dataGridView1, sr2.ReadLine());
@@ -76,12 +78,28 @@ namespace Tester
         {
 
         }
-
+        private void RefreshTree()
+        {
+            string pathData = Directory.GetCurrentDirectory()+"/data";
+            int countElems = Directory.GetDirectories(pathData, "*.*", SearchOption.TopDirectoryOnly).Length;
+            tableLayoutPanel1.Controls.Clear();
+            for (int i = 0; i<countElems; i++) 
+            {
+                tableLayoutPanel1.RowStyles.Add(new RowStyle());
+                tableLayoutPanel1.RowStyles[i].SizeType = SizeType.Absolute;
+                tableLayoutPanel1.RowStyles[i].Height = 51;
+                tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Percent;
+                tableLayoutPanel1.ColumnStyles[0].Width = 100;
+                Button but = new Button();
+                but.Width = tableLayoutPanel1.Width;
+                but.Height = 50;
+                tableLayoutPanel1.Controls.Add(but, 0, i);
+                
+            }
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
-            TreeNode tovarNode = new TreeNode("Товары");
-            tovarNode.Nodes.Add(new TreeNode("HZ"));
-            treeView1.Nodes.Add(tovarNode);
+            RefreshTree();
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -89,11 +107,14 @@ namespace Tester
 
         }
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
+
         }
-        private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
+            RefreshTree();
         }
     }
 }
