@@ -16,10 +16,18 @@ namespace Tester
             column0.HeaderText = name[0];
             dgv.Columns.Add(column0);
             //генерирую таблицу
-            for (int i = 0; i<name.Count; i++) 
+            var column = new DataGridViewTextBoxColumn();
+            column.Width = 30;
+            column.HeaderText = name[0];
+            dgv.Columns.Add(column);
+            for (int i = 1; i<name.Count; i++) 
             {
+<<<<<<< HEAD
                 var column = new DataGridViewTextBoxColumn();
                 column.Width = 55;
+=======
+                column = new DataGridViewTextBoxColumn();
+>>>>>>> a488bf8eb4ffaf094669b169312faae8d0cf4b3d
                 column.HeaderText = name[i];
                 dgv.Columns.Add(column);
             }
