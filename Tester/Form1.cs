@@ -40,38 +40,24 @@ namespace Tester
 
         private void пройтиТестToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
             //привязываю к кнопке открытие окна в котором выбираем папку с инп и аут
             OpenFileDialog opf = new OpenFileDialog();
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             //тут задаём нужные колонки
-            List<string> columnsNames= new List<string> { "№", "Input", "Output", "Result",  "Memory", "Time" };
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
+            List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory", "Time" };
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 string path = fbd.SelectedPath;
-                int countLen = File.ReadAllLines(path+"/input.txt").Length;
+                int countLen = File.ReadAllLines(path + "/input.txt").Length;
                 //генерирую таблицу
                 GenerateTable.GenerataTable(countLen, columnsNames, dataGridView1);
                 //изменяю данные таблицы считывая по очереди каждую строку из инпута
                 StreamReader sr1 = new StreamReader(path + "/input.txt");
                 for (int i = 0; i < countLen; i++)
                 {
-                    GenerateTable.ReValue(i, 0, dataGridView1, i.ToString());
+                    GenerateTable.ReValue(i, 0, dataGridView1, (i+1).ToString());
                 }
-                for (int i = 0; i<countLen; i++) 
+                for (int i = 0; i < countLen; i++)
                 {
                     GenerateTable.ReValue(i, 1, dataGridView1, sr1.ReadLine());
                 }
@@ -84,6 +70,15 @@ namespace Tester
                 }
                 sr2.Close(); //вырубаю чтение аутпута
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
         }
     }
 }

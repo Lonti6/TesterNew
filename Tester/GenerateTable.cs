@@ -16,7 +16,7 @@ namespace Tester
             {
                 
                 var column = new DataGridViewTextBoxColumn();
-                if (i == 0) column.Width = 30;
+                if (name[i] == "№") column.Width = 30;
                 column.HeaderText = name[i];
                 dgv.Columns.Add(column);
             }
