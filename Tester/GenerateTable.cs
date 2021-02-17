@@ -11,12 +11,15 @@ namespace Tester
     {
         public static void GenerataTable(int countRows, List<string> name, DataGridView dgv) 
         {
+            var column0 = new DataGridViewTextBoxColumn();
+            column0.Width = 30;
+            column0.HeaderText = name[0];
+            dgv.Columns.Add(column0);
             //генерирую таблицу
             for (int i = 0; i<name.Count; i++) 
             {
-                
                 var column = new DataGridViewTextBoxColumn();
-                if (name[i] == "№") column.Width = 30;
+                column.Width = 55;
                 column.HeaderText = name[i];
                 dgv.Columns.Add(column);
             }

@@ -79,6 +79,21 @@ namespace Tester
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            TreeNode tovarNode = new TreeNode("Товары");
+            tovarNode.Nodes.Add(new TreeNode("HZ"));
+            treeView1.Nodes.Add(tovarNode);
+        }
+
+        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+        }
+        private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
+        {
         }
     }
 }
