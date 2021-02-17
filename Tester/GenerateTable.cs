@@ -14,9 +14,10 @@ namespace Tester
             //генерирую таблицу
             for (int i = 0; i<name.Count; i++) 
             {
+                
                 var column = new DataGridViewTextBoxColumn();
+                if (i == 0) column.Width = 30;
                 column.HeaderText = name[i];
-                column.Name = "Column1";
                 dgv.Columns.Add(column);
             }
             for (int i = 0; i<countRows; i++) 

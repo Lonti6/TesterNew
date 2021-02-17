@@ -58,7 +58,7 @@ namespace Tester
             OpenFileDialog opf = new OpenFileDialog();
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             //тут задаём нужные колонки
-            List<string> columnsNames= new List<string> { "Input", "Output", "Result",  "Memory", "Time" };
+            List<string> columnsNames= new List<string> { "№", "Input", "Output", "Result",  "Memory", "Time" };
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK) 
             {
                 string path = fbd.SelectedPath;
@@ -67,16 +67,20 @@ namespace Tester
                 GenerateTable.GenerataTable(countLen, columnsNames, dataGridView1);
                 //изменяю данные таблицы считывая по очереди каждую строку из инпута
                 StreamReader sr1 = new StreamReader(path + "/input.txt");
+                for (int i = 0; i < countLen; i++)
+                {
+                    GenerateTable.ReValue(i, 0, dataGridView1, i.ToString());
+                }
                 for (int i = 0; i<countLen; i++) 
                 {
-                    GenerateTable.ReValue(i, 0, dataGridView1, sr1.ReadLine());
+                    GenerateTable.ReValue(i, 1, dataGridView1, sr1.ReadLine());
                 }
                 sr1.Close(); //вырубаю чтение инпута
                 //изменяю данные таблицы считывая по очереди каждую строку из инпута
                 StreamReader sr2 = new StreamReader(path + "/output.txt");
                 for (int i = 0; i < countLen; i++)
                 {
-                    GenerateTable.ReValue(i, 1, dataGridView1, sr2.ReadLine());
+                    GenerateTable.ReValue(i, 2, dataGridView1, sr2.ReadLine());
                 }
                 sr2.Close(); //вырубаю чтение аутпута
             }
