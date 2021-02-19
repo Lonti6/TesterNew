@@ -131,23 +131,18 @@ namespace Tester
         private void button2_Click_1(object sender, EventArgs e)
         {
             //создание инпута
-            string dirInp = AppDomain.CurrentDomain.BaseDirectory; //получаем текущую директорию
-            dirInp += "/data/"+textBox2.Text;
-            Directory.CreateDirectory(dirInp);
-            dirInp += "/input.txt";
+            string dataDir = AppDomain.CurrentDomain.BaseDirectory+ "/data/"+textBox2.Text; ; //получаем текущую директорию
+            Directory.CreateDirectory(dataDir);
+            dataDir += "/" + textBox3.Text;
+            Directory.CreateDirectory(dataDir);
             for (int i = 0; i<Inform.count; i++) 
             {
-                File.AppendAllText(dirInp, Inform.elemInp[i].Text+"\n");
+                File.AppendAllText(dataDir+"/input.txt", Inform.elemInp[i].Text+"\n");
             }
             //создание аутпута
-            string dirOut = AppDomain.CurrentDomain.BaseDirectory;
-            dirOut += "/data/" + textBox2.Text;
-            Directory.CreateDirectory(dirOut);
-            dirOut += "/output.txt";
-            
             for (int i = 0; i < Inform.count; i++)
             {
-                File.AppendAllText(dirOut, Inform.elemOut[i].Text + "\n");
+                File.AppendAllText(dataDir+"/output.txt", Inform.elemOut[i].Text + "\n");
             }
         }
 

@@ -11,6 +11,7 @@ namespace Tester
     {
         public static void GenerataTable(int countRows, List<string> name, DataGridView dgv) 
         {
+            dgv.Columns.Clear();
             //генерирую таблицу
             var column = new DataGridViewTextBoxColumn();
             column.Width = 30;

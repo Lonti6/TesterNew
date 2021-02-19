@@ -13,9 +13,68 @@ namespace Tester
 {
     public partial class Form1 : Form
     {
+        //названия столбцов и то, в каком порядке они будут распологаться в таблице
+        List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory", "Time" };
+        //путь к data
+        string pathData = Directory.GetCurrentDirectory() + "/data";
+        Button clickedButtonTheme;
+        private void ProcGenThems(string path) 
+        {
+            var dirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
+            int countElems = dirs.Length;
+            for (int i = 0; i < countElems; i++)
+            {
+                tableLayoutPanel1.RowStyles.Add(new RowStyle());
+                tableLayoutPanel1.RowStyles[i].SizeType = SizeType.Absolute;
+                tableLayoutPanel1.RowStyles[i].Height = 51;
+                Button but = new Button();
+                but.Width = tableLayoutPanel1.Width - 50;
+                but.Height = 50;
+                but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
+                but.Click += new EventHandler(this.GreetingBtnTasks_Click);
+                tableLayoutPanel1.Controls.Add(but, 0, i+1);
+
+            }
+        }
+        private void ProcGenTasks(string path)
+        {
+            int countLen = File.ReadAllLines(path + "/input.txt").Length;
+            //генерирую таблицу
+            GenerateTable.GenerataTable(countLen, columnsNames, dataGridView1);
+            //изменяю данные таблицы считывая по очереди каждую строку из инпута
+            StreamReader sr1 = new StreamReader(path + "/input.txt");
+            Inform.pathInp = path + "/input.txt";
+            for (int i = 0; i < countLen; i++)
+            {
+                GenerateTable.ReValue(i, 0, dataGridView1, (i + 1).ToString());
+            }
+            for (int i = 0; i < countLen; i++)
+            {
+                GenerateTable.ReValue(i, 1, dataGridView1, sr1.ReadLine());
+            }
+            sr1.Close(); //вырубаю чтение инпута
+                         //изменяю данные таблицы считывая по очереди каждую строку из инпута
+            StreamReader sr2 = new StreamReader(path + "/output.txt");
+            Inform.pathOut = path + "/output.txt";
+            for (int i = 0; i < countLen; i++)
+            {
+                GenerateTable.ReValue(i, 2, dataGridView1, sr2.ReadLine());
+            }
+            sr2.Close(); //вырубаю чтение аутпута
+        }
         public Form1()
         {
             InitializeComponent();
+        }
+        void GreetingBtnTheme_Click(Object sender, EventArgs e)
+        {
+            clickedButtonTheme = (Button)sender;
+            ProcGenThems(pathData + "/" + clickedButtonTheme.Text);
+        }
+        void GreetingBtnTasks_Click(Object sender, EventArgs e)
+        {
+            Button clickedButtonTasks = (Button)sender;
+            ProcGenTasks(pathData + "/" + clickedButtonTheme.Text +"/"+clickedButtonTasks.Text);
         }
         private void добавитьТестToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -44,33 +103,9 @@ namespace Tester
             OpenFileDialog opf = new OpenFileDialog();
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             //тут задаём нужные колонки
-            List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory", "Time" };
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                string path = fbd.SelectedPath;
-                int countLen = File.ReadAllLines(path + "/input.txt").Length;
-                //генерирую таблицу
-                GenerateTable.GenerataTable(countLen, columnsNames, dataGridView1);
-                //изменяю данные таблицы считывая по очереди каждую строку из инпута
-                StreamReader sr1 = new StreamReader(path + "/input.txt");
-                Inform.pathInp = path + "/input.txt";
-                for (int i = 0; i < countLen; i++)
-                {
-                    GenerateTable.ReValue(i, 0, dataGridView1, (i+1).ToString());
-                }
-                for (int i = 0; i < countLen; i++)
-                {
-                    GenerateTable.ReValue(i, 1, dataGridView1, sr1.ReadLine());
-                }
-                sr1.Close(); //вырубаю чтение инпута
-                //изменяю данные таблицы считывая по очереди каждую строку из инпута
-                StreamReader sr2 = new StreamReader(path + "/output.txt");
-                Inform.pathOut = path + "/output.txt";
-                for (int i = 0; i < countLen; i++)
-                {
-                    GenerateTable.ReValue(i, 2, dataGridView1, sr2.ReadLine());
-                }
-                sr2.Close(); //вырубаю чтение аутпута
+                ProcGenThems(fbd.SelectedPath);
             }
         }
 
@@ -80,25 +115,30 @@ namespace Tester
         }
         private void RefreshTree()
         {
-            string pathData = Directory.GetCurrentDirectory()+"/data";
-            int countElems = Directory.GetDirectories(pathData, "*.*", SearchOption.TopDirectoryOnly).Length;
+            var dirs = Directory.GetDirectories(pathData, "*.*", SearchOption.TopDirectoryOnly);
+            int countElems = dirs.Length;
             tableLayoutPanel1.Controls.Clear();
             for (int i = 0; i<countElems; i++) 
             {
                 tableLayoutPanel1.RowStyles.Add(new RowStyle());
                 tableLayoutPanel1.RowStyles[i].SizeType = SizeType.Absolute;
                 tableLayoutPanel1.RowStyles[i].Height = 51;
-                tableLayoutPanel1.ColumnStyles[0].SizeType = SizeType.Percent;
-                tableLayoutPanel1.ColumnStyles[0].Width = 100;
                 Button but = new Button();
-                but.Width = tableLayoutPanel1.Width;
+                but.Width = tableLayoutPanel1.Width-30;
                 but.Height = 50;
+                but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\")+1);
+                but.Click += new EventHandler(this.GreetingBtnTheme_Click);
                 tableLayoutPanel1.Controls.Add(but, 0, i);
                 
             }
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            tableLayoutPanel1.HorizontalScroll.Maximum = 0;
+            tableLayoutPanel1.AutoScroll = false;
+            tableLayoutPanel1.HorizontalScroll.Enabled = false;
+            tableLayoutPanel1.HorizontalScroll.Visible = false;
+            tableLayoutPanel1.AutoScroll = true;
             RefreshTree();
         }
 
