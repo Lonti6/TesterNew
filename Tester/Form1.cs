@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace Tester
 {
@@ -18,7 +19,7 @@ namespace Tester
         //путь к data
         string pathData = Directory.GetCurrentDirectory() + "/data";
         Button clickedButtonTheme;
-        private void ProcGenThems(string path) 
+        private void ProcGenTasks(string path) 
         {
             var dirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
             int countElems = dirs.Length;
@@ -32,11 +33,11 @@ namespace Tester
                 but.Height = 50;
                 but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
                 but.Click += new EventHandler(this.GreetingBtnTasks_Click);
-                tableLayoutPanel1.Controls.Add(but, 0, i+1);
+                tableLayoutPanel1.Controls.Add(but, 0, tableLayoutPanel1.GetRow(clickedButtonTheme)+1);
 
             }
         }
-        private void ProcGenTasks(string path)
+        private void ProcGenTable(string path)
         {
             int countLen = File.ReadAllLines(path + "/input.txt").Length;
             //генерирую таблицу
@@ -69,12 +70,12 @@ namespace Tester
         void GreetingBtnTheme_Click(Object sender, EventArgs e)
         {
             clickedButtonTheme = (Button)sender;
-            ProcGenThems(pathData + "/" + clickedButtonTheme.Text);
+            ProcGenTasks(pathData + "/" + clickedButtonTheme.Text);
         }
         void GreetingBtnTasks_Click(Object sender, EventArgs e)
         {
             Button clickedButtonTasks = (Button)sender;
-            ProcGenTasks(pathData + "/" + clickedButtonTheme.Text +"/"+clickedButtonTasks.Text);
+            ProcGenTable(pathData + "/" + clickedButtonTheme.Text +"/"+clickedButtonTasks.Text);
         }
         private void добавитьТестToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -105,7 +106,7 @@ namespace Tester
             //тут задаём нужные колонки
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                ProcGenThems(fbd.SelectedPath);
+                ProcGenTasks(fbd.SelectedPath);
             }
         }
 
@@ -155,6 +156,11 @@ namespace Tester
         private void pictureBox1_Click(object sender, EventArgs e)
         {
             RefreshTree();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Process.Start(pathData);
         }
     }
 }
