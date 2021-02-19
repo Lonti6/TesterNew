@@ -66,6 +66,7 @@ namespace Tester
         public Form1()
         {
             InitializeComponent();
+            dataGridView1.RowHeadersVisible = false;
         }
         void GreetingBtnTheme_Click(Object sender, EventArgs e)
         {
