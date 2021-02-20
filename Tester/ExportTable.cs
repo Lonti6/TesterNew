@@ -53,7 +53,7 @@ namespace Tester
                 for (int j = 0; j < columns; j++) 
                     {
                         if (dgv.Rows[i].Cells[j].Value != null) document.Tables[1].Cell(i + 2, j + 1).Range.Text = dgv.Rows[i].Cells[j].Value.ToString();
-                        else document.Tables[1].Cell(i + 2, j + 1).Range.Text = "";
+                        else document.Tables[1].Cell(i + 1, j + 1).Range.Text = "";
                 }
             application.Visible = true;
         }
