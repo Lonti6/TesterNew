@@ -36,7 +36,7 @@ namespace Tester
         public static void ExportToWord(DataGridView dgv) 
         {
             int columns = dgv.Columns.Count;
-            int rows = dgv.Rows.Count;
+            int rows = dgv.Rows.Count+1;
             Microsoft.Office.Interop.Word.Application application = new Microsoft.Office.Interop.Word.Application();
             Object missing = Type.Missing;
             application.Documents.Add(ref missing, ref missing, ref missing, ref missing);
@@ -49,10 +49,10 @@ namespace Tester
             {
                 document.Tables[1].Cell(1, i+1).Range.Text = dgv.Columns[i].HeaderText;
             }
-            for (int i = 0; i < rows; i++)
+            for (int i = 1; i < rows; i++)
                 for (int j = 0; j < columns; j++) 
                     {
-                        if (dgv.Rows[i].Cells[j].Value != null) document.Tables[1].Cell(i + 2, j + 1).Range.Text = dgv.Rows[i].Cells[j].Value.ToString();
+                        if (dgv.Rows[i-1].Cells[j].Value != null) document.Tables[1].Cell(i + 1, j + 1).Range.Text = dgv.Rows[i-1].Cells[j].Value.ToString();
                         else document.Tables[1].Cell(i + 1, j + 1).Range.Text = "";
                 }
             application.Visible = true;
