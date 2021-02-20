@@ -137,6 +137,7 @@ namespace Tester
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/data");
             //запрещаю горизонтальную прокрутку
             tableLayoutPanel1.HorizontalScroll.Maximum = 0;
             tableLayoutPanel1.AutoScroll = false;
