@@ -67,6 +67,7 @@ namespace Tester
         {
             InitializeComponent();
             dataGridView1.RowHeadersVisible = false;
+            dataGridView1.AllowUserToAddRows = false;
         }
         void GreetingBtnTheme_Click(Object sender, EventArgs e)
         {
@@ -162,6 +163,16 @@ namespace Tester
         private void button1_Click_1(object sender, EventArgs e)
         {
             Process.Start(pathData);
+        }
+
+        private void вExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportTable.ExportToExcel(dataGridView1);
+        }
+
+        private void вWordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ExportTable.ExportToWord(dataGridView1);
         }
     }
 }

@@ -32,6 +32,9 @@
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьТестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.пройтиТестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.экспортироватьТаблицуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.вWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.вExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -61,6 +64,7 @@
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьТестToolStripMenuItem,
             this.пройтиТестToolStripMenuItem,
+            this.экспортироватьТаблицуToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
@@ -69,21 +73,44 @@
             // добавитьТестToolStripMenuItem
             // 
             this.добавитьТестToolStripMenuItem.Name = "добавитьТестToolStripMenuItem";
-            this.добавитьТестToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.добавитьТестToolStripMenuItem.Size = new System.Drawing.Size(273, 26);
             this.добавитьТестToolStripMenuItem.Text = "Добавить тест";
             this.добавитьТестToolStripMenuItem.Click += new System.EventHandler(this.добавитьТестToolStripMenuItem_Click);
             // 
             // пройтиТестToolStripMenuItem
             // 
             this.пройтиТестToolStripMenuItem.Name = "пройтиТестToolStripMenuItem";
-            this.пройтиТестToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.пройтиТестToolStripMenuItem.Size = new System.Drawing.Size(273, 26);
             this.пройтиТестToolStripMenuItem.Text = "Выбрать тест";
             this.пройтиТестToolStripMenuItem.Click += new System.EventHandler(this.пройтиТестToolStripMenuItem_Click);
+            // 
+            // экспортироватьТаблицуToolStripMenuItem
+            // 
+            this.экспортироватьТаблицуToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.вWordToolStripMenuItem,
+            this.вExcelToolStripMenuItem});
+            this.экспортироватьТаблицуToolStripMenuItem.Name = "экспортироватьТаблицуToolStripMenuItem";
+            this.экспортироватьТаблицуToolStripMenuItem.Size = new System.Drawing.Size(273, 26);
+            this.экспортироватьТаблицуToolStripMenuItem.Text = "Экспортировать таблицу";
+            // 
+            // вWordToolStripMenuItem
+            // 
+            this.вWordToolStripMenuItem.Name = "вWordToolStripMenuItem";
+            this.вWordToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.вWordToolStripMenuItem.Text = "В word";
+            this.вWordToolStripMenuItem.Click += new System.EventHandler(this.вWordToolStripMenuItem_Click);
+            // 
+            // вExcelToolStripMenuItem
+            // 
+            this.вExcelToolStripMenuItem.Name = "вExcelToolStripMenuItem";
+            this.вExcelToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.вExcelToolStripMenuItem.Text = "В excel";
+            this.вExcelToolStripMenuItem.Click += new System.EventHandler(this.вExcelToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(273, 26);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
@@ -185,6 +212,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ToolStripMenuItem экспортироватьТаблицуToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem вWordToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem вExcelToolStripMenuItem;
     }
 }
 
