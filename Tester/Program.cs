@@ -14,6 +14,7 @@ namespace Tester
         [STAThread]
         static void Main()
         {
+            //Tester test = new Tester(@"C:\Users\Semyon\source\repos\тест тестера )\тест тестера )\Program.cs");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

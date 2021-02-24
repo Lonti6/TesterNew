@@ -1,31 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.CodeDom.Compiler;
+using System.Diagnostics;
 using Microsoft.CSharp;
 using System.IO;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace Tester
 {
     class Tester
-    {
-        
-        private string pathInput, pathOutput, pathProgram;
+    { 
         /// <summary>
         /// конструктор экземпляра TestTask
         /// </summary>
         /// <param name="pathProgram">ссылка на программу</param>
         /// <param name="pathInput">ссылка на входные данные теста</param>
         /// <param name="pathOutput">ссылка на выходные данные теста</param>
-        public Tester(string pathProgram, string pathInput, string pathOutput)
+        public Tester(string pathProgram)
         {
-            this.pathProgram = pathProgram;
-            this.pathInput = pathInput;
-            this.pathOutput = pathOutput;
+            var outputexe = CompilingProgram(pathProgram);
+            Process.Start(outputexe.);
         }
         /// <summary>
         /// получение текстового представления файла .cs
         /// </summary>
-        private string GetStrCode()
+        private string GetStrCode(string pathProgram)
         {
             // создаём класс с текстом из файла
             StreamReader sr = new StreamReader(pathProgram);
@@ -40,10 +40,9 @@ namespace Tester
             while (line != null)
             {
                 // записываем строку
-                outTxt += sr.ReadLine();
-
+                outTxt += line;
                 // берём очередную строку из файла
-                line = sr.ReadLine();
+                line = @sr.ReadLine();
             }
             // закрываем файл
             sr.Close();
@@ -51,31 +50,44 @@ namespace Tester
         }
 
         /// <summary>
-        /// компиляция программы и полчение результатов теста
+        /// компиляция программы и получение результатов теста
         /// </summary>
-        public void Start()
+        private void CompilingProgram(string pathProgram)
         {
-            string source = @GetStrCode();
+            string code = @GetStrCode(pathProgram);
+            CodeDomProvider provider = CodeDomProvider.CreateProvider("cs");
+            CompilerParameters parameters = new CompilerParameters() { GenerateExecutable = false, GenerateInMemory = true };
 
-            // информация о компиляторе
-            Dictionary<string, string> providerOptions = new Dictionary<string, string>
+            var compilerResult = provider.CompileAssemblyFromSource(parameters, new string[] { code });
+
+            if (compilerResult.Errors.HasErrors)
             {
-                {"CompilerVersion", "v3.5"}
-            };
-            CSharpCodeProvider provider = new CSharpCodeProvider(providerOptions);
+                foreach (CompilerError err in compilerResult.Errors)
+                {
+                    MessageBox.Show("ERROR {0} :" + err.ErrorText);
+                }
+            }
 
-            // параметры компиляции
-            CompilerParameters compilerParams = new CompilerParameters
-                {OutputAssembly = "D:\\Foo.EXE", GenerateExecutable = false};
+            var test = compilerResult.CompiledAssembly.GetType("Test", false);
 
-            // Компиляция 
-            CompilerResults results = provider.CompileAssemblyFromSource(compilerParams, source);
-
-            // Выводим информацию об ошибках 
-            Console.WriteLine("Number of Errors: {0}", results.Errors.Count);
-            foreach (CompilerError err in results.Errors)
+            while (true)
             {
-                Console.WriteLine("ERROR {0}", err.ErrorText);
+                Console.WriteLine("Enter number:");
+
+                int n = 0;
+
+                if (!int.TryParse(Console.ReadLine(), out n))
+                {
+                    Console.WriteLine();
+                    continue;
+                }
+
+                n = (int)test.InvokeMember("Calc", System.Reflection.BindingFlags.InvokeMethod |
+                                                   System.Reflection.BindingFlags.NonPublic |
+                                                   System.Reflection.BindingFlags.Static, null, test, new object[] { n });
+
+                Console.WriteLine($"Result: {n}");
+                Console.WriteLine();
             }
         }
 
