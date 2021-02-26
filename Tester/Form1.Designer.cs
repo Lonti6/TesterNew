@@ -31,7 +31,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьТестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.пройтиТестToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.экспортироватьТаблицуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.вWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.вExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -63,7 +62,6 @@
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьТестToolStripMenuItem,
-            this.пройтиТестToolStripMenuItem,
             this.экспортироватьТаблицуToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
@@ -76,13 +74,6 @@
             this.добавитьТестToolStripMenuItem.Size = new System.Drawing.Size(273, 26);
             this.добавитьТестToolStripMenuItem.Text = "Добавить тест";
             this.добавитьТестToolStripMenuItem.Click += new System.EventHandler(this.добавитьТестToolStripMenuItem_Click);
-            // 
-            // пройтиТестToolStripMenuItem
-            // 
-            this.пройтиТестToolStripMenuItem.Name = "пройтиТестToolStripMenuItem";
-            this.пройтиТестToolStripMenuItem.Size = new System.Drawing.Size(273, 26);
-            this.пройтиТестToolStripMenuItem.Text = "Выбрать тест";
-            this.пройтиТестToolStripMenuItem.Click += new System.EventHandler(this.пройтиТестToolStripMenuItem_Click);
             // 
             // экспортироватьТаблицуToolStripMenuItem
             // 
@@ -142,7 +133,7 @@
             this.pictureBox1.MinimumSize = new System.Drawing.Size(25, 25);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(25, 25);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -180,6 +171,7 @@
             this.MaximumSize = new System.Drawing.Size(800, 600);
             this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tester";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -196,7 +188,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добавитьТестToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem пройтиТестToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView1;

@@ -60,6 +60,7 @@ namespace Tester
         private void оПрограммеToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutProgramm programm = new AboutProgramm();
+            programm.StartPosition = FormStartPosition.CenterScreen;
             programm.ShowDialog();
         }
 
