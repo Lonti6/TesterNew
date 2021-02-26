@@ -19,8 +19,8 @@ namespace Tester
         /// <param name="pathOutput">ссылка на выходные данные теста</param>
         public Tester(string pathProgram)
         {
-            var outputexe = CompilingProgram(pathProgram);
-            Process.Start(outputexe.);
+/*            var outputexe = CompilingProgram(pathProgram);
+            Process.Start(outputexe.);*/
         }
         /// <summary>
         /// получение текстового представления файла .cs

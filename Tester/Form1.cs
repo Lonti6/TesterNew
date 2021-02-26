@@ -18,25 +18,7 @@ namespace Tester
         List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory", "Time" };
         //путь к data
         string pathData = Directory.GetCurrentDirectory() + "/data";
-        Button clickedButtonTheme;
-        private void ProcGenTasks(string path) 
-        {
-            var dirs = Directory.GetDirectories(path, "*.*", SearchOption.TopDirectoryOnly);
-            int countElems = dirs.Length;
-            for (int i = 0; i < countElems; i++)
-            {
-                tableLayoutPanel1.RowStyles.Add(new RowStyle());
-                tableLayoutPanel1.RowStyles[i].SizeType = SizeType.Absolute;
-                tableLayoutPanel1.RowStyles[i].Height = 51;
-                Button but = new Button();
-                but.Width = tableLayoutPanel1.Width - 50;
-                but.Height = 50;
-                but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
-                but.Click += new EventHandler(this.GreetingBtnTasks_Click);
-                tableLayoutPanel1.Controls.Add(but, 0, tableLayoutPanel1.GetRow(clickedButtonTheme)+1);
-
-            }
-        }
+        List<bool> butIsClick = new List<bool> { };
         private void ProcGenTable(string path)
         {
             int countLen = File.ReadAllLines(path + "/input.txt").Length;
@@ -69,16 +51,6 @@ namespace Tester
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.AllowUserToAddRows = false;
         }
-        void GreetingBtnTheme_Click(Object sender, EventArgs e)
-        {
-            clickedButtonTheme = (Button)sender;
-            ProcGenTasks(pathData + "/" + clickedButtonTheme.Text);
-        }
-        void GreetingBtnTasks_Click(Object sender, EventArgs e)
-        {
-            Button clickedButtonTasks = (Button)sender;
-            ProcGenTable(pathData + "/" + clickedButtonTheme.Text +"/"+clickedButtonTasks.Text);
-        }
         private void добавитьТестToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddTest programm = new AddTest();
@@ -108,7 +80,7 @@ namespace Tester
             //тут задаём нужные колонки
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                ProcGenTasks(fbd.SelectedPath);
+                /*ProcGenTasks(fbd.SelectedPath, clickedButtonTheme);*/
             }
         }
 
@@ -116,37 +88,6 @@ namespace Tester
         {
 
         }
-        private void RefreshTree()
-        {
-            var dirs = Directory.GetDirectories(pathData, "*.*", SearchOption.TopDirectoryOnly);
-            int countElems = dirs.Length;
-            tableLayoutPanel1.Controls.Clear();
-            for (int i = 0; i<countElems; i++) 
-            {
-                tableLayoutPanel1.RowStyles.Add(new RowStyle());
-                tableLayoutPanel1.RowStyles[i].SizeType = SizeType.Absolute;
-                tableLayoutPanel1.RowStyles[i].Height = 51;
-                Button but = new Button();
-                but.Width = tableLayoutPanel1.Width-30;
-                but.Height = 50;
-                but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\")+1);
-                but.Click += new EventHandler(this.GreetingBtnTheme_Click);
-                tableLayoutPanel1.Controls.Add(but, 0, i);
-                
-            }
-        }
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Directory.CreateDirectory(AppDomain.CurrentDomain.BaseDirectory + "/data");
-            //запрещаю горизонтальную прокрутку
-            tableLayoutPanel1.HorizontalScroll.Maximum = 0;
-            tableLayoutPanel1.AutoScroll = false;
-            tableLayoutPanel1.HorizontalScroll.Enabled = false;
-            tableLayoutPanel1.HorizontalScroll.Visible = false;
-            tableLayoutPanel1.AutoScroll = true;
-            RefreshTree();
-        }
-
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
@@ -175,6 +116,69 @@ namespace Tester
         private void вWordToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ExportTable.ExportToWord(dataGridView1);
+        }
+
+        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
+        {
+        }
+        private void RefreshTree()
+        {
+            flowLayoutPanel1.Controls.Clear();
+            var dirs = Directory.GetDirectories(pathData, "*.*", SearchOption.TopDirectoryOnly);
+            int countElems = dirs.Length;
+            flowLayoutPanel1.Controls.Clear();
+            for (int i = 0; i < countElems; i++)
+            {
+                Button but = new Button();
+                but.Width = flowLayoutPanel1.Width - 30;
+                but.Height = 50;
+                but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
+                but.Click += ClickOnButTheme;
+                but.Tag = false;
+                flowLayoutPanel1.Controls.Add(but);
+            }
+        }
+
+        private void ClickOnButTheme(object sender, EventArgs e)
+        {
+            var but = (Button)sender;
+            //int row = tableLayoutPanel1.GetRow(but)+1;
+            var dirs = Directory.GetDirectories(pathData+"\\"+but.Text, "*.*", SearchOption.TopDirectoryOnly);
+            int countElems = dirs.Length;
+            if (but.Tag.ToString() == false.ToString())
+            {
+                for (int i = 0; i < countElems; i++)
+                {
+                    Button butDown = new Button();
+                    butDown.Width = flowLayoutPanel1.Width - 50;
+                    butDown.Height = 50;
+                    butDown.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
+                    butDown.Click += ButTasksClick;
+                    butDown.Name = "/" + but.Text + "/" + butDown.Text;
+                    flowLayoutPanel1.Controls.Add(butDown);
+                    flowLayoutPanel1.Controls.SetChildIndex(butDown, flowLayoutPanel1.Controls.GetChildIndex(but) + 1);
+                }
+                but.Tag = true;
+            }
+            else 
+            {
+                for (int i = 0; i < countElems; i++)
+                {
+                    flowLayoutPanel1.Controls.RemoveAt(flowLayoutPanel1.Controls.GetChildIndex(but) + 1);
+                }
+                but.Tag = false;
+            }
+        }
+
+        private void ButTasksClick(object sender, EventArgs e)
+        {
+            var but = (Button)sender;
+            ProcGenTable(pathData + but.Name);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            RefreshTree();
         }
     }
 }
