@@ -135,6 +135,9 @@ namespace Tester
                 but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
                 but.Click += ClickOnButTheme;
                 but.Tag = false;
+                but.BackColor = Color.FromArgb(117, 186, 156);
+                but.FlatAppearance.BorderSize = 0;
+                but.FlatStyle = FlatStyle.Flat;
                 flowLayoutPanel1.Controls.Add(but);
             }
         }
@@ -142,7 +145,6 @@ namespace Tester
         private void ClickOnButTheme(object sender, EventArgs e)
         {
             var but = (Button)sender;
-            //int row = tableLayoutPanel1.GetRow(but)+1;
             var dirs = Directory.GetDirectories(pathData+"\\"+but.Text, "*.*", SearchOption.TopDirectoryOnly);
             int countElems = dirs.Length;
             if (but.Tag.ToString() == false.ToString())
@@ -155,6 +157,9 @@ namespace Tester
                     butDown.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
                     butDown.Click += ButTasksClick;
                     butDown.Name = "/" + but.Text + "/" + butDown.Text;
+                    butDown.FlatAppearance.BorderSize = 0;
+                    butDown.FlatStyle = FlatStyle.Flat;
+                    butDown.BackColor = Color.FromArgb(134, 68, 179);
                     flowLayoutPanel1.Controls.Add(butDown);
                     flowLayoutPanel1.Controls.SetChildIndex(butDown, flowLayoutPanel1.Controls.GetChildIndex(but) + 1);
                 }
