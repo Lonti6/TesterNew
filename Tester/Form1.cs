@@ -191,5 +191,12 @@ namespace Tester
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog opf = new OpenFileDialog();
+            opf.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            opf.ShowDialog();
+        }
     }
 }
