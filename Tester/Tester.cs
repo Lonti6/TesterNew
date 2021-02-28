@@ -4,28 +4,32 @@ using System.CodeDom.Compiler;
 using System.Diagnostics;
 using Microsoft.CSharp;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
 namespace Tester
 {
     class Tester
-    { 
+    {
+        private Process process;
+        private string pathProgram, pathInput, pathOutput;
         /// <summary>
         /// конструктор экземпляра TestTask
         /// </summary>
         /// <param name="pathProgram">ссылка на программу</param>
         /// <param name="pathInput">ссылка на входные данные теста</param>
         /// <param name="pathOutput">ссылка на выходные данные теста</param>
-        public Tester(string pathProgram)
+        public Tester(string pathProgram, string pathInput, string pathOutput)
         {
-/*            var outputexe = CompilingProgram(pathProgram);
-            Process.Start(outputexe.);*/
+            this.pathProgram = pathProgram;
+            this.pathInput = pathInput;
+            this.pathOutput = pathOutput;
         }
         /// <summary>
         /// получение текстового представления файла .cs
         /// </summary>
-        private string GetStrCode(string pathProgram)
+        private string GetStrCode()
         {
             // создаём класс с текстом из файла
             StreamReader sr = new StreamReader(pathProgram);
@@ -50,16 +54,14 @@ namespace Tester
         }
 
         /// <summary>
-        /// компиляция программы и получение результатов теста
+        /// компиляция программы
         /// </summary>
-        private void CompilingProgram(string pathProgram)
+        public void CreateExe()
         {
-            string code = @GetStrCode(pathProgram);
             CodeDomProvider provider = CodeDomProvider.CreateProvider("cs");
-            CompilerParameters parameters = new CompilerParameters() { GenerateExecutable = false, GenerateInMemory = true };
-
-            var compilerResult = provider.CompileAssemblyFromSource(parameters, new string[] { code });
-
+            CompilerParameters parameters = new CompilerParameters() { GenerateExecutable = false, GenerateInMemory = true, OutputAssembly = "test.exe", CompilerOptions = "/target:winexe" };
+            CompilerResults compilerResult = provider.CompileAssemblyFromFile(parameters, pathProgram);
+            //вывод ошибок
             if (compilerResult.Errors.HasErrors)
             {
                 foreach (CompilerError err in compilerResult.Errors)
@@ -68,28 +70,23 @@ namespace Tester
                 }
             }
 
-            var test = compilerResult.CompiledAssembly.GetType("Test", false);
-
-            while (true)
-            {
-                Console.WriteLine("Enter number:");
-
-                int n = 0;
-
-                if (!int.TryParse(Console.ReadLine(), out n))
-                {
-                    Console.WriteLine();
-                    continue;
-                }
-
-                n = (int)test.InvokeMember("Calc", System.Reflection.BindingFlags.InvokeMethod |
-                                                   System.Reflection.BindingFlags.NonPublic |
-                                                   System.Reflection.BindingFlags.Static, null, test, new object[] { n });
-
-                Console.WriteLine($"Result: {n}");
-                Console.WriteLine();
-            }
         }
 
+        public void RunProject()
+        {
+            process = Process.Start(new ProcessStartInfo
+            {
+                FileName = "test",
+                CreateNoWindow = true,
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+                RedirectStandardInput = true,
+            });
+            //process.BeginOutputReadLine();
+            process.StandardInput.WriteLine("6");
+            MessageBox.Show($"Result: {process.StandardOutput.ReadToEnd()}");
+            process.Close();
+
+        }
     }
 }
