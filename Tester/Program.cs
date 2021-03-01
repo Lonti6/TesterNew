@@ -14,9 +14,8 @@ namespace Tester
         [STAThread]
         static void Main()
         {
-            Tester test = new Tester(@"ConsoleApp3\ConsoleApp3\Program.cs", "","");
-            test.CreateExe(); 
-            test.RunProject();
+            TestProject test = new TestProject();
+            test.test(@"ConsoleApp3\ConsoleApp3\Program.cs", @"data\1\1\input.txt");
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
