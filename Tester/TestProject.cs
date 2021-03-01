@@ -1,35 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CodeDom.Compiler;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using Microsoft.CSharp;
 using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Windows.Forms;
 
 namespace Tester
 {
     class TestProject
     {
         private Process process;
-        private List<string> outputList;
+        private List<string> outputList = new List<string>();
         /// <summary>
-        /// конструктор экземпляра TestTask
+        /// Прогон программы
         /// </summary>
         /// <param name="pathProgram">ссылка на программу</param>
         /// <param name="pathInput">ссылка на входные данные теста</param>
-        /// <param name="pathOutput">ссылка на выходные данные теста</param>
-
-
-
-        public void test(string pathProgram, string pathInput)
+        public List<string> test(string pathProgram, string pathInput)
         {
+
+            outputList.Clear();
             StreamReader inputTxt = new StreamReader(pathInput);
             string line = inputTxt.ReadLine();
             while (line != null)
             {
-                CompilerResults build = new BuildProject().CreateExe(pathProgram);
+                var build = new BuildProject().CreateExe(pathProgram);
                 process = Process.Start(new ProcessStartInfo
                 {
                     //FileName = build.CompiledAssembly.FullName.Substring(0, build.CompiledAssembly.FullName.IndexOf(",")),
@@ -46,15 +38,11 @@ namespace Tester
                 {
                     MessageBox.Show($"Error: {process.StandardError.ReadLine()}");
                 }*/
-
-                MessageBox.Show($"Result: {process.StandardOutput.ReadLine()}");
+                outputList.Add(process.StandardOutput.ReadLine());
                 process.Kill();
-
-
                 line = inputTxt.ReadLine();
             }
-            
-
+            return outputList;
         }
     }
 }
