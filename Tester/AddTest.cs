@@ -21,19 +21,23 @@ namespace Tester
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            //создание инпута
+            //создание инпута/аутпута
             string dataDir = AppDomain.CurrentDomain.BaseDirectory+ "/data/"+textBox2.Text; ; //получаем текущую директорию
             Directory.CreateDirectory(dataDir);
             dataDir += "/" + textBox3.Text;
             Directory.CreateDirectory(dataDir);
-            for (int i = 0; i<dataGridView1.Rows.Count-1; i++) 
+            for (int i = 0; i<dataGridView1.Rows.Count-2; i++) 
             {
                 if (dataGridView1.Rows[i].Cells[1].Value != null) File.AppendAllText(dataDir + "/input.txt", dataGridView1.Rows[i].Cells[1].Value + "\n");
-                else File.AppendAllText(dataDir + "/input.txt", "" + "\n");
+                else File.AppendAllText(dataDir + "/input.txt", "\n");
                 if (dataGridView1.Rows[i].Cells[2].Value != null) File.AppendAllText(dataDir + "/output.txt", dataGridView1.Rows[i].Cells[2].Value + "\n");
-                else File.AppendAllText(dataDir + "/output.txt", "" + "\n");
+                else File.AppendAllText(dataDir + "/output.txt", "\n");
             }
-                
+            if (dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[1].Value != null) File.AppendAllText(dataDir + "/input.txt", dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[1].Value + "");
+            else File.AppendAllText(dataDir + "/input.txt", "");
+            if (dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[2].Value != null) File.AppendAllText(dataDir + "/output.txt", dataGridView1.Rows[dataGridView1.Rows.Count - 2].Cells[2].Value + "");
+            else File.AppendAllText(dataDir + "/output.txt", "");
+
         }
 
         private void label1_Click(object sender, EventArgs e)

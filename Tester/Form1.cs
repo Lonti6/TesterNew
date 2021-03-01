@@ -17,7 +17,7 @@ namespace Tester
         //названия столбцов и то, в каком порядке они будут распологаться в таблице
         List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory", "Time" };
         //путь к data
-        string pathData = Directory.GetCurrentDirectory() + "/data";
+        string pathData = @"data\";
         string taskName;
         private void ProcGenTable(string path)
         {
@@ -157,7 +157,7 @@ namespace Tester
                     butDown.Height = 50;
                     butDown.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
                     butDown.Click += ButTasksClick;
-                    butDown.Name = "/" + but.Text + "/" + butDown.Text;
+                    butDown.Name = "\\" + but.Text + "\\" + butDown.Text;
                     butDown.FlatAppearance.BorderSize = 0;
                     butDown.FlatStyle = FlatStyle.Flat;
                     butDown.BackColor = Color.FromArgb(134, 68, 179);
@@ -199,18 +199,21 @@ namespace Tester
             OpenFileDialog opf = new OpenFileDialog();
             opf.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             opf.ShowDialog();
-            MessageBox.Show(opf.FileName);
+            MessageBox.Show(taskName + "\\input.txt");
             //создаёшь экземпляр класса
             TestProject test = new TestProject();
             //метод возвращает List<string> с данными которые вывела прога. первое - путь на cs файл, второе путь к входным данным.
-            List<string> outputPrgoram = test.test(opf.FileName, taskName + "/input.txt");
+            List<string> outputPrgoram = test.test(opf.FileName, taskName + "\\input.txt");
             StreamReader trueOutput = new StreamReader(taskName + "/output.txt");
             string line = trueOutput.ReadLine();
             int i = 0;
             while (line != null)
             {
                 // тут сравниваешь line с строкой в List<string> и записываешь булевой куда тебе нужно
+                MessageBox.Show(outputPrgoram[i]);
                 GenerateTable.ReValue(i, 3, dataGridView1, outputPrgoram[i]);
+                i++;
+                line = trueOutput.ReadLine();
             }
         }
     }
