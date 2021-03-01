@@ -18,7 +18,7 @@ namespace Tester
         List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory", "Time" };
         //путь к data
         string pathData = Directory.GetCurrentDirectory() + "/data";
-        List<bool> butIsClick = new List<bool> { };
+        string taskName;
         private void ProcGenTable(string path)
         {
             int countLen = File.ReadAllLines(path + "/input.txt").Length;
@@ -179,7 +179,8 @@ namespace Tester
         private void ButTasksClick(object sender, EventArgs e)
         {
             var but = (Button)sender;
-            ProcGenTable(pathData + but.Name);
+            taskName = pathData + but.Name;
+            ProcGenTable(taskName);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -198,6 +199,19 @@ namespace Tester
             OpenFileDialog opf = new OpenFileDialog();
             opf.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             opf.ShowDialog();
+            MessageBox.Show(opf.FileName);
+            //создаёшь экземпляр класса
+            TestProject test = new TestProject();
+            //метод возвращает List<string> с данными которые вывела прога. первое - путь на cs файл, второе путь к входным данным.
+            List<string> outputPrgoram = test.test(opf.FileName, taskName + "/input.txt");
+            StreamReader trueOutput = new StreamReader(taskName + "/output.txt");
+            string line = trueOutput.ReadLine();
+            int i = 0;
+            while (line != null)
+            {
+                // тут сравниваешь line с строкой в List<string> и записываешь булевой куда тебе нужно
+                GenerateTable.ReValue(i, 3, dataGridView1, outputPrgoram[i]);
+            }
         }
     }
 }
