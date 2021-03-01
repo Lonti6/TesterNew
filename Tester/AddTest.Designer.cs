@@ -39,6 +39,7 @@
             // 
             // button2
             // 
+            this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button2.Location = new System.Drawing.Point(131, 62);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(177, 29);

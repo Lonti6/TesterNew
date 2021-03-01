@@ -66,7 +66,7 @@
             this.экспортироватьТаблицуToolStripMenuItem,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
-            this.файлToolStripMenuItem.Size = new System.Drawing.Size(62, 24);
+            this.файлToolStripMenuItem.Size = new System.Drawing.Size(62, 26);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
             // добавитьТестToolStripMenuItem
@@ -109,7 +109,7 @@
             // оПрограммеToolStripMenuItem
             // 
             this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(120, 24);
+            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(120, 26);
             this.оПрограммеToolStripMenuItem.Text = "О программе";
             this.оПрограммеToolStripMenuItem.Click += new System.EventHandler(this.оПрограммеToolStripMenuItem_Click);
             // 
@@ -141,6 +141,7 @@
             // 
             // button1
             // 
+            this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button1.Location = new System.Drawing.Point(43, 516);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(188, 31);
@@ -160,6 +161,7 @@
             // 
             // button2
             // 
+            this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button2.Location = new System.Drawing.Point(582, 516);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(188, 31);

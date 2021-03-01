@@ -184,6 +184,7 @@ namespace Tester
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/data");
             RefreshTree();
         }
 
