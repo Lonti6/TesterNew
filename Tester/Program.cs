@@ -14,9 +14,9 @@ namespace Tester
         [STAThread]
         static void Main()
         {
-            /*Tester test = new Tester(@"C:\Users\Semyon\source\repos\ConsoleApp3\ConsoleApp3\Program.cs", "","");
+            Tester test = new Tester(@"ConsoleApp3\ConsoleApp3\Program.cs", "","");
             test.CreateExe(); 
-            test.RunProject();*/
+            test.RunProject();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
