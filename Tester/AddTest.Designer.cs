@@ -84,6 +84,7 @@
             this.textBox3.TabIndex = 14;
             this.textBox3.Text = "MyTest";
             this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // dataGridView1
             // 

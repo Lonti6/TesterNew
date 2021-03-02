@@ -21,17 +21,35 @@ namespace Tester
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            //создание инпута/аутпута
-            string dataDir = AppDomain.CurrentDomain.BaseDirectory+ "/data/"+textBox2.Text; ; //получаем текущую директорию
+            string dataDir = @"data\"+textBox2.Text; ; //получаем текущую директорию                
             Directory.CreateDirectory(dataDir);
-            dataDir += "/" + textBox3.Text;
+            dataDir += "\\" + textBox3.Text;
             Directory.CreateDirectory(dataDir);
-            File.AppendAllText(dataDir + "/input.txt", dataGridView1.Rows[0].Cells[1].Value + "");
-            File.AppendAllText(dataDir + "/output.txt", dataGridView1.Rows[0].Cells[2].Value + "");
-            for (int i = 1; i< dataGridView1.Rows.Count - 1 ; i++) 
+            int countFiles = new DirectoryInfo(dataDir).GetFiles().Length;
+            if (countFiles==0) 
             {
-                File.AppendAllText(dataDir + "/input.txt", "\n" + dataGridView1.Rows[i].Cells[1].Value);
-                File.AppendAllText(dataDir + "/output.txt", "\n" + dataGridView1.Rows[i].Cells[2].Value);
+                //создание инпута/аутпута
+                File.AppendAllText(dataDir + "\\input.txt", dataGridView1.Rows[0].Cells[1].Value + "");
+                File.AppendAllText(dataDir + "\\output.txt", dataGridView1.Rows[0].Cells[2].Value + "");
+                for (int i = 1; i< dataGridView1.Rows.Count - 1 ; i++) 
+                {
+                    File.AppendAllText(dataDir + "\\input.txt", "\n" + dataGridView1.Rows[i].Cells[1].Value);
+                    File.AppendAllText(dataDir + "\\output.txt", "\n" + dataGridView1.Rows[i].Cells[2].Value);
+                }
+            }
+            else 
+            {
+                DialogResult dialogResult = MessageBox.Show("ПЕРЕЗАПИСАТЬ?", "Перезапись", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    File.WriteAllText(dataDir + "\\input.txt", dataGridView1.Rows[0].Cells[1].Value + "");
+                    File.WriteAllText(dataDir + "\\output.txt", dataGridView1.Rows[0].Cells[2].Value + "");
+                    for (int i = 1; i < dataGridView1.Rows.Count - 1; i++)
+                    {
+                        File.AppendAllText(dataDir + "\\input.txt", "\n" + dataGridView1.Rows[i].Cells[1].Value);
+                        File.AppendAllText(dataDir + "\\output.txt", "\n" + dataGridView1.Rows[i].Cells[2].Value);
+                    }
+                }
             }
         }
 
@@ -76,6 +94,11 @@ namespace Tester
             count0++;
             dataGridView1.Rows[count0-1].Cells[0].Value = count0;
             
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
