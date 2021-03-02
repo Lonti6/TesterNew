@@ -22,16 +22,16 @@ namespace Tester
         private void button2_Click_1(object sender, EventArgs e)
         {
             //создание инпута/аутпута
-            string dataDir = AppDomain.CurrentDomain.BaseDirectory+ "/data/"+textBox2.Text; ; //получаем текущую директорию
+            string dataDir = @"data\"+textBox2.Text; ; //получаем текущую директорию
             Directory.CreateDirectory(dataDir);
-            dataDir += "/" + textBox3.Text;
+            dataDir += @"\" + textBox3.Text;
             Directory.CreateDirectory(dataDir);
-            File.AppendAllText(dataDir + "/input.txt", dataGridView1.Rows[0].Cells[1].Value + "");
-            File.AppendAllText(dataDir + "/output.txt", dataGridView1.Rows[0].Cells[2].Value + "");
+            File.AppendAllText(dataDir + @"\input.txt", dataGridView1.Rows[0].Cells[1].Value + "");
+            File.AppendAllText(dataDir + @"\output.txt", dataGridView1.Rows[0].Cells[2].Value + "");
             for (int i = 1; i< dataGridView1.Rows.Count - 1 ; i++) 
             {
-                File.AppendAllText(dataDir + "/input.txt", "\n" + dataGridView1.Rows[i].Cells[1].Value);
-                File.AppendAllText(dataDir + "/output.txt", "\n" + dataGridView1.Rows[i].Cells[2].Value);
+                File.AppendAllText(dataDir + @"\input.txt", "\n" + dataGridView1.Rows[i].Cells[1].Value);
+                File.AppendAllText(dataDir + @"\output.txt", "\n" + dataGridView1.Rows[i].Cells[2].Value);
             }
         }
 
