@@ -123,6 +123,9 @@
     <None Include="Using Images\refresh.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Using Images\C#.png" />
+    <None Include="Using Images\Java.png" />
+    <None Include="Using Images\Python.png" />
     <Content Include="Без имени-1.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

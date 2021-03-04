@@ -124,6 +124,8 @@ namespace Tester
         }
         private void RefreshTree()
         {
+            dataGridView1.Rows.Clear();
+            button2.Visible = false;
             flowLayoutPanel1.Controls.Clear();
             var dirs = Directory.GetDirectories(pathData, "*.*", SearchOption.TopDirectoryOnly);
             int countElems = dirs.Length;
@@ -178,6 +180,7 @@ namespace Tester
 
         private void ButTasksClick(object sender, EventArgs e)
         {
+            button2.Visible = true;
             var but = (Button)sender;
             taskName = pathData + but.Name;
             ProcGenTable(taskName);
