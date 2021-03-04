@@ -1,4 +1,5 @@
-﻿using System.CodeDom.Compiler;
+﻿using System;
+using System.CodeDom.Compiler;
 using System.Windows.Forms;
 
 namespace Tester
@@ -7,7 +8,8 @@ namespace Tester
     {
         public CompilerResults CreateExe(string pathProgram)
         {
-            CodeDomProvider provider = CodeDomProvider.CreateProvider("cs");
+            string language = pathProgram.Substring(pathProgram.LastIndexOf(".")+1);
+            CodeDomProvider provider = CodeDomProvider.CreateProvider(language);
             CompilerParameters parameters = new CompilerParameters() { GenerateExecutable = false,
                 GenerateInMemory = true,
                 //OutputAssembly = pathProgram.Substring(pathProgram.LastIndexOf(@"\")+1),

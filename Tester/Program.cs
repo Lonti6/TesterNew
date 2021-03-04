@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,29 @@ namespace Tester
         [STAThread]
         static void Main()
         {
-            // как пользоваться гайд
+            {
+                string languages = "";
+                var compilerInfo = CodeDomProvider.GetAllCompilerInfo();
+                foreach (var item in compilerInfo)
+                {
+                    foreach (var i in item.GetLanguages())
+                    {
+                        languages += i + "\n";
+                    }
+
+                    languages += "----------- \n";
+                }
+
+                MessageBox.Show(languages);
+            }
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
+            
+        }
+    }
+}
+// как пользоваться гайд
 /*            {
                 //создаёшь экземпляр класса
                 TestProject test = new TestProject();
@@ -29,11 +52,3 @@ namespace Tester
                     line = trueOutput.ReadLine();
                 }
             }*/
-            
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-            
-        }
-    }
-}

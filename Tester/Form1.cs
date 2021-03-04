@@ -21,12 +21,12 @@ namespace Tester
         string taskName;
         private void ProcGenTable(string path)
         {
-            int countLen = File.ReadAllLines(path + "/input.txt").Length;
+            int countLen = File.ReadAllLines(path + @"\input.txt").Length;
             //генерирую таблицу
             GenerateTable.GenerataTable(countLen, columnsNames, dataGridView1);
             //изменяю данные таблицы считывая по очереди каждую строку из инпута
-            StreamReader sr1 = new StreamReader(path + "/input.txt");
-            Inform.pathInp = path + "/input.txt";
+            StreamReader sr1 = new StreamReader(path + @"\input.txt");
+            Inform.pathInp = path + @"\input.txt";
             for (int i = 0; i < countLen; i++)
             {
                 GenerateTable.ReValue(i, 0, dataGridView1, (i + 1).ToString());
@@ -37,8 +37,8 @@ namespace Tester
             }
             sr1.Close(); //вырубаю чтение инпута
                          //изменяю данные таблицы считывая по очереди каждую строку из инпута
-            StreamReader sr2 = new StreamReader(path + "/output.txt");
-            Inform.pathOut = path + "/output.txt";
+            StreamReader sr2 = new StreamReader(path + @"\output.txt");
+            Inform.pathOut = path + @"\output.txt";
             for (int i = 0; i < countLen; i++)
             {
                 GenerateTable.ReValue(i, 2, dataGridView1, sr2.ReadLine());
