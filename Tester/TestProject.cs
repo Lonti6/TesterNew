@@ -52,6 +52,7 @@ namespace Tester
                         RedirectStandardOutput = true,
                         RedirectStandardInput = true,
                     });
+                    process.Kill();
                     while (line != null)
                     {
                         process = Process.Start(new ProcessStartInfo
@@ -66,6 +67,7 @@ namespace Tester
                         process.StandardInput.WriteLine(line);
                         outputList.Add(process.StandardOutput.ReadLine());
                         line = inputTxt.ReadLine();
+                        //process.Kill(); // Этот калл по какой то причине не имеет доступа
                         process.StandardInput.WriteLine("exit");
                     }
                     File.Delete(pathProgram.Substring(0,pathProgram.LastIndexOf(".")) + ".class" );
