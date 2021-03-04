@@ -36,5 +36,10 @@ namespace Tester
         {
             Close();
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            button1.Font = new Font("Segoe UI Semibold", 7F);
+        }
     }
 }

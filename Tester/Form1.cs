@@ -188,6 +188,8 @@ namespace Tester
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            button1.Font = new Font("Segoe UI Semibold", 7F);
+            button2.Font = new Font("Segoe UI Semibold", 7F);
             Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/data");
             RefreshTree();
         }

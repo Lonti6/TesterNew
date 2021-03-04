@@ -70,6 +70,7 @@ namespace Tester
 
         private void AddTest_Load(object sender, EventArgs e)
         {
+            button2.Font = new Font("Segoe UI Semibold", 7F);
             string[] names = new string[] { "№", "Input", "Output" };
             dataGridView1.RowHeadersVisible = false;
 
