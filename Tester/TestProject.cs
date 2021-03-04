@@ -20,6 +20,7 @@ namespace Tester
             StreamReader inputTxt = new StreamReader(pathInput);
             string line = inputTxt.ReadLine();
             string file = pathProgram.Substring(pathProgram.LastIndexOf(@"\") + 1);
+            string path = pathProgram.Substring(0, pathProgram.LastIndexOf(@"\"));
             switch (language)
             {
                 case "py":
@@ -42,12 +43,21 @@ namespace Tester
                     break;
 
                 case "java":
+                    process = Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "cmd",
+                        Arguments = "/c cd " + pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")) + " & javac " + file,
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardInput = true,
+                    });
                     while (line != null)
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
                             FileName = "cmd",
-                            Arguments = "/c cd " + pathProgram.Substring(0,pathProgram.LastIndexOf(@"\")) + " & javac " + file + " & java -classpath . " + file.Substring(0, file.IndexOf(".")),
+                            Arguments = "/c cd " + pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")) + " & java -classpath . " + file.Substring(0, file.IndexOf(".")),
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
@@ -58,7 +68,7 @@ namespace Tester
                         line = inputTxt.ReadLine();
                         process.Kill();
                     }
-                    File.Delete(pathProgram);
+                    File.Delete(pathProgram.Substring(0,pathProgram.LastIndexOf(".")) + ".class" );
                     break;
 
                 case "class":
