@@ -66,7 +66,7 @@ namespace Tester
                         process.StandardInput.WriteLine(line);
                         outputList.Add(process.StandardOutput.ReadLine());
                         line = inputTxt.ReadLine();
-                        process.Kill();
+                        process.StandardInput.WriteLine("exit");
                     }
                     File.Delete(pathProgram.Substring(0,pathProgram.LastIndexOf(".")) + ".class" );
                     break;
