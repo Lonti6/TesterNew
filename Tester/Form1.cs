@@ -208,14 +208,16 @@ namespace Tester
                 //создаёшь экземпляр класса
                 TestProject test = new TestProject();
                 //метод возвращает List<string> с данными которые вывела прога. первое - путь на cs файл, второе путь к входным данным.
-                List<string> outputPrgoram = test.test(opf.FileName, taskName + "\\input.txt");
+                List<string>[] outputPrgoram = test.test(opf.FileName, taskName + "\\input.txt");
                 StreamReader trueOutput = new StreamReader(taskName + "/output.txt");
                 string line = trueOutput.ReadLine();
                 int i = 0;
                 while (line != null)
                 {
                     // тут сравниваешь line с строкой в List<string> и записываешь булевой куда тебе нужно
-                    GenerateTable.ReValue(i, 3, dataGridView1, outputPrgoram[i]);
+                    GenerateTable.ReValue(i, 3, dataGridView1, outputPrgoram[0][i]);
+                    GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
+                    GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
                     i++;
                     line = trueOutput.ReadLine();
                 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,21 +17,8 @@ namespace Tester
         [STAThread]
         static void Main()
         {
-            {
-                string languages = "";
-                var compilerInfo = CodeDomProvider.GetAllCompilerInfo();
-                foreach (var item in compilerInfo)
-                {
-                    foreach (var i in item.GetLanguages())
-                    {
-                        languages += i + "\n";
-                    }
 
-                    languages += "----------- \n";
-                }
-
-                MessageBox.Show(languages);
-            }
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
@@ -38,7 +26,7 @@ namespace Tester
         }
     }
 }
-// как пользоваться гайд
+// как пользоваться гайд TestProject
 /*            {
                 //создаёшь экземпляр класса
                 TestProject test = new TestProject();
@@ -52,3 +40,40 @@ namespace Tester
                     line = trueOutput.ReadLine();
                 }
             }*/
+// гайд вывод поддерживаемых компиляторов 
+/*          {
+                string languages = "";
+                var compilerInfo = CodeDomProvider.GetAllCompilerInfo();
+                foreach (var item in compilerInfo)
+                {
+                    foreach (var i in item.GetLanguages())
+                    {
+                        languages += i + "\n";
+                    }
+
+                    languages += "----------- \n";
+                }
+
+                Process process = Process.Start(new ProcessStartInfo
+                {
+                    FileName = "cmd",
+                    Arguments = "/c java",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardInput = true,
+                });
+                languages += process.StandardOutput.ReadLine() + "\n";
+                process = Process.Start(new ProcessStartInfo
+                {
+                    FileName = "cmd",
+                    Arguments = "/c javac",
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardOutput = true,
+                    RedirectStandardInput = true,
+                });
+                languages += process.StandardOutput.ReadLine() + "\n";
+                MessageBox.Show(languages);
+            }
+*/
