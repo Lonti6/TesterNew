@@ -18,15 +18,17 @@ namespace Tester
         public List<string>[] test(string pathProgram, string pathInput)
         {
             outputList.Clear();
-            string language = pathProgram.Substring(pathProgram.LastIndexOf(".") + 1);
-            StreamReader inputTxt = new StreamReader(pathInput);
-            string line = inputTxt.ReadLine();
-            string file = pathProgram.Substring(pathProgram.LastIndexOf(@"\") + 1);
-            string path = pathProgram.Substring(0, pathProgram.LastIndexOf(@"\"));
+            string language = pathProgram.Substring(pathProgram.LastIndexOf(".") + 1); // расширение
+            StreamReader inputTxt = new StreamReader(pathInput); // данные импута
+            string line;
+            string file = pathProgram.Substring(pathProgram.LastIndexOf(@"\") + 1); // имя файла c hfcithtybtv
+            string path = pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")); // папка где лежит file
+            Stopwatch SW = new Stopwatch();
             switch (language)
             {
                 case "py":
-                    while (line != null)
+                    
+                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
@@ -37,51 +39,50 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
+                        SW.Start(); // Засекаем 
                         process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString() + " byte");
+                        SW.Stop(); // отсекаем)
                         outputList.Add(process.StandardOutput.ReadLine());
-                        line = inputTxt.ReadLine();
-                        process.Kill();
-                        timeList.Add((process.ExitTime.Millisecond - process.StartTime.Millisecond).ToString());
+                        memoryList.Add("oh no my cum collection!");
+                        timeList.Add(SW.ElapsedMilliseconds.ToString());
+
                     }
+                    process.Kill();
                     break;
 
                 case "java":
                     process = Process.Start(new ProcessStartInfo
                     {
                         FileName = "cmd",
-                        Arguments = "/c cd " + pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")) + " & javac " + file + " & exit",
+                        Arguments = "/c cd " + path + " & javac " + file,
                         CreateNoWindow = true,
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         RedirectStandardInput = true,
                     });
-                    process.WaitForExit();
-                    while (line != null)
+                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
                             FileName = "cmd",
-                            Arguments = "/c cd " + pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")) + " & java -classpath . " + file.Substring(0, file.IndexOf(".")),
+                            Arguments = "/c cd " + path + " & java " + file.Substring(0,file.LastIndexOf(".")),
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-
+                        SW.Start(); // Засекаем 
                         process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString() + " byte");
+                        SW.Stop(); // отсекаем)
+                        memoryList.Add("oh no my cum collection!");
                         outputList.Add(process.StandardOutput.ReadLine());
-                        line = inputTxt.ReadLine();
-                        process.WaitForExit();
-                        //process.Kill(); // Этот калл по какой то причине не имеет доступа
-                        timeList.Add((process.ExitTime.Millisecond - process.StartTime.Millisecond).ToString());
+                        timeList.Add(SW.ElapsedMilliseconds.ToString());
                     }
                     File.Delete(pathProgram.Substring(0,pathProgram.LastIndexOf(".")) + ".class" );
                     break;
 
                 case "class":
-                    while (line != null)
+                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
@@ -92,23 +93,23 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-                        //ввод входных данных
-                        process.StandardInput.WriteLine(line);
-                        //макс памяти за время использования
-                        memoryList.Add(process.PeakWorkingSet64.ToString() + " byte");
-                        // то что вывела прога
+                        
+                        SW.Start(); // Засекаем 
+                        process.StandardInput.WriteLine(line);//ввод входных данных
+                        SW.Stop(); // отсекаем)
+
+                        memoryList.Add("oh no my cum collection!");
+
                         outputList.Add(process.StandardOutput.ReadLine());
-                        // след строка входных данных
-                        line = inputTxt.ReadLine();
-                        // проверяем закрылась ли прога
-                        process.WaitForExit();
-                        timeList.Add((process.ExitTime.Millisecond - process.StartTime.Millisecond).ToString());
+
+
+                        timeList.Add(SW.ElapsedMilliseconds.ToString());
                     }
                     break;
 
                 default:
                     var build = new BuildProject().CreateExe(pathProgram);
-                    while (line != null)
+                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
@@ -124,7 +125,6 @@ namespace Tester
                         outputList.Add(process.StandardOutput.ReadLine());
                         process.Kill();
                         timeList.Add((process.ExitTime.Millisecond - process.StartTime.Millisecond).ToString());
-                        line = inputTxt.ReadLine();
                     }
 
                     break;
