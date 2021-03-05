@@ -39,7 +39,6 @@ namespace Tester
                         });
                         process.StandardInput.WriteLine(line);
                         memoryList.Add(process.PeakWorkingSet64.ToString() + " byte");
-
                         outputList.Add(process.StandardOutput.ReadLine());
                         line = inputTxt.ReadLine();
                         process.Kill();
