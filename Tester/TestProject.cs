@@ -67,7 +67,7 @@ namespace Tester
                         process = Process.Start(new ProcessStartInfo
                         {
                             FileName = "cmd",
-                            Arguments = "/c cd " + path + " & java " + file.Substring(0,file.LastIndexOf(".")),
+                            Arguments = "/c cd " + path + " & java -classpath . " + file.Substring(0,file.LastIndexOf(".")),
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
@@ -91,7 +91,7 @@ namespace Tester
                         process = Process.Start(new ProcessStartInfo
                         {
                             FileName = "cmd",
-                            Arguments = "/c cd " + pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")) + " & java -classpath . " + file.Substring(0, file.IndexOf(".")),
+                            Arguments = "/c cd " + path + " & java -classpath . " + file.Substring(0, file.IndexOf(".")),
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
