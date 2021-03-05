@@ -49,7 +49,6 @@ namespace Tester
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
 
                     }
-                    process.Kill();
                     break;
 
                 case "java":
