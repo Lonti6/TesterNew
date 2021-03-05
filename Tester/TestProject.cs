@@ -39,11 +39,13 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
+
                         SW.Start(); // Засекаем 
                         process.StandardInput.WriteLine(line);
                         SW.Stop(); // отсекаем)
+
                         outputList.Add(process.StandardOutput.ReadLine());
-                        memoryList.Add("oh no my cum collection!");
+                        memoryList.Add("1");
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
 
                     }
@@ -71,10 +73,12 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
+
                         SW.Start(); // Засекаем 
                         process.StandardInput.WriteLine(line);
                         SW.Stop(); // отсекаем)
-                        memoryList.Add("oh no my cum collection!");
+
+                        memoryList.Add("1");
                         outputList.Add(process.StandardOutput.ReadLine());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
                     }
@@ -98,7 +102,7 @@ namespace Tester
                         process.StandardInput.WriteLine(line);//ввод входных данных
                         SW.Stop(); // отсекаем)
 
-                        memoryList.Add("oh no my cum collection!");
+                        memoryList.Add("1");
 
                         outputList.Add(process.StandardOutput.ReadLine());
 
@@ -121,7 +125,7 @@ namespace Tester
                             RedirectStandardInput = true,
                         });
                         process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString() + " byte");
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         outputList.Add(process.StandardOutput.ReadLine());
                         process.Kill();
                         timeList.Add((process.ExitTime.Millisecond - process.StartTime.Millisecond).ToString());
