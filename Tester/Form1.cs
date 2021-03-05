@@ -15,7 +15,7 @@ namespace Tester
     public partial class Form1 : Form
     {
         //названия столбцов и то, в каком порядке они будут распологаться в таблице
-        List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory", "Time" };
+        List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory (byte)", "Time" };
         //путь к data
         string pathData = @"data\";
         string taskName;
@@ -211,10 +211,29 @@ namespace Tester
                 List<string>[] outputPrgoram = test.test(opf.FileName, taskName + "\\input.txt");
                 for (int i = 0;  i<dataGridView1.Rows.Count; i++)
                 {
-                    // тут сравниваешь line с строкой в List<string> и записываешь булевой куда тебе нужно
                     GenerateTable.ReValue(i, 3, dataGridView1, outputPrgoram[0][i]);
+                    if (outputPrgoram[0][i].ToString() == dataGridView1[2, i].Value.ToString()) dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.LightGreen;
+                    else
+                    {
+                        dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.Red;
+                        dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
+                    }
+
                     GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
+                    if (int.Parse(outputPrgoram[1][i]) <= int.Parse(textBox1.Text)) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
+                    else
+                    {
+                        dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.Red;
+                        dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
+                    }
+
                     GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
+                    if (double.Parse(outputPrgoram[2][i]) <= double.Parse(textBox2.Text)) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
+                    else
+                    {
+                        dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.Red;
+                        dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
+                    }
                 }
             }
             

@@ -38,7 +38,7 @@ namespace Tester
                             RedirectStandardInput = true,
                         });
                         process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString() + " byte");
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         outputList.Add(process.StandardOutput.ReadLine());
                         line = inputTxt.ReadLine();
                         process.Kill();
@@ -70,7 +70,7 @@ namespace Tester
                         });
 
                         process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString() + " byte");
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         outputList.Add(process.StandardOutput.ReadLine());
                         line = inputTxt.ReadLine();
                         process.WaitForExit();
@@ -95,7 +95,7 @@ namespace Tester
                         //ввод входных данных
                         process.StandardInput.WriteLine(line);
                         //макс памяти за время использования
-                        memoryList.Add(process.PeakWorkingSet64.ToString() + " byte");
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         // то что вывела прога
                         outputList.Add(process.StandardOutput.ReadLine());
                         // след строка входных данных
@@ -120,7 +120,7 @@ namespace Tester
                             RedirectStandardInput = true,
                         });
                         process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString() + " byte");
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         outputList.Add(process.StandardOutput.ReadLine());
                         process.Kill();
                         timeList.Add((process.ExitTime.Millisecond - process.StartTime.Millisecond).ToString());
