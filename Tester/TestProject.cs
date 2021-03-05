@@ -39,9 +39,11 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
+
                         SW.Start(); // Засекаем 
                         process.StandardInput.WriteLine(line);
                         SW.Stop(); // отсекаем)
+
                         outputList.Add(process.StandardOutput.ReadLine());
                         memoryList.Add("1");
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
@@ -71,9 +73,11 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
+
                         SW.Start(); // Засекаем 
                         process.StandardInput.WriteLine(line);
                         SW.Stop(); // отсекаем)
+
                         memoryList.Add("1");
                         outputList.Add(process.StandardOutput.ReadLine());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
