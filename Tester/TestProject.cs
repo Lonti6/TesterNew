@@ -40,11 +40,10 @@ namespace Tester
                             RedirectStandardInput = true,
                         });
 
-                        SW.Start(); // Засекаем 
+                        SW.Restart(); // Засекаем 
                         process.StandardInput.WriteLine(line);
-                        SW.Stop(); // отсекаем)
-
                         outputList.Add(process.StandardOutput.ReadLine());
+                        SW.Stop(); // отсекаем)
                         memoryList.Add("1");
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
 
@@ -72,11 +71,10 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-
-                        SW.Start(); // Засекаем 
+                        SW.Restart(); // Засекаем 
                         process.StandardInput.WriteLine(line);
+                        outputList.Add(process.StandardOutput.ReadLine());
                         SW.Stop(); // отсекаем)
-
                         memoryList.Add("1");
                         outputList.Add(process.StandardOutput.ReadLine());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
@@ -123,11 +121,12 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
+                        SW.Restart();
                         process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         outputList.Add(process.StandardOutput.ReadLine());
-                        process.Kill();
-                        timeList.Add((process.ExitTime.Millisecond - process.StartTime.Millisecond).ToString());
+                        SW.Stop();
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
+                        timeList.Add(SW.ElapsedMilliseconds.ToString());
                     }
 
                     break;
