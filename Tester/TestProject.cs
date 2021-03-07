@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Windows.Forms;
 
 namespace Tester
 {
@@ -27,7 +28,7 @@ namespace Tester
             switch (language)
             {
                 case "py":
-                    
+
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
@@ -39,12 +40,11 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-
                         SW.Restart(); // Засекаем 
                         process.StandardInput.WriteLine(line);
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         outputList.Add(process.StandardOutput.ReadLine());
                         SW.Stop(); // отсекаем)
-                        memoryList.Add("1");
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
 
                     }
@@ -75,8 +75,7 @@ namespace Tester
                         process.StandardInput.WriteLine(line);
                         outputList.Add(process.StandardOutput.ReadLine());
                         SW.Stop(); // отсекаем)
-                        memoryList.Add("1");
-                        outputList.Add(process.StandardOutput.ReadLine());
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
                     }
                     File.Delete(pathProgram.Substring(0,pathProgram.LastIndexOf(".")) + ".class" );
@@ -125,8 +124,9 @@ namespace Tester
                         process.StandardInput.WriteLine(line);
                         outputList.Add(process.StandardOutput.ReadLine());
                         SW.Stop();
-                        memoryList.Add(process.PeakWorkingSet64.ToString());
+                        memoryList.Add(process.PeakPagedMemorySize64.ToString());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
+                        process.WaitForExit();
                     }
 
                     break;

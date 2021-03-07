@@ -126,6 +126,11 @@ namespace Tester
         {
             dataGridView1.Rows.Clear();
             button2.Visible = false;
+            textBox1.Visible = false;
+            textBox2.Visible = false;
+            label1.Visible = false;
+            label2.Visible = false;
+            label3.Visible = false;
             flowLayoutPanel1.Controls.Clear();
             var dirs = Directory.GetDirectories(pathData, "*.*", SearchOption.TopDirectoryOnly);
             int countElems = dirs.Length;
@@ -181,6 +186,11 @@ namespace Tester
         private void ButTasksClick(object sender, EventArgs e)
         {
             button2.Visible = true;
+            textBox1.Visible = true;
+            textBox2.Visible = true;
+            label1.Visible = true;
+            label2.Visible = true;
+            label3.Visible = true;
             var but = (Button)sender;
             taskName = pathData + but.Name;
             ProcGenTable(taskName);
@@ -209,34 +219,47 @@ namespace Tester
                 TestProject test = new TestProject();
                 //метод возвращает List<string> с данными которые вывела прога. первое - путь на cs файл, второе путь к входным данным.
                 List<string>[] outputPrgoram = test.test(opf.FileName, taskName + "\\input.txt");
+                bool check;
+                int countTrue = 0;
                 for (int i = 0;  i<dataGridView1.Rows.Count; i++)
                 {
                     GenerateTable.ReValue(i, 3, dataGridView1, outputPrgoram[0][i]);
-                    if (outputPrgoram[0][i].ToString() == dataGridView1[2, i].Value.ToString()) dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.LightGreen;
+                    check = outputPrgoram[0][i].ToString() == dataGridView1[2, i].Value.ToString();
+                    if (check) dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.LightGreen;
                     else
                     {
                         dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.Red;
-                        dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
                     }
-
+                    check = int.Parse(outputPrgoram[1][i]) <= int.Parse(textBox1.Text);
                     GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
-                    if (int.Parse(outputPrgoram[1][i]) <= int.Parse(textBox1.Text)) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
+                    if (check) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
                     else
                     {
                         dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.Red;
-                        dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
                     }
-
+                    check = double.Parse(outputPrgoram[2][i]) <= double.Parse(textBox2.Text);
                     GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
-                    if (double.Parse(outputPrgoram[2][i]) <= double.Parse(textBox2.Text)) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
+                    if (check) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
                     else
                     {
                         dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.Red;
-                        dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
+                    }
+                    if (!check) dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
+                    else
+                    {
+                        dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.LightGreen;
+                        countTrue++;
                     }
                 }
+                label3.Text = "Правильно " + countTrue.ToString() + " из " + dataGridView1.Rows.Count.ToString();
+                countTrue = 0;
             }
             
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
