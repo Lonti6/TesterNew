@@ -28,7 +28,15 @@ namespace Tester
             switch (language)
             {
                 case "py":
-
+                    process = Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "cmd",
+                        Arguments = "/c " + @"pyinstaller-4.2\pyinstaller " + pathProgram,
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardInput = true,
+                    });
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
@@ -42,9 +50,9 @@ namespace Tester
                         });
                         SW.Restart(); // Засекаем 
                         process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         outputList.Add(process.StandardOutput.ReadLine());
                         SW.Stop(); // отсекаем)
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
 
                     }
@@ -60,6 +68,7 @@ namespace Tester
                         RedirectStandardOutput = true,
                         RedirectStandardInput = true,
                     });
+                    process.WaitForExit();
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
@@ -94,15 +103,11 @@ namespace Tester
                             RedirectStandardInput = true,
                         });
                         
-                        SW.Start(); // Засекаем 
+                        SW.Restart(); // Засекаем 
                         process.StandardInput.WriteLine(line);//ввод входных данных
-                        SW.Stop(); // отсекаем)
-
-                        memoryList.Add("1");
-
                         outputList.Add(process.StandardOutput.ReadLine());
-
-
+                        SW.Stop(); // отсекаем)
+                        memoryList.Add("1");
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
                     }
                     break;
@@ -126,7 +131,7 @@ namespace Tester
                         SW.Stop();
                         memoryList.Add(process.PeakPagedMemorySize64.ToString());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
-                        process.WaitForExit();
+                        process.Kill();
                     }
 
                     break;
