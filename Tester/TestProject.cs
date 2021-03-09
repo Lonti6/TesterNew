@@ -98,7 +98,7 @@ namespace Tester
                         process.StandardInput.WriteLine(line);//ввод входных данных
                         SW.Stop(); // отсекаем)
 
-                        memoryList.Add("1");
+                        memoryList.Add(process.PeakPagedMemorySize64.ToString());
 
                         outputList.Add(process.StandardOutput.ReadLine());
 

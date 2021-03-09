@@ -19,6 +19,7 @@ namespace Tester
         //путь к data
         string pathData = @"data\";
         string taskName;
+        Button prevButton = new Button();
         private void ProcGenTable(string path)
         {
             int countLen = File.ReadAllLines(path + @"\input.txt").Length;
@@ -143,7 +144,7 @@ namespace Tester
                 but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
                 but.Click += ClickOnButTheme;
                 but.Tag = false;
-                but.BackColor = Color.FromArgb(117, 186, 156);
+                but.BackColor = Color.FromArgb(255, 145, 3);
                 but.FlatAppearance.BorderSize = 0;
                 but.FlatStyle = FlatStyle.Flat;
                 flowLayoutPanel1.Controls.Add(but);
@@ -164,10 +165,11 @@ namespace Tester
                     butDown.Height = 50;
                     butDown.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
                     butDown.Click += ButTasksClick;
+                    butDown.Tag = false;
                     butDown.Name = "\\" + but.Text + "\\" + butDown.Text;
                     butDown.FlatAppearance.BorderSize = 0;
                     butDown.FlatStyle = FlatStyle.Flat;
-                    butDown.BackColor = Color.FromArgb(134, 68, 179);
+                    butDown.BackColor = Color.FromArgb(193, 1, 216);
                     flowLayoutPanel1.Controls.Add(butDown);
                     flowLayoutPanel1.Controls.SetChildIndex(butDown, flowLayoutPanel1.Controls.GetChildIndex(but) + 1);
                 }
@@ -192,6 +194,14 @@ namespace Tester
             label2.Visible = true;
             label3.Visible = true;
             var but = (Button)sender;
+            if (but.Tag.ToString() == false.ToString()) 
+            {
+                but.Tag = true;
+                prevButton.Tag = false;
+                but.BackColor = Color.FromArgb(141, 1, 162);
+                prevButton.BackColor = Color.FromArgb(193, 1, 216);
+                prevButton = but;
+            }
             taskName = pathData + but.Name;
             ProcGenTable(taskName);
         }
