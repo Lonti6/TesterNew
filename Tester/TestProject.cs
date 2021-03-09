@@ -42,7 +42,7 @@ namespace Tester
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
-                            FileName = path+"\\dist\\"+file.Substring(0, file.LastIndexOf("."))+".exe",
+                            FileName = path+ @"\dist\"+file.Substring(0, file.LastIndexOf("."))+".exe",
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
@@ -122,6 +122,7 @@ namespace Tester
 
                 default:
                     var build = new BuildProject().CreateExe(pathProgram);
+                    
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
@@ -139,7 +140,7 @@ namespace Tester
                         SW.Stop();
                         memoryList.Add(process.PeakPagedMemorySize64.ToString());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
-                        process.Kill();
+                        process.Dispose();
                     }
 
                     break;
