@@ -21,7 +21,6 @@ namespace Tester
             outputList.Clear();
             string language = pathProgram.Substring(pathProgram.LastIndexOf(".") + 1); // расширение
             StreamReader inputTxt = new StreamReader(pathInput); // данные импута
-            DirectoryInfo dirInfo;
             string line;
             string file = pathProgram.Substring(pathProgram.LastIndexOf(@"\") + 1); // имя файла c hfcithtybtv
             string path = pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")); // папка где лежит file
@@ -39,13 +38,8 @@ namespace Tester
                         RedirectStandardInput = true,
                     });
                     process.WaitForExit();
-                    var a = path + "\\" + file.LastIndexOf(".") + ".spec";
-                    File.Delete(path+"\\"+ file.Substring(0, file.LastIndexOf(".")) + ".spec");
-                    Directory.Delete(path + "\\" + "__pycache__", true);
-                    Directory.Delete(path + "\\" + "build", true);
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
-                        a = path + @"\dist\" + file.Substring(0, file.LastIndexOf(".")) + ".exe";
                         process = Process.Start(new ProcessStartInfo
                         {
                             FileName = path+"\\dist\\"+file.Substring(0, file.LastIndexOf("."))+".exe",
@@ -59,10 +53,14 @@ namespace Tester
                         outputList.Add(process.StandardOutput.ReadLine());
                         SW.Stop();
                         memoryList.Add(process.PeakPagedMemorySize64.ToString());
-                        timeList.Add(SW.ElapsedMilliseconds.ToString());
+                        timeList.Add(process.UserProcessorTime.Milliseconds.ToString());
                         process.WaitForExit();
                     }
+                    
                     Directory.Delete(path + "\\" + "dist", true);
+                    File.Delete(path+"\\"+ file.Substring(0, file.LastIndexOf(".")) + ".spec");
+                    Directory.Delete(path + "\\" + "__pycache__", true);
+                    Directory.Delete(path + "\\" + "build", true);
                     break;
 
                 case "java":
@@ -141,7 +139,7 @@ namespace Tester
                         SW.Stop();
                         memoryList.Add(process.PeakPagedMemorySize64.ToString());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
-                        process.WaitForExit();
+                        process.Kill();
                     }
 
                     break;
