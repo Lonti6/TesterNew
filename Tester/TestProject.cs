@@ -31,31 +31,36 @@ namespace Tester
                     process = Process.Start(new ProcessStartInfo
                     {
                         FileName = "cmd",
-                        Arguments = "/c " + @"pyinstaller-4.2\pyinstaller " + pathProgram,
+                        Arguments = "/c cd " + path + " & pyinstaller -F " + file,
                         CreateNoWindow = true,
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         RedirectStandardInput = true,
                     });
+                    process.WaitForExit();
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
-                            FileName = "cmd",
-                            Arguments = "/c " + pathProgram,
+                            FileName = path+"\\dist\\"+file.Substring(0, file.LastIndexOf("."))+".exe",
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-                        SW.Restart(); // Засекаем 
+                        SW.Restart();
                         process.StandardInput.WriteLine(line);
                         outputList.Add(process.StandardOutput.ReadLine());
-                        SW.Stop(); // отсекаем)
-                        memoryList.Add(process.PeakWorkingSet64.ToString());
-                        timeList.Add(SW.ElapsedMilliseconds.ToString());
-
+                        SW.Stop();
+                        memoryList.Add(process.PeakPagedMemorySize64.ToString());
+                        timeList.Add(process.UserProcessorTime.Milliseconds.ToString());
+                        process.WaitForExit();
                     }
+                    
+                    Directory.Delete(path + "\\" + "dist", true);
+                    File.Delete(path+"\\"+ file.Substring(0, file.LastIndexOf(".")) + ".spec");
+                    Directory.Delete(path + "\\" + "__pycache__", true);
+                    Directory.Delete(path + "\\" + "build", true);
                     break;
 
                 case "java":
@@ -68,7 +73,6 @@ namespace Tester
                         RedirectStandardOutput = true,
                         RedirectStandardInput = true,
                     });
-                    process.WaitForExit();
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
@@ -103,11 +107,15 @@ namespace Tester
                             RedirectStandardInput = true,
                         });
                         
-                        SW.Restart(); // Засекаем 
+                        SW.Start(); // Засекаем 
                         process.StandardInput.WriteLine(line);//ввод входных данных
-                        outputList.Add(process.StandardOutput.ReadLine());
                         SW.Stop(); // отсекаем)
-                        memoryList.Add("1");
+
+                        memoryList.Add(process.PeakPagedMemorySize64.ToString());
+
+                        outputList.Add(process.StandardOutput.ReadLine());
+
+
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
                     }
                     break;
