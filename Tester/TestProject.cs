@@ -21,6 +21,7 @@ namespace Tester
             outputList.Clear();
             string language = pathProgram.Substring(pathProgram.LastIndexOf(".") + 1); // расширение
             StreamReader inputTxt = new StreamReader(pathInput); // данные импута
+            DirectoryInfo dirInfo;
             string line;
             string file = pathProgram.Substring(pathProgram.LastIndexOf(@"\") + 1); // имя файла c hfcithtybtv
             string path = pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")); // папка где лежит file
@@ -28,26 +29,40 @@ namespace Tester
             switch (language)
             {
                 case "py":
-
+                    process = Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "cmd",
+                        Arguments = "/c cd " + path + " & pyinstaller -F " + file,
+                        CreateNoWindow = true,
+                        UseShellExecute = false,
+                        RedirectStandardOutput = true,
+                        RedirectStandardInput = true,
+                    });
+                    process.WaitForExit();
+                    var a = path + "\\" + file.LastIndexOf(".") + ".spec";
+                    File.Delete(path+"\\"+ file.Substring(0, file.LastIndexOf(".")) + ".spec");
+                    Directory.Delete(path + "\\" + "__pycache__", true);
+                    Directory.Delete(path + "\\" + "build", true);
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
+                        a = path + @"\dist\" + file.Substring(0, file.LastIndexOf(".")) + ".exe";
                         process = Process.Start(new ProcessStartInfo
                         {
-                            FileName = "cmd",
-                            Arguments = "/c " + pathProgram,
+                            FileName = path+"\\dist\\"+file.Substring(0, file.LastIndexOf("."))+".exe",
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-                        SW.Restart(); // Засекаем 
+                        SW.Restart();
                         process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString());
                         outputList.Add(process.StandardOutput.ReadLine());
-                        SW.Stop(); // отсекаем)
+                        SW.Stop();
+                        memoryList.Add(process.PeakPagedMemorySize64.ToString());
                         timeList.Add(SW.ElapsedMilliseconds.ToString());
-
+                        process.WaitForExit();
                     }
+                    Directory.Delete(path + "\\" + "dist", true);
                     break;
 
                 case "java":
