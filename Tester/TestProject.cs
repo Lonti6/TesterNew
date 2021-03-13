@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Tester
@@ -28,39 +30,22 @@ namespace Tester
             switch (language)
             {
                 case "py":
-                    process = Process.Start(new ProcessStartInfo
-                    {
-                        FileName = "cmd",
-                        Arguments = "/c cd " + path + " & pyinstaller -F " + file,
-                        CreateNoWindow = true,
-                        UseShellExecute = false,
-                        RedirectStandardOutput = true,
-                        RedirectStandardInput = true,
-                    });
-                    process.WaitForExit();
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
-                            FileName = path+"\\dist\\"+file.Substring(0, file.LastIndexOf("."))+".exe",
+                            FileName = "cmd",
+                            Arguments = "/c " + pathProgram,
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-                        SW.Restart();
                         process.StandardInput.WriteLine(line);
                         outputList.Add(process.StandardOutput.ReadLine());
-                        SW.Stop();
-                        memoryList.Add(process.PeakPagedMemorySize64.ToString());
-                        timeList.Add(process.UserProcessorTime.Milliseconds.ToString());
-                        process.WaitForExit();
+                        memoryList.Add((process.PeakWorkingSet64).ToString());
+                        timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString()); 
                     }
-                    
-                    Directory.Delete(path + "\\" + "dist", true);
-                    File.Delete(path+"\\"+ file.Substring(0, file.LastIndexOf(".")) + ".spec");
-                    Directory.Delete(path + "\\" + "__pycache__", true);
-                    Directory.Delete(path + "\\" + "build", true);
                     break;
 
                 case "java":
@@ -73,6 +58,7 @@ namespace Tester
                         RedirectStandardOutput = true,
                         RedirectStandardInput = true,
                     });
+                    process.WaitForExit();
                     for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
                     {
                         process = Process.Start(new ProcessStartInfo
@@ -84,12 +70,10 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-                        SW.Restart(); // Засекаем 
                         process.StandardInput.WriteLine(line);
                         outputList.Add(process.StandardOutput.ReadLine());
-                        SW.Stop(); // отсекаем)
                         memoryList.Add(process.PeakWorkingSet64.ToString());
-                        timeList.Add(SW.ElapsedMilliseconds.ToString());
+                        timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
                     }
                     File.Delete(pathProgram.Substring(0,pathProgram.LastIndexOf(".")) + ".class" );
                     break;
@@ -107,16 +91,14 @@ namespace Tester
                             RedirectStandardInput = true,
                         });
                         
-                        SW.Start(); // Засекаем 
                         process.StandardInput.WriteLine(line);//ввод входных данных
-                        SW.Stop(); // отсекаем)
 
-                        memoryList.Add(process.PeakPagedMemorySize64.ToString());
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
 
                         outputList.Add(process.StandardOutput.ReadLine());
 
 
-                        timeList.Add(SW.ElapsedMilliseconds.ToString());
+                        timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
                     }
                     break;
 
@@ -133,15 +115,11 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-                        SW.Restart();
                         process.StandardInput.WriteLine(line);
                         outputList.Add(process.StandardOutput.ReadLine());
-                        SW.Stop();
-                        memoryList.Add(process.PeakPagedMemorySize64.ToString());
-                        timeList.Add(SW.ElapsedMilliseconds.ToString());
-                        process.Kill();
+                        memoryList.Add(process.PeakWorkingSet64.ToString());
+                        timeList.Add((DateTime.Now-process.StartTime).Milliseconds.ToString());
                     }
-
                     break;
             }
             return new List<string>[3]{outputList, memoryList, timeList};

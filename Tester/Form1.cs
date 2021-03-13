@@ -135,7 +135,6 @@ namespace Tester
             flowLayoutPanel1.Controls.Clear();
             var dirs = Directory.GetDirectories(pathData, "*.*", SearchOption.TopDirectoryOnly);
             int countElems = dirs.Length;
-            flowLayoutPanel1.Controls.Clear();
             for (int i = 0; i < countElems; i++)
             {
                 Button but = new Button();
@@ -144,7 +143,9 @@ namespace Tester
                 but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
                 but.Click += ClickOnButTheme;
                 but.Tag = false;
-                but.BackColor = Color.FromArgb(255, 145, 3);
+                but.BackColor = Color.FromArgb(95, 30, 112);
+                but.ForeColor = Color.White;
+                but.Font = new Font("Microsoft Sans Serif", 16F);
                 but.FlatAppearance.BorderSize = 0;
                 but.FlatStyle = FlatStyle.Flat;
                 flowLayoutPanel1.Controls.Add(but);
@@ -169,7 +170,9 @@ namespace Tester
                     butDown.Name = "\\" + but.Text + "\\" + butDown.Text;
                     butDown.FlatAppearance.BorderSize = 0;
                     butDown.FlatStyle = FlatStyle.Flat;
-                    butDown.BackColor = Color.FromArgb(193, 1, 216);
+                    butDown.ForeColor = Color.White;
+                    butDown.Font = new Font("Segoe UI Semibold", 10F);
+                    butDown.BackColor = Color.FromArgb(183, 109, 201);
                     flowLayoutPanel1.Controls.Add(butDown);
                     flowLayoutPanel1.Controls.SetChildIndex(butDown, flowLayoutPanel1.Controls.GetChildIndex(but) + 1);
                 }
@@ -198,8 +201,8 @@ namespace Tester
             {
                 but.Tag = true;
                 prevButton.Tag = false;
-                but.BackColor = Color.FromArgb(141, 1, 162);
-                prevButton.BackColor = Color.FromArgb(193, 1, 216);
+                but.BackColor = Color.FromArgb(126, 78, 138);
+                prevButton.BackColor = Color.FromArgb(183, 109, 201);
                 prevButton = but;
             }
             taskName = pathData + but.Name;
@@ -210,6 +213,10 @@ namespace Tester
         {
             button1.Font = new Font("Segoe UI Semibold", 7F);
             button2.Font = new Font("Segoe UI Semibold", 7F);
+            button1.FlatAppearance.BorderSize = 0;
+            button1.FlatStyle = FlatStyle.Flat;
+            button2.FlatAppearance.BorderSize = 0;
+            button2.FlatStyle = FlatStyle.Flat;
             Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/data");
             RefreshTree();
         }
@@ -233,26 +240,27 @@ namespace Tester
                 int countTrue = 0;
                 for (int i = 0;  i<dataGridView1.Rows.Count; i++)
                 {
+                    check = true;
                     GenerateTable.ReValue(i, 3, dataGridView1, outputPrgoram[0][i]);
-                    check = outputPrgoram[0][i].ToString() == dataGridView1[2, i].Value.ToString();
-                    if (check) dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.LightGreen;
+                    if (outputPrgoram[0][i].ToString() == dataGridView1[2, i].Value.ToString()) dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.LightGreen;
                     else
                     {
                         dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.Red;
+                        check = false;
                     }
-                    check = int.Parse(outputPrgoram[1][i]) <= int.Parse(textBox1.Text);
                     GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
-                    if (check) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
+                    if (int.Parse(outputPrgoram[1][i]) <= int.Parse(textBox1.Text)) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
                     else
                     {
                         dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.Red;
+                        check = false;
                     }
-                    check = double.Parse(outputPrgoram[2][i]) <= double.Parse(textBox2.Text);
                     GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
-                    if (check) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
+                    if (double.Parse(outputPrgoram[2][i]) <= double.Parse(textBox2.Text)) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
                     else
                     {
                         dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.Red;
+                        check = false;
                     }
                     if (!check) dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
                     else
