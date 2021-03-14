@@ -15,11 +15,12 @@ namespace Tester
     public partial class Form1 : Form
     {
         //названия столбцов и то, в каком порядке они будут распологаться в таблице
-        List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory (byte)", "Time" };
+        List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory (Byte)", "Time (MiliSecond)" };
         //путь к data
         string pathData = @"data\";
         string taskName;
         Button prevButton = new Button();
+        List<string>[] outputPrgoram;
         private void ProcGenTable(string path)
         {
             int countLen = File.ReadAllLines(path + @"\input.txt").Length;
@@ -219,6 +220,8 @@ namespace Tester
             button2.FlatStyle = FlatStyle.Flat;
             Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/data");
             RefreshTree();
+            байтыToolStripMenuItem.Checked = true;
+            миллисекундыToolStripMenuItem.Checked = true;
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -235,7 +238,7 @@ namespace Tester
                 //создаёшь экземпляр класса
                 TestProject test = new TestProject();
                 //метод возвращает List<string> с данными которые вывела прога. первое - путь на cs файл, второе путь к входным данным.
-                List<string>[] outputPrgoram = test.test(opf.FileName, taskName + "\\input.txt");
+                outputPrgoram = test.test(opf.FileName, taskName + "\\input.txt");
                 bool check;
                 int countTrue = 0;
                 for (int i = 0;  i<dataGridView1.Rows.Count; i++)
@@ -248,14 +251,23 @@ namespace Tester
                         dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.Red;
                         check = false;
                     }
-                    GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
+
+                    if (байтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
+                    else if (килобайтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024).ToString());
+                    else GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024 / 1024).ToString());
+
                     if (int.Parse(outputPrgoram[1][i]) <= int.Parse(textBox1.Text)) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
                     else
                     {
                         dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.Red;
                         check = false;
                     }
+
+                    if(миллисекундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
+                    else if (секундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
+                    else GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
                     GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
+
                     if (double.Parse(outputPrgoram[2][i]) <= double.Parse(textBox2.Text)) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
                     else
                     {
@@ -278,6 +290,97 @@ namespace Tester
         private void label3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void байтыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            байтыToolStripMenuItem.Checked = true;
+            килобайтыToolStripMenuItem.Checked = false;
+            мегабайтыToolStripMenuItem.Checked = false;
+            dataGridView1.Columns[4].HeaderText = "Memoty (Byte)";
+            if (dataGridView1.Rows[0].Cells[4].Value != null) 
+            {
+                for (int i = 0; i < dataGridView1.Rows.Count; i++) 
+                {
+                    GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
+                } 
+            }
+            
+        }
+
+        private void килобайтыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            байтыToolStripMenuItem.Checked = false;
+            килобайтыToolStripMenuItem.Checked = true;
+            мегабайтыToolStripMenuItem.Checked = false;
+            dataGridView1.Columns[4].HeaderText = "Memoty (KB)";
+            if (dataGridView1.Rows[0].Cells[4].Value != null)
+            {
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024).ToString());
+                }
+            }
+        }
+
+        private void мегабайтыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            байтыToolStripMenuItem.Checked = false;
+            килобайтыToolStripMenuItem.Checked = false;
+            мегабайтыToolStripMenuItem.Checked = true;
+            dataGridView1.Columns[4].HeaderText = "Memoty (MB)";
+            if (dataGridView1.Rows[0].Cells[4].Value != null)
+            {
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024 / 1024).ToString());
+                }
+            }
+        }
+
+        private void миллисекундыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            миллисекундыToolStripMenuItem.Checked = true;
+            секундыToolStripMenuItem.Checked = false;
+            минутыToolStripMenuItem.Checked = false;
+            dataGridView1.Columns[5].HeaderText = "Time(MiliSeconds)";
+            if (dataGridView1.Rows[0].Cells[5].Value != null)
+            {
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
+                }
+            }
+        }
+
+        private void секундыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            миллисекундыToolStripMenuItem.Checked = false;
+            секундыToolStripMenuItem.Checked = true;
+            минутыToolStripMenuItem.Checked = false;
+            dataGridView1.Columns[5].HeaderText = "Time(Seconds)";
+            if (dataGridView1.Rows[0].Cells[5].Value != null)
+            {
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
+                }
+            }
+        }
+
+        private void минутыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            миллисекундыToolStripMenuItem.Checked = false;
+            секундыToolStripMenuItem.Checked = false;
+            минутыToolStripMenuItem.Checked = true;
+            dataGridView1.Columns[5].HeaderText = "Time(Minutes)";
+            if (dataGridView1.Rows[0].Cells[5].Value != null)
+            {
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
+                }
+            }
         }
     }
 }
