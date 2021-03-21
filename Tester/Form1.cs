@@ -294,93 +294,116 @@ namespace Tester
 
         private void байтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            байтыToolStripMenuItem.Checked = true;
-            килобайтыToolStripMenuItem.Checked = false;
-            мегабайтыToolStripMenuItem.Checked = false;
-            dataGridView1.Columns[4].HeaderText = "Memoty (Byte)";
-            if (dataGridView1.Rows[0].Cells[4].Value != null) 
+            if (dataGridView1.Columns.Count > 0)
             {
-                for (int i = 0; i < dataGridView1.Rows.Count; i++) 
+                байтыToolStripMenuItem.Checked = true;
+                килобайтыToolStripMenuItem.Checked = false;
+                мегабайтыToolStripMenuItem.Checked = false;
+                dataGridView1.Columns[4].HeaderText = "Memoty (Byte)";
+                if (dataGridView1.Rows[0].Cells[4].Value != null)
                 {
-                    GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
-                } 
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
+                    }
+                }
             }
-            
+            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void килобайтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            байтыToolStripMenuItem.Checked = false;
-            килобайтыToolStripMenuItem.Checked = true;
-            мегабайтыToolStripMenuItem.Checked = false;
-            dataGridView1.Columns[4].HeaderText = "Memoty (KB)";
-            if (dataGridView1.Rows[0].Cells[4].Value != null)
+            if (dataGridView1.Columns.Count > 0)
             {
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                байтыToolStripMenuItem.Checked = false;
+                килобайтыToolStripMenuItem.Checked = true;
+                мегабайтыToolStripMenuItem.Checked = false;
+                dataGridView1.Columns[4].HeaderText = "Memoty (KB)";
+                if (dataGridView1.Rows[0].Cells[4].Value != null)
                 {
-                    GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024).ToString());
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024).ToString());
+                    }
                 }
             }
+            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void мегабайтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            байтыToolStripMenuItem.Checked = false;
-            килобайтыToolStripMenuItem.Checked = false;
-            мегабайтыToolStripMenuItem.Checked = true;
-            dataGridView1.Columns[4].HeaderText = "Memoty (MB)";
-            if (dataGridView1.Rows[0].Cells[4].Value != null)
+            if (dataGridView1.Columns.Count > 0)
             {
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                байтыToolStripMenuItem.Checked = false;
+                килобайтыToolStripMenuItem.Checked = false;
+                мегабайтыToolStripMenuItem.Checked = true;
+                dataGridView1.Columns[4].HeaderText = "Memoty (MB)";
+                if (dataGridView1.Rows[0].Cells[4].Value != null)
                 {
-                    GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024 / 1024).ToString());
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024 / 1024).ToString());
+                    }
                 }
             }
+            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void миллисекундыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            миллисекундыToolStripMenuItem.Checked = true;
-            секундыToolStripMenuItem.Checked = false;
-            минутыToolStripMenuItem.Checked = false;
-            dataGridView1.Columns[5].HeaderText = "Time(MiliSeconds)";
-            if (dataGridView1.Rows[0].Cells[5].Value != null)
+            if (dataGridView1.Columns.Count > 0)
             {
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                миллисекундыToolStripMenuItem.Checked = true;
+                секундыToolStripMenuItem.Checked = false;
+                минутыToolStripMenuItem.Checked = false;
+                dataGridView1.Columns[5].HeaderText = "Time(MiliSeconds)";
+                if (dataGridView1.Rows[0].Cells[5].Value != null)
                 {
-                    GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
+                    }
                 }
             }
+            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void секундыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            миллисекундыToolStripMenuItem.Checked = false;
-            секундыToolStripMenuItem.Checked = true;
-            минутыToolStripMenuItem.Checked = false;
-            dataGridView1.Columns[5].HeaderText = "Time(Seconds)";
-            if (dataGridView1.Rows[0].Cells[5].Value != null)
+            if (dataGridView1.Columns.Count > 0)
             {
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                миллисекундыToolStripMenuItem.Checked = false;
+                секундыToolStripMenuItem.Checked = true;
+                минутыToolStripMenuItem.Checked = false;
+                dataGridView1.Columns[5].HeaderText = "Time(Seconds)";
+                if (dataGridView1.Rows[0].Cells[5].Value != null)
                 {
-                    GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
+                    }
                 }
             }
+            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void минутыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            миллисекундыToolStripMenuItem.Checked = false;
-            секундыToolStripMenuItem.Checked = false;
-            минутыToolStripMenuItem.Checked = true;
-            dataGridView1.Columns[5].HeaderText = "Time(Minutes)";
-            if (dataGridView1.Rows[0].Cells[5].Value != null)
+            if (dataGridView1.Columns.Count > 0)
             {
-                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                миллисекундыToolStripMenuItem.Checked = false;
+                секундыToolStripMenuItem.Checked = false;
+                минутыToolStripMenuItem.Checked = true;
+                dataGridView1.Columns[5].HeaderText = "Time(Minutes)";
+                if (dataGridView1.Rows[0].Cells[5].Value != null)
                 {
-                    GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
+                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    {
+                        GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
+                    }
                 }
             }
+            else MessageBox.Show("Вначале выберите тест!");
         }
     }
 }
