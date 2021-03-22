@@ -255,14 +255,12 @@ namespace Tester
                     if (байтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
                     else if (килобайтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024).ToString());
                     else GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024 / 1024).ToString());
-
-                    if (int.Parse(outputPrgoram[1][i]) <= int.Parse(textBox1.Text)) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
+                    if (double.Parse(dataGridView1.Rows[i].Cells[4].Value.ToString()) <= double.Parse(textBox1.Text)) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
                     else
                     {
                         dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.Red;
                         check = false;
                     }
-
                     if(миллисекундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
                     else if (секундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
                     else GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
