@@ -264,9 +264,7 @@ namespace Tester
                     if(миллисекундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
                     else if (секундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
                     else GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
-                    GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
-
-                    if (double.Parse(outputPrgoram[2][i]) <= double.Parse(textBox2.Text)) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
+                    if (double.Parse(dataGridView1.Rows[i].Cells[5].Value.ToString()) <= double.Parse(textBox2.Text)) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
                     else
                     {
                         dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.Red;
