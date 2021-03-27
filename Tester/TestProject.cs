@@ -116,11 +116,12 @@ namespace Tester
                             RedirectStandardInput = true,
                             RedirectStandardError = true,
                         });
+
                         process.StandardInput.WriteLine(line);
-                        var error = process.StandardError.ReadToEnd();
+                        var error = process.StandardError.ReadLine();
                         if (error != null)
                         {
-                            outputList.Add(error);
+                            outputList.Add(error.ToString());
                             memoryList.Add("Error");
                             timeList.Add("Error");
                         }
@@ -129,6 +130,7 @@ namespace Tester
                             outputList.Add(process.StandardOutput.ReadLine());
                             memoryList.Add(process.PeakWorkingSet64.ToString());
                             timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
+                            process.Kill();
                         }
 
                     }
