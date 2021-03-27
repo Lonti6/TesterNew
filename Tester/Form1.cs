@@ -252,24 +252,46 @@ namespace Tester
                         check = false;
                     }
 
-                    if (байтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
-                    else if (килобайтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024).ToString());
-                    else GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024 / 1024).ToString());
-                    if (double.Parse(dataGridView1.Rows[i].Cells[4].Value.ToString()) <= double.Parse(textBox1.Text)) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
-                    else
+                    var memoryOut = outputPrgoram[1][i];
+                    if (memoryOut.GetType() == typeof(string))
                     {
+                        GenerateTable.ReValue(i, 4, dataGridView1, memoryOut);
                         dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.Red;
                         check = false;
                     }
-                    if(миллисекундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
-                    else if (секундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
-                    else GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
-                    if (double.Parse(dataGridView1.Rows[i].Cells[5].Value.ToString()) <= double.Parse(textBox2.Text)) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
                     else
                     {
+                        if (байтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, memoryOut);
+                        else if (килобайтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(memoryOut) / 1024).ToString());
+                        else GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(memoryOut) / 1024 / 1024).ToString());
+                        if (double.Parse(dataGridView1.Rows[i].Cells[4].Value.ToString()) <= double.Parse(textBox1.Text)) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
+                        else
+                        {
+                            dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.Red;
+                            check = false;
+                        }
+                    }
+
+                    var timeOut = outputPrgoram[2][i];
+                    if (timeOut.GetType() == typeof(string))
+                    {
+                        GenerateTable.ReValue(i, 5, dataGridView1, timeOut);
                         dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.Red;
                         check = false;
                     }
+                    else
+                    {
+                        if (миллисекундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, timeOut);
+                        else if (секундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(timeOut) / 1000).ToString());
+                        else GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(timeOut) / 1000 / 60).ToString());
+                        if (double.Parse(dataGridView1.Rows[i].Cells[5].Value.ToString()) <= double.Parse(textBox2.Text)) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
+                        else
+                        {
+                            dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.Red;
+                            check = false;
+                        }
+                    }
+
                     if (!check) dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
                     else
                     {

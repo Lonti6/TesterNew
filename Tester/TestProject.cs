@@ -114,15 +114,32 @@ namespace Tester
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
+                            RedirectStandardError = true,
                         });
                         process.StandardInput.WriteLine(line);
-                        outputList.Add(process.StandardOutput.ReadLine());
-                        memoryList.Add(process.PeakWorkingSet64.ToString());
-                        timeList.Add((DateTime.Now-process.StartTime).Milliseconds.ToString());
+                        var error = process.StandardError.ReadToEnd();
+                        if (error != null)
+                        {
+                            outputList.Add(error);
+                            memoryList.Add("Error");
+                            timeList.Add("Error");
+                        }
+                        else
+                        {
+                            outputList.Add(process.StandardOutput.ReadLine());
+                            memoryList.Add(process.PeakWorkingSet64.ToString());
+                            timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
+                        }
+
                     }
                     break;
             }
             return new List<string>[3]{outputList, memoryList, timeList};
+        }
+
+        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }
