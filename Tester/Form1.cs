@@ -148,7 +148,7 @@ namespace Tester
                 but.ForeColor = Color.White;
                 using (Graphics cg = this.CreateGraphics())
                 {
-                    SizeF size = cg.MeasureString("Please excuse my dear aunt sally", but.Font);
+                    SizeF size = cg.MeasureString("Aaaaaa aaaaaa aa aaaa aaaa", but.Font);
                     but.Padding = Padding.Empty;
                     but.Width = (int)size.Width;
                 }
@@ -178,7 +178,7 @@ namespace Tester
                     butDown.ForeColor = Color.White;
                     using (Graphics cg = this.CreateGraphics())
                     {
-                        SizeF size = cg.MeasureString("Please excuse my dear aunt sally", butDown.Font);
+                        SizeF size = cg.MeasureString("Aaaaaa aaaaaa aa aaaa aaaa", butDown.Font);
                         butDown.Padding = Padding.Empty;
                         butDown.Width = (int)size.Width;
                     }
