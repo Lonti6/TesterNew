@@ -118,16 +118,17 @@ namespace Tester
                         });
 
                         process.StandardInput.WriteLine(line);
-                        var error = process.StandardError.ReadLine();
-                        if (error != null)
+                        var thisLine = process.StandardOutput.ReadLine();
+                        if (thisLine == null)
                         {
-                            outputList.Add(error.ToString());
+                            var error = process.StandardError.ReadToEnd();
+                            outputList.Add(error);
                             memoryList.Add("Error");
                             timeList.Add("Error");
                         }
                         else
                         {
-                            outputList.Add(process.StandardOutput.ReadLine());
+                            outputList.Add(thisLine);
                             memoryList.Add(process.PeakWorkingSet64.ToString());
                             timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
                             process.Kill();
@@ -139,9 +140,11 @@ namespace Tester
             return new List<string>[3]{outputList, memoryList, timeList};
         }
 
-        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        private void Process_Exited(object sender, EventArgs e)
         {
+            var a = (Process)sender;
             throw new NotImplementedException();
         }
+
     }
 }
