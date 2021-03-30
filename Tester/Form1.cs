@@ -146,7 +146,12 @@ namespace Tester
                 but.Tag = false;
                 but.BackColor = Color.FromArgb(95, 30, 112);
                 but.ForeColor = Color.White;
-                but.Font = new Font("Microsoft Sans Serif", 16F);
+                using (Graphics cg = this.CreateGraphics())
+                {
+                    SizeF size = cg.MeasureString("Aaaaaa aaaaaa aa aaaa aaaa", but.Font);
+                    but.Padding = Padding.Empty;
+                    but.Width = (int)size.Width;
+                }
                 but.FlatAppearance.BorderSize = 0;
                 but.FlatStyle = FlatStyle.Flat;
                 flowLayoutPanel1.Controls.Add(but);
@@ -163,7 +168,6 @@ namespace Tester
                 for (int i = 0; i < countElems; i++)
                 {
                     Button butDown = new Button();
-                    butDown.Width = flowLayoutPanel1.Width - 50;
                     butDown.Height = 50;
                     butDown.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
                     butDown.Click += ButTasksClick;
@@ -172,7 +176,13 @@ namespace Tester
                     butDown.FlatAppearance.BorderSize = 0;
                     butDown.FlatStyle = FlatStyle.Flat;
                     butDown.ForeColor = Color.White;
-                    butDown.Font = new Font("Segoe UI Semibold", 10F);
+                    using (Graphics cg = this.CreateGraphics())
+                    {
+                        SizeF size = cg.MeasureString("Aaaaaa aaaaaa aa aaaa aaaa", butDown.Font);
+                        butDown.Padding = Padding.Empty;
+                        butDown.Width = (int)size.Width;
+                    }
+                    butDown.Width = flowLayoutPanel1.Width - 50;
                     butDown.BackColor = Color.FromArgb(183, 109, 201);
                     flowLayoutPanel1.Controls.Add(butDown);
                     flowLayoutPanel1.Controls.SetChildIndex(butDown, flowLayoutPanel1.Controls.GetChildIndex(but) + 1);
