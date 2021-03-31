@@ -115,26 +115,37 @@ namespace Tester
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                             RedirectStandardError = true,
+                        
                         });
-
-                        process.StandardInput.WriteLine(line);
-                        var thisLine = process.StandardOutput.ReadLine();
-                        if (thisLine == null)
+                        if (!process.HasExited)
                         {
-                            var error = process.StandardError.ReadToEnd();
-                            outputList.Add(error);
+                            process.StandardInput.WriteLine(line);
+                            var mem = process.PeakWorkingSet64.ToString();
+                            if (process.StandardError.EndOfStream)
+                            {
+                                outputList.Add(process.StandardOutput.ReadLine());
+                                memoryList.Add(mem);
+                                timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
+                                //process.Kill();
+                            }
+
+                            else
+                            {
+                                outputList.Add(process.StandardError.ReadToEnd());
+                                memoryList.Add("Error");
+                                timeList.Add("Error");
+                            }
+                        }
+
+                        else
+                        {
+                            outputList.Add("Процесс завершил свою работу, раньше ввода данных");
                             memoryList.Add("Error");
                             timeList.Add("Error");
                         }
-                        else
-                        {
-                            outputList.Add(thisLine);
-                            memoryList.Add(process.PeakWorkingSet64.ToString());
-                            timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
-                            process.Kill();
-                        }
 
                     }
+
                     break;
             }
             return new List<string>[3]{outputList, memoryList, timeList};
