@@ -36,6 +36,15 @@
             this.вWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.вExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.отображениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.оЗУToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.байтыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.килобайтыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.мегабайтыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.времяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.миллисекундыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.секундыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.минутыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
@@ -47,15 +56,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.отображениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.оЗУToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.байтыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.килобайтыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.мегабайтыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.времяToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.миллисекундыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.секундыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.минутыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -124,6 +125,77 @@
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
+            // отображениеToolStripMenuItem
+            // 
+            this.отображениеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.оЗУToolStripMenuItem,
+            this.времяToolStripMenuItem});
+            this.отображениеToolStripMenuItem.Name = "отображениеToolStripMenuItem";
+            this.отображениеToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
+            this.отображениеToolStripMenuItem.Text = "Отображение";
+            // 
+            // оЗУToolStripMenuItem
+            // 
+            this.оЗУToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.байтыToolStripMenuItem,
+            this.килобайтыToolStripMenuItem,
+            this.мегабайтыToolStripMenuItem});
+            this.оЗУToolStripMenuItem.Name = "оЗУToolStripMenuItem";
+            this.оЗУToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
+            this.оЗУToolStripMenuItem.Text = "ОЗУ";
+            // 
+            // байтыToolStripMenuItem
+            // 
+            this.байтыToolStripMenuItem.Name = "байтыToolStripMenuItem";
+            this.байтыToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.байтыToolStripMenuItem.Text = "Байты";
+            this.байтыToolStripMenuItem.Click += new System.EventHandler(this.байтыToolStripMenuItem_Click);
+            // 
+            // килобайтыToolStripMenuItem
+            // 
+            this.килобайтыToolStripMenuItem.Name = "килобайтыToolStripMenuItem";
+            this.килобайтыToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.килобайтыToolStripMenuItem.Text = "Килобайты";
+            this.килобайтыToolStripMenuItem.Click += new System.EventHandler(this.килобайтыToolStripMenuItem_Click);
+            // 
+            // мегабайтыToolStripMenuItem
+            // 
+            this.мегабайтыToolStripMenuItem.Name = "мегабайтыToolStripMenuItem";
+            this.мегабайтыToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
+            this.мегабайтыToolStripMenuItem.Text = "Мегабайты";
+            this.мегабайтыToolStripMenuItem.Click += new System.EventHandler(this.мегабайтыToolStripMenuItem_Click);
+            // 
+            // времяToolStripMenuItem
+            // 
+            this.времяToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.миллисекундыToolStripMenuItem,
+            this.секундыToolStripMenuItem,
+            this.минутыToolStripMenuItem});
+            this.времяToolStripMenuItem.Name = "времяToolStripMenuItem";
+            this.времяToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
+            this.времяToolStripMenuItem.Text = "Время";
+            // 
+            // миллисекундыToolStripMenuItem
+            // 
+            this.миллисекундыToolStripMenuItem.Name = "миллисекундыToolStripMenuItem";
+            this.миллисекундыToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
+            this.миллисекундыToolStripMenuItem.Text = "Миллисекунды";
+            this.миллисекундыToolStripMenuItem.Click += new System.EventHandler(this.миллисекундыToolStripMenuItem_Click);
+            // 
+            // секундыToolStripMenuItem
+            // 
+            this.секундыToolStripMenuItem.Name = "секундыToolStripMenuItem";
+            this.секундыToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
+            this.секундыToolStripMenuItem.Text = "Секунды";
+            this.секундыToolStripMenuItem.Click += new System.EventHandler(this.секундыToolStripMenuItem_Click);
+            // 
+            // минутыToolStripMenuItem
+            // 
+            this.минутыToolStripMenuItem.Name = "минутыToolStripMenuItem";
+            this.минутыToolStripMenuItem.Size = new System.Drawing.Size(203, 26);
+            this.минутыToolStripMenuItem.Text = "Минуты";
+            this.минутыToolStripMenuItem.Click += new System.EventHandler(this.минутыToolStripMenuItem_Click);
+            // 
             // оПрограммеToolStripMenuItem
             // 
             this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
@@ -136,7 +208,7 @@
             this.dataGridView1.BackgroundColor = System.Drawing.Color.White;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(308, 42);
+            this.dataGridView1.Location = new System.Drawing.Point(272, 42);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 27;
@@ -238,83 +310,23 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // отображениеToolStripMenuItem
+            // flowLayoutPanel2
             // 
-            this.отображениеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.оЗУToolStripMenuItem,
-            this.времяToolStripMenuItem});
-            this.отображениеToolStripMenuItem.Name = "отображениеToolStripMenuItem";
-            this.отображениеToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
-            this.отображениеToolStripMenuItem.Text = "Отображение";
-            // 
-            // оЗУToolStripMenuItem
-            // 
-            this.оЗУToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.байтыToolStripMenuItem,
-            this.килобайтыToolStripMenuItem,
-            this.мегабайтыToolStripMenuItem});
-            this.оЗУToolStripMenuItem.Name = "оЗУToolStripMenuItem";
-            this.оЗУToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.оЗУToolStripMenuItem.Text = "ОЗУ";
-            // 
-            // байтыToolStripMenuItem
-            // 
-            this.байтыToolStripMenuItem.Name = "байтыToolStripMenuItem";
-            this.байтыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.байтыToolStripMenuItem.Text = "Байты";
-            this.байтыToolStripMenuItem.Click += new System.EventHandler(this.байтыToolStripMenuItem_Click);
-            // 
-            // килобайтыToolStripMenuItem
-            // 
-            this.килобайтыToolStripMenuItem.Name = "килобайтыToolStripMenuItem";
-            this.килобайтыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.килобайтыToolStripMenuItem.Text = "Килобайты";
-            this.килобайтыToolStripMenuItem.Click += new System.EventHandler(this.килобайтыToolStripMenuItem_Click);
-            // 
-            // мегабайтыToolStripMenuItem
-            // 
-            this.мегабайтыToolStripMenuItem.Name = "мегабайтыToolStripMenuItem";
-            this.мегабайтыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.мегабайтыToolStripMenuItem.Text = "Мегабайты";
-            this.мегабайтыToolStripMenuItem.Click += new System.EventHandler(this.мегабайтыToolStripMenuItem_Click);
-            // 
-            // времяToolStripMenuItem
-            // 
-            this.времяToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.миллисекундыToolStripMenuItem,
-            this.секундыToolStripMenuItem,
-            this.минутыToolStripMenuItem});
-            this.времяToolStripMenuItem.Name = "времяToolStripMenuItem";
-            this.времяToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.времяToolStripMenuItem.Text = "Время";
-            // 
-            // миллисекундыToolStripMenuItem
-            // 
-            this.миллисекундыToolStripMenuItem.Name = "миллисекундыToolStripMenuItem";
-            this.миллисекундыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.миллисекундыToolStripMenuItem.Text = "Миллисекунды";
-            this.миллисекундыToolStripMenuItem.Click += new System.EventHandler(this.миллисекундыToolStripMenuItem_Click);
-            // 
-            // секундыToolStripMenuItem
-            // 
-            this.секундыToolStripMenuItem.Name = "секундыToolStripMenuItem";
-            this.секундыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.секундыToolStripMenuItem.Text = "Секунды";
-            this.секундыToolStripMenuItem.Click += new System.EventHandler(this.секундыToolStripMenuItem_Click);
-            // 
-            // минутыToolStripMenuItem
-            // 
-            this.минутыToolStripMenuItem.Name = "минутыToolStripMenuItem";
-            this.минутыToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.минутыToolStripMenuItem.Text = "Минуты";
-            this.минутыToolStripMenuItem.Click += new System.EventHandler(this.минутыToolStripMenuItem_Click);
+            this.flowLayoutPanel2.AutoScroll = true;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(272, 42);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(735, 473);
+            this.flowLayoutPanel2.TabIndex = 13;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(1082, 551);
+            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -324,7 +336,6 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -372,6 +383,7 @@
         private System.Windows.Forms.ToolStripMenuItem миллисекундыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem секундыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem минутыToolStripMenuItem;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
     }
 }
 

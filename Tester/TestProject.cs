@@ -42,6 +42,7 @@ namespace Tester
                             RedirectStandardInput = true,
                         });
                         process.StandardInput.WriteLine(line);
+                        
                         outputList.Add(process.StandardOutput.ReadLine());
                         memoryList.Add((process.PeakWorkingSet64).ToString());
                         timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString()); 
@@ -71,8 +72,9 @@ namespace Tester
                             RedirectStandardInput = true,
                         });
                         process.StandardInput.WriteLine(line);
-                        outputList.Add(process.StandardOutput.ReadLine());
                         memoryList.Add(process.PeakWorkingSet64.ToString());
+                        outputList.Add(process.StandardOutput.ReadLine());
+                        
                         timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
                     }
                     File.Delete(pathProgram.Substring(0,pathProgram.LastIndexOf(".")) + ".class" );

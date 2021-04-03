@@ -20,22 +20,23 @@ namespace Tester
         string pathData = @"data\";
         string taskName;
         Button prevButton = new Button();
+        int countLen;
         List<string>[] outputPrgoram;
-        private void ProcGenTable(string path)
+        private void ProcGenTable(string path, DataGridView dgv)
         {
-            int countLen = File.ReadAllLines(path + @"\input.txt").Length;
+            countLen = File.ReadAllLines(path + @"\input.txt").Length;
             //генерирую таблицу
-            GenerateTable.GenerataTable(countLen, columnsNames, dataGridView1);
+            GenerateTable.GenerataTable(countLen, columnsNames, dgv);
             //изменяю данные таблицы считывая по очереди каждую строку из инпута
             StreamReader sr1 = new StreamReader(path + @"\input.txt");
             Inform.pathInp = path + @"\input.txt";
             for (int i = 0; i < countLen; i++)
             {
-                GenerateTable.ReValue(i, 0, dataGridView1, (i + 1).ToString());
+                GenerateTable.ReValue(i, 0, dgv, (i + 1).ToString());
             }
             for (int i = 0; i < countLen; i++)
             {
-                GenerateTable.ReValue(i, 1, dataGridView1, sr1.ReadLine());
+                GenerateTable.ReValue(i, 1, dgv, sr1.ReadLine());
             }
             sr1.Close(); //вырубаю чтение инпута
                          //изменяю данные таблицы считывая по очереди каждую строку из инпута
@@ -43,7 +44,7 @@ namespace Tester
             Inform.pathOut = path + @"\output.txt";
             for (int i = 0; i < countLen; i++)
             {
-                GenerateTable.ReValue(i, 2, dataGridView1, sr2.ReadLine());
+                GenerateTable.ReValue(i, 2, dgv, sr2.ReadLine());
             }
             sr2.Close(); //вырубаю чтение аутпута
         }
@@ -113,12 +114,12 @@ namespace Tester
 
         private void вExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExportTable.ExportToExcel(dataGridView1);
+            ExportTable.ExportToExcel(flowLayoutPanel2.Controls);
         }
 
         private void вWordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ExportTable.ExportToWord(dataGridView1);
+            ExportTable.ExportToWord(flowLayoutPanel2.Controls);
         }
 
         private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
@@ -126,7 +127,9 @@ namespace Tester
         }
         private void RefreshTree()
         {
+            flowLayoutPanel2.Controls.Clear();
             dataGridView1.Rows.Clear();
+            dataGridView1.Visible = false;
             button2.Visible = false;
             textBox1.Visible = false;
             textBox2.Visible = false;
@@ -201,6 +204,9 @@ namespace Tester
 
         private void ButTasksClick(object sender, EventArgs e)
         {
+            flowLayoutPanel2.Controls.Clear();
+            dataGridView1.Visible = true;
+            if (!flowLayoutPanel2.Controls.Contains(dataGridView1)) flowLayoutPanel2.Controls.Clear();
             button2.Visible = true;
             textBox1.Visible = true;
             textBox2.Visible = true;
@@ -217,7 +223,7 @@ namespace Tester
                 prevButton = but;
             }
             taskName = pathData + but.Name;
-            ProcGenTable(taskName);
+            ProcGenTable(taskName, dataGridView1);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -241,80 +247,101 @@ namespace Tester
 
         private void button2_Click(object sender, EventArgs e)
         {
+            flowLayoutPanel2.Controls.Clear();
+            dataGridView1.Visible = false;
             OpenFileDialog opf = new OpenFileDialog();
             opf.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            if (opf.ShowDialog() == DialogResult.OK) 
+            opf.Filter = "All files (*.*)|*.*|C# (*.cs)|*.cs|Python (*.py)|*.py|Java (*.java)|*.java";
+            opf.Multiselect = true;
+            if (opf.ShowDialog() == DialogResult.OK)
             {
-                //создаёшь экземпляр класса
-                TestProject test = new TestProject();
-                //метод возвращает List<string> с данными которые вывела прога. первое - путь на cs файл, второе путь к входным данным.
-                outputPrgoram = test.test(opf.FileName, taskName + "\\input.txt");
-                bool check;
-                int countTrue = 0;
-                for (int i = 0;  i<dataGridView1.Rows.Count; i++)
+                MessageBox.Show(opf.FileNames.Length.ToString());
+                foreach (string file in opf.FileNames)
                 {
-                    check = true;
-                    GenerateTable.ReValue(i, 3, dataGridView1, outputPrgoram[0][i]);
-                    if (outputPrgoram[0][i].ToString() == dataGridView1[2, i].Value.ToString()) dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.LightGreen;
-                    else
+                    DataGridView dgv = new DataGridView();
+                    flowLayoutPanel2.Controls.Add(dgv);
+                    flowLayoutPanel2.ControlAdded += FlowLayoutPanel2_ControlAdded;
+                    GenerateTable.GenerataTable(countLen, columnsNames, dgv);
+                    dgv.RowHeadersVisible = false;
+                    dgv.AllowUserToAddRows = false;
+                    dgv.Width = flowLayoutPanel2.Width - 20;
+                    dgv.Height = dataGridView1.Rows.GetRowsHeight(DataGridViewElementStates.Visible) +
+                       dataGridView1.ColumnHeadersHeight;
+                    dgv.Tag = taskName.Substring(taskName.LastIndexOf('\\') + 1) + " Имя файла:"+file.Substring(file.LastIndexOf("\\")+1);
+                    ProcGenTable(taskName, dgv);
+                    //создаёшь экземпляр класса
+                    TestProject test = new TestProject();
+                    //метод возвращает List<string> с данными которые вывела прога. первое - путь на cs файл, второе путь к входным данным.
+                    outputPrgoram = test.test(file, taskName + "\\input.txt");
+                    bool check;
+                    int countTrue = 0;
+                    for (int i = 0; i < dgv.Rows.Count; i++)
                     {
-                        dataGridView1.Rows[i].Cells[3].Style.BackColor = Color.Red;
-                        check = false;
-                    }
-                    double memoryOut;
-                    if (double.TryParse(outputPrgoram[1][i],out memoryOut) )
-                    {
-                        if (байтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, memoryOut.ToString());
-                        else if (килобайтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dataGridView1, (memoryOut / 1024).ToString());
-                        else GenerateTable.ReValue(i, 4, dataGridView1, (memoryOut / 1024 / 1024).ToString());
-                        if (double.Parse(dataGridView1.Rows[i].Cells[4].Value.ToString()) <= double.Parse(textBox1.Text)) dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
+                        check = true;
+                        GenerateTable.ReValue(i, 3, dgv, outputPrgoram[0][i]);
+                        if (outputPrgoram[0][i].ToString() == dgv[2, i].Value.ToString()) dgv.Rows[i].Cells[3].Style.BackColor = Color.LightGreen;
                         else
                         {
-                            dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.Red;
+                            dgv.Rows[i].Cells[3].Style.BackColor = Color.Red;
+                            check = false;
+                        }
+                        double memoryOut;
+                        if (double.TryParse(outputPrgoram[1][i], out memoryOut))
+                        {
+                            if (байтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dgv, memoryOut.ToString());
+                            else if (килобайтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dgv, (memoryOut / 1024).ToString());
+                            else GenerateTable.ReValue(i, 4, dgv, (memoryOut / 1024 / 1024).ToString());
+                            if (double.Parse(dgv.Rows[i].Cells[4].Value.ToString()) <= double.Parse(textBox1.Text)) dgv.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
+                            else
+                            {
+                                dgv.Rows[i].Cells[4].Style.BackColor = Color.Red;
+                                check = false;
+                            }
+                        }
+                        else
+                        {
+                            GenerateTable.ReValue(i, 4, dgv, outputPrgoram[1][i]);
+                            dgv.Rows[i].Cells[4].Style.BackColor = Color.Red;
                             check = false;
                         }
 
-                    }
-                    else
-                    {
-                        GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
-                        dataGridView1.Rows[i].Cells[4].Style.BackColor = Color.Red;
-                        check = false;
-                    }
-
-                    double timeOut;
-                    if (double.TryParse(outputPrgoram[2][i], out timeOut))
-                    {
-                        if (миллисекундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, timeOut.ToString());
-                        else if (секундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dataGridView1, (timeOut / 1000).ToString());
-                        else GenerateTable.ReValue(i, 5, dataGridView1, (timeOut / 1000 / 60).ToString());
-                        if (double.Parse(dataGridView1.Rows[i].Cells[5].Value.ToString()) <= double.Parse(textBox2.Text)) dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
+                        double timeOut;
+                        if (double.TryParse(outputPrgoram[2][i], out timeOut))
+                        {
+                            if (миллисекундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dgv, timeOut.ToString());
+                            else if (секундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dgv, (timeOut / 1000).ToString());
+                            else GenerateTable.ReValue(i, 5, dgv, (timeOut / 1000 / 60).ToString());
+                            if (double.Parse(dgv.Rows[i].Cells[5].Value.ToString()) <= double.Parse(textBox2.Text)) dgv.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
+                            else
+                            {
+                                dgv.Rows[i].Cells[5].Style.BackColor = Color.Red;
+                                check = false;
+                            }
+                        }
                         else
                         {
-                            dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.Red;
+                            GenerateTable.ReValue(i, 5, dgv, outputPrgoram[2][i]);
+                            dgv.Rows[i].Cells[5].Style.BackColor = Color.Red;
                             check = false;
                         }
 
+                        if (!check) dgv.Rows[i].Cells[0].Style.BackColor = Color.Red;
+                        else
+                        {
+                            dgv.Rows[i].Cells[0].Style.BackColor = Color.LightGreen;
+                            countTrue++;
+                        }
                     }
-                    else
-                    {
-
-                        GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
-                        dataGridView1.Rows[i].Cells[5].Style.BackColor = Color.Red;
-                        check = false;
-                    }
-
-                    if (!check) dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.Red;
-                    else
-                    {
-                        dataGridView1.Rows[i].Cells[0].Style.BackColor = Color.LightGreen;
-                        countTrue++;
-                    }
+                    label3.Text = "Правильно " + countTrue.ToString() + " из " + dgv.Rows.Count.ToString();
+                    countTrue = 0;
                 }
-                label3.Text = "Правильно " + countTrue.ToString() + " из " + dataGridView1.Rows.Count.ToString();
-                countTrue = 0;
             }
-            
+        }
+
+        private void FlowLayoutPanel2_ControlAdded(object sender, ControlEventArgs e)
+        {
+            var flp = (FlowLayoutPanel)sender;
+            flp.Controls.SetChildIndex(e.Control, 0);
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -324,116 +351,134 @@ namespace Tester
 
         private void байтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.Columns.Count > 0)
+            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
             {
-                байтыToolStripMenuItem.Checked = true;
-                килобайтыToolStripMenuItem.Checked = false;
-                мегабайтыToolStripMenuItem.Checked = false;
-                dataGridView1.Columns[4].HeaderText = "Memoty (Byte)";
-                if (dataGridView1.Rows[0].Cells[4].Value != null)
+                if (dgv.Columns.Count > 0)
                 {
-                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    байтыToolStripMenuItem.Checked = true;
+                    килобайтыToolStripMenuItem.Checked = false;
+                    мегабайтыToolStripMenuItem.Checked = false;
+                    dgv.Columns[4].HeaderText = "Memoty (Byte)";
+                    if (dgv.Rows[0].Cells[4].Value != null)
                     {
-                        GenerateTable.ReValue(i, 4, dataGridView1, outputPrgoram[1][i]);
+                        for (int i = 0; i < dgv.Rows.Count; i++)
+                        {
+                            GenerateTable.ReValue(i, 4, dgv, outputPrgoram[1][i]);
+                        }
                     }
                 }
+                else MessageBox.Show("Вначале выберите тест!");
             }
-            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void килобайтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.Columns.Count > 0)
+            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
             {
-                байтыToolStripMenuItem.Checked = false;
-                килобайтыToolStripMenuItem.Checked = true;
-                мегабайтыToolStripMenuItem.Checked = false;
-                dataGridView1.Columns[4].HeaderText = "Memoty (KB)";
-                if (dataGridView1.Rows[0].Cells[4].Value != null)
+                if (dgv.Columns.Count > 0)
                 {
-                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    байтыToolStripMenuItem.Checked = false;
+                    килобайтыToolStripMenuItem.Checked = true;
+                    мегабайтыToolStripMenuItem.Checked = false;
+                    dgv.Columns[4].HeaderText = "Memoty (KB)";
+                    if (dgv.Rows[0].Cells[4].Value != null)
                     {
-                        GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024).ToString());
+                        for (int i = 0; i < dgv.Rows.Count; i++)
+                        {
+                            GenerateTable.ReValue(i, 4, dgv, (double.Parse(outputPrgoram[1][i]) / 1024).ToString());
+                        }
                     }
                 }
+                else MessageBox.Show("Вначале выберите тест!");
             }
-            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void мегабайтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.Columns.Count > 0)
+            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
             {
-                байтыToolStripMenuItem.Checked = false;
-                килобайтыToolStripMenuItem.Checked = false;
-                мегабайтыToolStripMenuItem.Checked = true;
-                dataGridView1.Columns[4].HeaderText = "Memoty (MB)";
-                if (dataGridView1.Rows[0].Cells[4].Value != null)
+                if (dgv.Columns.Count > 0)
                 {
-                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    байтыToolStripMenuItem.Checked = false;
+                    килобайтыToolStripMenuItem.Checked = false;
+                    мегабайтыToolStripMenuItem.Checked = true;
+                    dgv.Columns[4].HeaderText = "Memoty (MB)";
+                    if (dgv.Rows[0].Cells[4].Value != null)
                     {
-                        GenerateTable.ReValue(i, 4, dataGridView1, (double.Parse(outputPrgoram[1][i]) / 1024 / 1024).ToString());
+                        for (int i = 0; i < dgv.Rows.Count; i++)
+                        {
+                            GenerateTable.ReValue(i, 4, dgv, (double.Parse(outputPrgoram[1][i]) / 1024 / 1024).ToString());
+                        }
                     }
                 }
+                else MessageBox.Show("Вначале выберите тест!");
             }
-            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void миллисекундыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.Columns.Count > 0)
+            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
             {
-                миллисекундыToolStripMenuItem.Checked = true;
-                секундыToolStripMenuItem.Checked = false;
-                минутыToolStripMenuItem.Checked = false;
-                dataGridView1.Columns[5].HeaderText = "Time(MiliSeconds)";
-                if (dataGridView1.Rows[0].Cells[5].Value != null)
+                if (dgv.Columns.Count > 0)
                 {
-                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    миллисекундыToolStripMenuItem.Checked = true;
+                    секундыToolStripMenuItem.Checked = false;
+                    минутыToolStripMenuItem.Checked = false;
+                    dgv.Columns[5].HeaderText = "Time(MiliSeconds)";
+                    if (dgv.Rows[0].Cells[5].Value != null)
                     {
-                        GenerateTable.ReValue(i, 5, dataGridView1, outputPrgoram[2][i]);
+                        for (int i = 0; i < dgv.Rows.Count; i++)
+                        {
+                            GenerateTable.ReValue(i, 5, dgv, outputPrgoram[2][i]);
+                        }
                     }
                 }
+                else MessageBox.Show("Вначале выберите тест!");
             }
-            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void секундыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.Columns.Count > 0)
+            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
             {
-                миллисекундыToolStripMenuItem.Checked = false;
-                секундыToolStripMenuItem.Checked = true;
-                минутыToolStripMenuItem.Checked = false;
-                dataGridView1.Columns[5].HeaderText = "Time(Seconds)";
-                if (dataGridView1.Rows[0].Cells[5].Value != null)
+                if (dgv.Columns.Count > 0)
                 {
-                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    миллисекундыToolStripMenuItem.Checked = false;
+                    секундыToolStripMenuItem.Checked = true;
+                    минутыToolStripMenuItem.Checked = false;
+                    dgv.Columns[5].HeaderText = "Time(Seconds)";
+                    if (dgv.Rows[0].Cells[5].Value != null)
                     {
-                        GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
+                        for (int i = 0; i < dgv.Rows.Count; i++)
+                        {
+                            GenerateTable.ReValue(i, 5, dgv, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
+                        }
                     }
                 }
+                else MessageBox.Show("Вначале выберите тест!");
             }
-            else MessageBox.Show("Вначале выберите тест!");
         }
 
         private void минутыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.Columns.Count > 0)
+            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
             {
-                миллисекундыToolStripMenuItem.Checked = false;
-                секундыToolStripMenuItem.Checked = false;
-                минутыToolStripMenuItem.Checked = true;
-                dataGridView1.Columns[5].HeaderText = "Time(Minutes)";
-                if (dataGridView1.Rows[0].Cells[5].Value != null)
+                if (dgv.Columns.Count > 0)
                 {
-                    for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                    миллисекундыToolStripMenuItem.Checked = false;
+                    секундыToolStripMenuItem.Checked = false;
+                    минутыToolStripMenuItem.Checked = true;
+                    dgv.Columns[5].HeaderText = "Time(Minutes)";
+                    if (dgv.Rows[0].Cells[5].Value != null)
                     {
-                        GenerateTable.ReValue(i, 5, dataGridView1, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
+                        for (int i = 0; i < dgv.Rows.Count; i++)
+                        {
+                            GenerateTable.ReValue(i, 5, dgv, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
+                        }
                     }
                 }
+                else MessageBox.Show("Вначале выберите тест!");
             }
-            else MessageBox.Show("Вначале выберите тест!");
         }
     }
 }
