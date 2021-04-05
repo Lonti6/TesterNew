@@ -90,16 +90,13 @@ namespace Tester
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
         }
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
-
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -242,7 +239,6 @@ namespace Tester
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -255,7 +251,6 @@ namespace Tester
             opf.Multiselect = true;
             if (opf.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show(opf.FileNames.Length.ToString());
                 foreach (string file in opf.FileNames)
                 {
                     DataGridView dgv = new DataGridView();
@@ -265,8 +260,7 @@ namespace Tester
                     dgv.RowHeadersVisible = false;
                     dgv.AllowUserToAddRows = false;
                     dgv.Width = flowLayoutPanel2.Width - 20;
-                    dgv.Height = dataGridView1.Rows.GetRowsHeight(DataGridViewElementStates.Visible) +
-                       dataGridView1.ColumnHeadersHeight;
+                    dgv.Height = dataGridView1.Rows.GetRowsHeight(DataGridViewElementStates.Visible) + dataGridView1.ColumnHeadersHeight;
                     dgv.Tag = taskName.Substring(taskName.LastIndexOf('\\') + 1) + " Имя файла:"+file.Substring(file.LastIndexOf("\\")+1);
                     ProcGenTable(taskName, dgv);
                     //создаёшь экземпляр класса
@@ -346,7 +340,6 @@ namespace Tester
 
         private void label3_Click(object sender, EventArgs e)
         {
-
         }
 
         private void байтыToolStripMenuItem_Click(object sender, EventArgs e)

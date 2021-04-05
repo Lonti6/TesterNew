@@ -65,17 +65,37 @@ namespace Tester
                         process = Process.Start(new ProcessStartInfo
                         {
                             FileName = "cmd",
-                            Arguments = "/c cd " + path + " & java -classpath . " + file.Substring(0,file.LastIndexOf(".")),
+                            Arguments = "/c cd " + path + " & java -classpath . " + file.Substring(0, file.LastIndexOf(".")),
                             CreateNoWindow = true,
                             UseShellExecute = false,
+                            RedirectStandardError = true,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                         });
-                        process.StandardInput.WriteLine(line);
-                        memoryList.Add(process.PeakWorkingSet64.ToString());
-                        outputList.Add(process.StandardOutput.ReadLine());
-                        
-                        timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
+                        if (!process.HasExited)
+                        {
+                            process.StandardInput.WriteLine(line);
+                            var mem = process.PeakWorkingSet64.ToString();
+                            if (process.StandardError.EndOfStream)
+                            {
+                                outputList.Add(process.StandardOutput.ReadLine());
+                                memoryList.Add(mem);
+                                timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
+                            }
+
+                            else
+                            {
+                                outputList.Add(process.StandardError.ReadToEnd());
+                                memoryList.Add("Error");
+                                timeList.Add("Error");
+                            }
+                        }
+                        else
+                        {
+                            outputList.Add("Процесс завершил свою работу, раньше ввода данных");
+                            memoryList.Add("Error");
+                            timeList.Add("Error");
+                        }
                     }
                     File.Delete(pathProgram.Substring(0,pathProgram.LastIndexOf(".")) + ".class" );
                     break;

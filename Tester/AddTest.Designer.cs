@@ -63,9 +63,10 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(23, 9);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(161, 19);
+            this.label5.Size = new System.Drawing.Size(162, 19);
             this.label5.TabIndex = 13;
-            this.label5.Text = "Введите название теста";
+            this.label5.Text = "Введите название темы";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
