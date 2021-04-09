@@ -13,7 +13,7 @@ namespace Tester
             CompilerParameters parameters = new CompilerParameters() { GenerateExecutable = false,
                 GenerateInMemory = true,
                 //OutputAssembly = pathProgram.Substring(pathProgram.LastIndexOf(@"\")+1),
-                OutputAssembly = "test.exe",
+                OutputAssembly = "Csharp.exe",
                 CompilerOptions = "/target:winexe" };
             CompilerResults compilerResult = provider.CompileAssemblyFromFile(parameters, pathProgram);
             //вывод ошибок

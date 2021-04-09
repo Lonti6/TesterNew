@@ -243,14 +243,15 @@ namespace Tester
 
         private void button2_Click(object sender, EventArgs e)
         {
-            flowLayoutPanel2.Controls.Clear();
-            dataGridView1.Visible = false;
+            
             OpenFileDialog opf = new OpenFileDialog();
             opf.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             opf.Filter = "All files (*.*)|*.*|C# (*.cs)|*.cs|Python (*.py)|*.py|Java (*.java)|*.java";
             opf.Multiselect = true;
             if (opf.ShowDialog() == DialogResult.OK)
             {
+                flowLayoutPanel2.Controls.Clear();
+                dataGridView1.Visible = false;
                 foreach (string file in opf.FileNames)
                 {
                     DataGridView dgv = new DataGridView();
@@ -273,6 +274,7 @@ namespace Tester
                     {
                         check = true;
                         GenerateTable.ReValue(i, 3, dgv, outputPrgoram[0][i]);
+                        dgv[2, i].Value = dgv[2, i].Value == null ? "": dgv[2, i].Value;
                         if (outputPrgoram[0][i].ToString() == dgv[2, i].Value.ToString()) dgv.Rows[i].Cells[3].Style.BackColor = Color.LightGreen;
                         else
                         {

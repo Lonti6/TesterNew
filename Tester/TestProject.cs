@@ -24,9 +24,8 @@ namespace Tester
             string language = pathProgram.Substring(pathProgram.LastIndexOf(".") + 1); // расширение
             StreamReader inputTxt = new StreamReader(pathInput); // данные импута
             string line;
-            string file = pathProgram.Substring(pathProgram.LastIndexOf(@"\") + 1); // имя файла c hfcithtybtv
+            string file = pathProgram.Substring(pathProgram.LastIndexOf(@"\") + 1); // имя файла c расширением
             string path = pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")); // папка где лежит file
-            Stopwatch SW = new Stopwatch();
             switch (language)
             {
                 case "py":
@@ -125,13 +124,14 @@ namespace Tester
                     break;
 
                 default:
+                    int i=0;
                     var build = new BuildProject().CreateExe(pathProgram);
-                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
+                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine(),i++)
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
                             //FileName = build.CompiledAssembly.FullName.Substring(0, build.CompiledAssembly.FullName.IndexOf(",")),
-                            FileName = "test",
+                            FileName = "Csharp",
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
@@ -139,18 +139,28 @@ namespace Tester
                             RedirectStandardError = true,
                         
                         });
+                        process.BeginErrorReadLine();
+                        process.BeginOutputReadLine();
+                        process.OutputDataReceived += (o, e) =>
+                        {
+
+                        };
+                        process.ErrorDataReceived += (o,e) => 
+                        { 
+                            
+                        };
                         if (!process.HasExited)
                         {
                             process.StandardInput.WriteLine(line);
                             var mem = process.PeakWorkingSet64.ToString();
-                            if (process.StandardError.EndOfStream)
+                            var errStream = process.StandardError;
+                            if (errStream.BaseStream.Length == 0)
                             {
                                 outputList.Add(process.StandardOutput.ReadLine());
                                 memoryList.Add(mem);
                                 timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
                                 //process.Kill();
                             }
-
                             else
                             {
                                 outputList.Add(process.StandardError.ReadToEnd());
@@ -165,18 +175,11 @@ namespace Tester
                             memoryList.Add("Error");
                             timeList.Add("Error");
                         }
-
                     }
-
+                    File.Delete(@"/" + "Csharp" + ".exe");
                     break;
             }
             return new List<string>[3]{outputList, memoryList, timeList};
-        }
-
-        private void Process_Exited(object sender, EventArgs e)
-        {
-            var a = (Process)sender;
-            throw new NotImplementedException();
         }
 
     }
