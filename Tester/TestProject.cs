@@ -4,47 +4,80 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Tester
 {
     class TestProject
     {
+        
         private Process process;
+        private DataGridView dgv;
         private List<string> outputList = new List<string>();
         private List<string> memoryList = new List<string>();
         private List<string> timeList = new List<string>();
+        private string pathProgram = null;
+        private string pathInput = null;
+        private string cache = Environment.CurrentDirectory + @"\cache\";
+
+        string file = null; // имя файла c расширением
+        string path = null; // папка где лежит file
+        string language = null; // расширение
+        public Dictionary<int, int> procID = new Dictionary<int,int>();
+        public TestProject(string pathProgram, string pathInput, ref DataGridView dgv)
+        {
+            this.pathInput = pathInput;
+            this.pathProgram = pathProgram;
+            this.dgv = dgv;
+            this.path = pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")+1);
+            this.language = pathProgram.Substring(pathProgram.LastIndexOf(".") + 1);
+            this.file = pathProgram.Substring(pathProgram.LastIndexOf(@"\") + 1);
+            this.file = this.file.Substring(0, this.file.LastIndexOf('.'));
+        }
         /// <summary>
         /// Прогон программы
         /// </summary>
         /// <param name="pathProgram">ссылка на программу</param>
         /// <param name="pathInput">ссылка на входные данные теста</param>
-        public List<string>[] test(string pathProgram, string pathInput)
+        public void start()
         {
             outputList.Clear();
-            string language = pathProgram.Substring(pathProgram.LastIndexOf(".") + 1); // расширение
-            StreamReader inputTxt = new StreamReader(pathInput); // данные импута
             string line;
-            string file = pathProgram.Substring(pathProgram.LastIndexOf(@"\") + 1); // имя файла c расширением
-            string path = pathProgram.Substring(0, pathProgram.LastIndexOf(@"\")); // папка где лежит file
+            StreamReader inputTxt = new StreamReader(pathInput); // данные импута
+            int i = 0;
             switch (language)
             {
                 case "py":
-                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
+                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine(), i++)
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
                             FileName = "cmd",
-                            Arguments = "/c " + pathProgram,
+                            Arguments = "/c \"" + pathProgram + "\"",
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
+                            RedirectStandardError = true,
                         });
-                        process.StandardInput.WriteLine(line);
-                        
-                        outputList.Add(process.StandardOutput.ReadLine());
-                        memoryList.Add((process.PeakWorkingSet64).ToString());
-                        timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString()); 
+
+                        //сохраняем соотношение номер строки с айдишником процесса. Чтобы потом знать к какой строке какой процесс принадлежит
+                        procID.Add(process.Id, i);
+
+                        process.BeginErrorReadLine();
+                        process.BeginOutputReadLine();
+
+                        // указываем на наши методы
+                        process.OutputDataReceived += Process_OutputDataReceived;
+                        process.ErrorDataReceived += Process_ErrorDataReceived;
+                        process.Exited += Process_Exited;
+
+                        //разбиваем строку ожидаемых ответов на подстроки разделённые нашим разделителем.
+                        var parseStr = line.Split(new string[] { @"\n" }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var str in parseStr)
+                        {
+                            process.StandardInput.WriteLine(str);
+                        }
                     }
                     break;
 
@@ -52,55 +85,50 @@ namespace Tester
                     process = Process.Start(new ProcessStartInfo
                     {
                         FileName = "cmd",
-                        Arguments = "/c cd " + path + " & javac " + file,
+                        Arguments = "/c javac " + "\"" + pathProgram + "\"" + " && jar -cvf " + cache + "Test.jar -C " + path + file + ".class .",
                         CreateNoWindow = true,
                         UseShellExecute = false,
                         RedirectStandardOutput = true,
                         RedirectStandardInput = true,
                     });
                     process.WaitForExit();
-                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
+                    File.Delete(path + file + ".class");
+                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine(), i++)
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
-                            FileName = "cmd",
-                            Arguments = "/c cd " + path + " & java -classpath . " + file.Substring(0, file.LastIndexOf(".")),
+                            FileName = "java",
+                            Arguments = @"-jar " + cache + file + ".jar",
                             CreateNoWindow = true,
                             UseShellExecute = false,
-                            RedirectStandardError = true,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
+                            RedirectStandardError = true,
                         });
-                        if (!process.HasExited)
-                        {
-                            process.StandardInput.WriteLine(line);
-                            var mem = process.PeakWorkingSet64.ToString();
-                            if (process.StandardError.EndOfStream)
-                            {
-                                outputList.Add(process.StandardOutput.ReadLine());
-                                memoryList.Add(mem);
-                                timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
-                            }
 
-                            else
-                            {
-                                outputList.Add(process.StandardError.ReadToEnd());
-                                memoryList.Add("Error");
-                                timeList.Add("Error");
-                            }
-                        }
-                        else
+                        //сохраняем соотношение номер строки с айдишником процесса. Чтобы потом знать к какой строке какой процесс принадлежит
+                        procID.Add(process.Id, i);
+
+                        process.BeginErrorReadLine();
+                        process.BeginOutputReadLine();
+
+                        // указываем на наши методы
+                        process.OutputDataReceived += Process_OutputDataReceived;
+                        process.ErrorDataReceived += Process_ErrorDataReceived;
+                        process.Exited += Process_Exited;
+
+                        //разбиваем строку ожидаемых ответов на подстроки разделённые нашим разделителем.
+                        var parseStr = line.Split(new string[] { @"\n" }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var str in parseStr)
                         {
-                            outputList.Add("Процесс завершил свою работу, раньше ввода данных");
-                            memoryList.Add("Error");
-                            timeList.Add("Error");
+                            process.StandardInput.WriteLine(str);
                         }
                     }
-                    File.Delete(pathProgram.Substring(0,pathProgram.LastIndexOf(".")) + ".class" );
                     break;
 
                 case "class":
-                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine())
+                    i = 0;
+                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine(), i++)
                     {
                         process = Process.Start(new ProcessStartInfo
                         {
@@ -110,77 +138,120 @@ namespace Tester
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
+                            RedirectStandardError = true,
                         });
-                        
-                        process.StandardInput.WriteLine(line);//ввод входных данных
 
-                        memoryList.Add(process.PeakWorkingSet64.ToString());
+                        //сохраняем соотношение номер строки с айдишником процесса. Чтобы потом знать к какой строке какой процесс принадлежит
+                        procID.Add(process.Id, i);
 
-                        outputList.Add(process.StandardOutput.ReadLine());
+                        process.BeginErrorReadLine();
+                        process.BeginOutputReadLine();
 
+                        // указываем на наши методы
+                        process.OutputDataReceived += Process_OutputDataReceived;
+                        process.ErrorDataReceived += Process_ErrorDataReceived;
+                        process.Exited += Process_Exited;
 
-                        timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
+                        //разбиваем строку ожидаемых ответов на подстроки разделённые нашим разделителем.
+                        var parseStr = line.Split(new string[] { @"\n" }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var str in parseStr)
+                        {
+                            process.StandardInput.WriteLine(str);
+                        }
                     }
                     break;
 
                 default:
-                    int i=0;
+                    i = 0;
                     var build = new BuildProject().CreateExe(pathProgram);
-                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine(),i++)
+                    for (line = inputTxt.ReadLine(); line != null; line = inputTxt.ReadLine(), i++)
                     {
+                        // стартуем процесс с нашими настройками
                         process = Process.Start(new ProcessStartInfo
                         {
                             //FileName = build.CompiledAssembly.FullName.Substring(0, build.CompiledAssembly.FullName.IndexOf(",")),
-                            FileName = "Csharp",
+                            FileName = @"cache\default",
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,
                             RedirectStandardInput = true,
                             RedirectStandardError = true,
-                        
+
+
                         });
+
+                        //сохраняем соотношение номер строки с айдишником процесса. Чтобы потом знать к какой строке какой процесс принадлежит
+                        procID.Add(process.Id, i);
+                        
                         process.BeginErrorReadLine();
                         process.BeginOutputReadLine();
-                        process.OutputDataReceived += (o, e) =>
-                        {
 
-                        };
-                        process.ErrorDataReceived += (o,e) => 
-                        { 
-                            
-                        };
-                        if (!process.HasExited)
+                        // указываем на наши методы
+                        process.OutputDataReceived += Process_OutputDataReceived;
+                        process.ErrorDataReceived += Process_ErrorDataReceived;
+                        process.Exited += Process_Exited;
+                        
+                        //разбиваем строку ожидаемых ответов на подстроки разделённые нашим разделителем.
+                        var parseStr = line.Split(new string[] { @"\n" }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (var str in parseStr)
                         {
-                            process.StandardInput.WriteLine(line);
-                            var mem = process.PeakWorkingSet64.ToString();
-                            var errStream = process.StandardError;
-                            if (errStream.BaseStream.Length == 0)
-                            {
-                                outputList.Add(process.StandardOutput.ReadLine());
-                                memoryList.Add(mem);
-                                timeList.Add((DateTime.Now - process.StartTime).Milliseconds.ToString());
-                                //process.Kill();
-                            }
-                            else
-                            {
-                                outputList.Add(process.StandardError.ReadToEnd());
-                                memoryList.Add("Error");
-                                timeList.Add("Error");
-                            }
+                            process.StandardInput.WriteLine(str);
                         }
-
-                        else
-                        {
-                            outputList.Add("Процесс завершил свою работу, раньше ввода данных");
-                            memoryList.Add("Error");
-                            timeList.Add("Error");
-                        }
+                        
                     }
-                    File.Delete(@"/" + "Csharp" + ".exe");
+                    //File.Delete(@"cache\default.exe");
                     break;
             }
-            return new List<string>[3]{outputList, memoryList, timeList};
+        }
+        private void Process_Exited(object sender, EventArgs e)
+        {
+            //залупа пока что не работает
+            var process = (Process)sender;
+            if (dgv[2, procID[process.Id]].Value == dgv[3, procID[process.Id]].Value)
+            {
+                foreach (DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
+                    item.Style.BackColor = Color.LightGreen;
+            }
         }
 
+        private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            var process = (Process)sender;
+            if (dgv.Rows[procID[process.Id]].Cells[0].Style.BackColor == Color.DarkRed)
+                return;
+            //записываем выходные данные
+            dgv[3, procID[process.Id]].Value += e.Data;
+            // проверяем верны ли ответы с ожидаемыми ответами
+            if (dgv[2, procID[process.Id]].Value.ToString() == dgv[3, procID[process.Id]].Value.ToString())
+            {
+                //окрашиваем всё как в смешариках
+                foreach (DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
+                    item.Style.BackColor = Color.LightGreen;
+            }
+            else
+            {
+                foreach (DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
+                    item.Style.BackColor = Color.Red;
+            }
+        }
+
+        private void Process_ErrorDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            //на случай если метод вызовется с пустой ошибкой.
+            if (e.Data == null)
+            {
+                return;
+            }
+            var process = (Process)sender;
+            //окрашиваем кровью существ обитающих в аду
+            foreach(DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
+                item.Style.BackColor = Color.DarkRed;
+            //записываем бэгус
+            dgv[3, procID[process.Id]].Value += "[ERROR] "+ e.Data + " [ERROR] ";
+            //в память пишем еррор
+            dgv[4, procID[process.Id]].Value = "ERROR";
+            //в время пишем еррор
+            dgv[5, procID[process.Id]].Value = "ERROR";
+        }
     }
 }
