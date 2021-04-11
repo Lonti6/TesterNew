@@ -17,36 +17,36 @@ namespace Tester
         //названия столбцов и то, в каком порядке они будут распологаться в таблице
         List<string> columnsNames = new List<string> { "№", "Input", "Output", "Result", "Memory (Byte)", "Time (MiliSecond)" };
         //путь к data
-        string pathData = Environment.CurrentDirectory + @"\data\";
+        string pathData = @"data\";
         string taskName;
         Button prevButton = new Button();
         int countLen;
         List<string>[] outputPrgoram;
         private void ProcGenTable(string path, DataGridView dgv)
         {
-            if(File.ReadAllLines(path + @"\input.txt").Length != File.ReadAllLines(path + @"\output.txt").Length)
-            {
-                MessageBox.Show("Кол-во входных и выходных данных теста не равно.");
-                return;
-            }
             countLen = File.ReadAllLines(path + @"\input.txt").Length;
-            //генерируем таблицу
+            //генерирую таблицу
             GenerateTable.GenerataTable(countLen, columnsNames, dgv);
-
-            StreamReader streamInput = new StreamReader(path + @"\input.txt");
-            StreamReader streamOutput = new StreamReader(path + @"\output.txt");
-            Inform.pathOut = path + @"\output.txt";
+            //изменяю данные таблицы считывая по очереди каждую строку из инпута
+            StreamReader sr1 = new StreamReader(path + @"\input.txt");
             Inform.pathInp = path + @"\input.txt";
-            //записываем входные и выходные данные. А также заполняем поле с нумерацией теста
             for (int i = 0; i < countLen; i++)
             {
-                dgv[0,i].Value = (i + 1).ToString();
-                dgv[1,i].Value = streamInput.ReadLine();
-                dgv[2, i].Value = streamOutput.ReadLine();
+                GenerateTable.ReValue(i, 0, dgv, (i + 1).ToString());
             }
-
-            streamInput.Close(); //вырубаю чтение инпута
-            streamOutput.Close(); //вырубаю чтение аутпута
+            for (int i = 0; i < countLen; i++)
+            {
+                GenerateTable.ReValue(i, 1, dgv, sr1.ReadLine());
+            }
+            sr1.Close(); //вырубаю чтение инпута
+                         //изменяю данные таблицы считывая по очереди каждую строку из инпута
+            StreamReader sr2 = new StreamReader(path + @"\output.txt");
+            Inform.pathOut = path + @"\output.txt";
+            for (int i = 0; i < countLen; i++)
+            {
+                GenerateTable.ReValue(i, 2, dgv, sr2.ReadLine());
+            }
+            sr2.Close(); //вырубаю чтение аутпута
         }
         public Form1()
         {
@@ -243,14 +243,15 @@ namespace Tester
 
         private void button2_Click(object sender, EventArgs e)
         {
-            flowLayoutPanel2.Controls.Clear();
-            dataGridView1.Visible = false;
+            
             OpenFileDialog opf = new OpenFileDialog();
             opf.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             opf.Filter = "All files (*.*)|*.*|C# (*.cs)|*.cs|Python (*.py)|*.py|Java (*.java)|*.java";
             opf.Multiselect = true;
             if (opf.ShowDialog() == DialogResult.OK)
             {
+                flowLayoutPanel2.Controls.Clear();
+                dataGridView1.Visible = false;
                 foreach (string file in opf.FileNames)
                 {
                     DataGridView dgv = new DataGridView();
@@ -264,11 +265,71 @@ namespace Tester
                     dgv.Tag = taskName.Substring(taskName.LastIndexOf('\\') + 1) + " Имя файла:"+file.Substring(file.LastIndexOf("\\")+1);
                     ProcGenTable(taskName, dgv);
                     //создаёшь экземпляр класса
-                    TestProject test = new TestProject(file, taskName + "\\input.txt", ref dgv);
+                    TestProject test = new TestProject();
                     //метод возвращает List<string> с данными которые вывела прога. первое - путь на cs файл, второе путь к входным данным.
-                    test.start();
-                    //label3.Text = "Правильно " + countTrue.ToString() + " из " + dgv.Rows.Count.ToString();
-                    //countTrue = 0;
+                    outputPrgoram = test.test(file, taskName + "\\input.txt");
+                    bool check;
+                    int countTrue = 0;
+                    for (int i = 0; i < dgv.Rows.Count; i++)
+                    {
+                        check = true;
+                        GenerateTable.ReValue(i, 3, dgv, outputPrgoram[0][i]);
+                        dgv[2, i].Value = dgv[2, i].Value == null ? "": dgv[2, i].Value;
+                        if (outputPrgoram[0][i].ToString() == dgv[2, i].Value.ToString()) dgv.Rows[i].Cells[3].Style.BackColor = Color.LightGreen;
+                        else
+                        {
+                            dgv.Rows[i].Cells[3].Style.BackColor = Color.Red;
+                            check = false;
+                        }
+                        double memoryOut;
+                        if (double.TryParse(outputPrgoram[1][i], out memoryOut))
+                        {
+                            if (байтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dgv, memoryOut.ToString());
+                            else if (килобайтыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 4, dgv, (memoryOut / 1024).ToString());
+                            else GenerateTable.ReValue(i, 4, dgv, (memoryOut / 1024 / 1024).ToString());
+                            if (double.Parse(dgv.Rows[i].Cells[4].Value.ToString()) <= double.Parse(textBox1.Text)) dgv.Rows[i].Cells[4].Style.BackColor = Color.LightGreen;
+                            else
+                            {
+                                dgv.Rows[i].Cells[4].Style.BackColor = Color.Red;
+                                check = false;
+                            }
+                        }
+                        else
+                        {
+                            GenerateTable.ReValue(i, 4, dgv, outputPrgoram[1][i]);
+                            dgv.Rows[i].Cells[4].Style.BackColor = Color.Red;
+                            check = false;
+                        }
+
+                        double timeOut;
+                        if (double.TryParse(outputPrgoram[2][i], out timeOut))
+                        {
+                            if (миллисекундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dgv, timeOut.ToString());
+                            else if (секундыToolStripMenuItem.Checked == true) GenerateTable.ReValue(i, 5, dgv, (timeOut / 1000).ToString());
+                            else GenerateTable.ReValue(i, 5, dgv, (timeOut / 1000 / 60).ToString());
+                            if (double.Parse(dgv.Rows[i].Cells[5].Value.ToString()) <= double.Parse(textBox2.Text)) dgv.Rows[i].Cells[5].Style.BackColor = Color.LightGreen;
+                            else
+                            {
+                                dgv.Rows[i].Cells[5].Style.BackColor = Color.Red;
+                                check = false;
+                            }
+                        }
+                        else
+                        {
+                            GenerateTable.ReValue(i, 5, dgv, outputPrgoram[2][i]);
+                            dgv.Rows[i].Cells[5].Style.BackColor = Color.Red;
+                            check = false;
+                        }
+
+                        if (!check) dgv.Rows[i].Cells[0].Style.BackColor = Color.Red;
+                        else
+                        {
+                            dgv.Rows[i].Cells[0].Style.BackColor = Color.LightGreen;
+                            countTrue++;
+                        }
+                    }
+                    label3.Text = "Правильно " + countTrue.ToString() + " из " + dgv.Rows.Count.ToString();
+                    countTrue = 0;
                 }
             }
         }
