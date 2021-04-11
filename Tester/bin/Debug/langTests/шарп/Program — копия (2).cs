@@ -6,10 +6,7 @@ namespace ConsoleApp3
     {
         static void Main(string[] args)
         {
-            while (true)
-            {
-                Console.WriteLine(int.Parse(Console.ReadLine()) * 5);
-            }
+            Console.WriteLine(int.Parse(Console.ReadLine()) * 5);
         }
     }
 }
