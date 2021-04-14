@@ -414,5 +414,11 @@ namespace Tester
                 else MessageBox.Show("Вначале выберите тест!");
             }
         }
+
+        private void контрольЦветовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorsSettings programm = new ColorsSettings();
+            programm.ShowDialog();
+        }
     }
 }

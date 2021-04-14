@@ -57,6 +57,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.контрольЦветовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -129,7 +130,8 @@
             // 
             this.отображениеToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.оЗУToolStripMenuItem,
-            this.времяToolStripMenuItem});
+            this.времяToolStripMenuItem,
+            this.контрольЦветовToolStripMenuItem});
             this.отображениеToolStripMenuItem.Name = "отображениеToolStripMenuItem";
             this.отображениеToolStripMenuItem.Size = new System.Drawing.Size(123, 24);
             this.отображениеToolStripMenuItem.Text = "Отображение";
@@ -141,7 +143,7 @@
             this.килобайтыToolStripMenuItem,
             this.мегабайтыToolStripMenuItem});
             this.оЗУToolStripMenuItem.Name = "оЗУToolStripMenuItem";
-            this.оЗУToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
+            this.оЗУToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.оЗУToolStripMenuItem.Text = "ОЗУ";
             // 
             // байтыToolStripMenuItem
@@ -172,7 +174,7 @@
             this.секундыToolStripMenuItem,
             this.минутыToolStripMenuItem});
             this.времяToolStripMenuItem.Name = "времяToolStripMenuItem";
-            this.времяToolStripMenuItem.Size = new System.Drawing.Size(140, 26);
+            this.времяToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.времяToolStripMenuItem.Text = "Время";
             // 
             // миллисекундыToolStripMenuItem
@@ -318,6 +320,13 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(735, 473);
             this.flowLayoutPanel2.TabIndex = 13;
             // 
+            // контрольЦветовToolStripMenuItem
+            // 
+            this.контрольЦветовToolStripMenuItem.Name = "контрольЦветовToolStripMenuItem";
+            this.контрольЦветовToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.контрольЦветовToolStripMenuItem.Text = "Контроль цветов";
+            this.контрольЦветовToolStripMenuItem.Click += new System.EventHandler(this.контрольЦветовToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
@@ -384,6 +393,7 @@
         private System.Windows.Forms.ToolStripMenuItem секундыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem минутыToolStripMenuItem;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
+        private System.Windows.Forms.ToolStripMenuItem контрольЦветовToolStripMenuItem;
     }
 }
 
