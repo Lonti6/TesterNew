@@ -58,5 +58,41 @@ namespace Tester.Properties {
                 this["FalseBGColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("95, 30, 112")]
+        public global::System.Drawing.Color ButThemeColor {
+            get {
+                return ((global::System.Drawing.Color)(this["ButThemeColor"]));
+            }
+            set {
+                this["ButThemeColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("183, 109, 201")]
+        public global::System.Drawing.Color ButTaskColor {
+            get {
+                return ((global::System.Drawing.Color)(this["ButTaskColor"]));
+            }
+            set {
+                this["ButTaskColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("126, 78, 138")]
+        public global::System.Drawing.Color PickButColor {
+            get {
+                return ((global::System.Drawing.Color)(this["PickButColor"]));
+            }
+            set {
+                this["PickButColor"] = value;
+            }
+        }
     }
 }

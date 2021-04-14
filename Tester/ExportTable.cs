@@ -13,8 +13,9 @@ namespace Tester
             ExcelWorkBook = ExcelApp.Workbooks.Add(System.Reflection.Missing.Value);
             ExcelWorkSheet = (Microsoft.Office.Interop.Excel.Worksheet)ExcelWorkBook.Worksheets.get_Item(1);
             int q = 0;
-            foreach (DataGridView dgv in dgvs)
+            for (int w = 1; w < dgvs.Count; w+=2)
             {
+                DataGridView dgv = (DataGridView)dgvs[w];
                 for (int i = 0; i < dgv.Columns.Count; i++)
                 {
                     ExcelApp.Cells[1, i + 1] = dgv.Columns[i].HeaderText;
@@ -44,14 +45,16 @@ namespace Tester
             Object behiavor = Microsoft.Office.Interop.Word.WdDefaultTableBehavior.wdWord9TableBehavior;
             Object autoFitBehiavor = Microsoft.Office.Interop.Word.WdAutoFitBehavior.wdAutoFitFixed;
             int rows = 0;
-            foreach (DataGridView dgv in dgvs)
+            for (int w = 1; w < dgvs.Count; w += 2)
             {
+                DataGridView dgv = (DataGridView)dgvs[w];
                 rows += dgv.Rows.Count;
             }
-            document.Tables.Add(range, rows + dgvs.Count + 1, 6, ref behiavor, ref autoFitBehiavor);
+            document.Tables.Add(range, rows + dgvs.Count/2 + 1, 6, ref behiavor, ref autoFitBehiavor);
             int q = 1;
-            foreach (DataGridView dgv in dgvs)
+            for (int w = 1; w < dgvs.Count; w += 2)
             {
+                DataGridView dgv = (DataGridView)dgvs[w];
                 for (int i = 0; i < dgv.Columns.Count; i++)
                 {
                     document.Tables[1].Cell(1, i + 1).Range.Text = dgv.Columns[i].HeaderText;

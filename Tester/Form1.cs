@@ -1,14 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Windows.Forms;
 
 namespace Tester
 {
@@ -24,7 +19,7 @@ namespace Tester
         List<string>[] outputPrgoram;
         private void ProcGenTable(string path, DataGridView dgv)
         {
-            if(File.ReadAllLines(path + @"\input.txt").Length != File.ReadAllLines(path + @"\output.txt").Length)
+            if (File.ReadAllLines(path + @"\input.txt").Length != File.ReadAllLines(path + @"\output.txt").Length)
             {
                 MessageBox.Show("Кол-во входных и выходных данных теста не равно.");
                 return;
@@ -40,8 +35,8 @@ namespace Tester
             //записываем входные и выходные данные. А также заполняем поле с нумерацией теста
             for (int i = 0; i < countLen; i++)
             {
-                dgv[0,i].Value = (i + 1).ToString();
-                dgv[1,i].Value = streamInput.ReadLine();
+                dgv[0, i].Value = (i + 1).ToString();
+                dgv[1, i].Value = streamInput.ReadLine();
                 dgv[2, i].Value = streamOutput.ReadLine();
             }
 
@@ -144,7 +139,7 @@ namespace Tester
                 but.Text = dirs[i].Substring(dirs[i].LastIndexOf("\\") + 1);
                 but.Click += ClickOnButTheme;
                 but.Tag = false;
-                but.BackColor = Color.FromArgb(95, 30, 112);
+                but.BackColor = Properties.Settings.Default.ButThemeColor;
                 but.ForeColor = Color.White;
                 using (Graphics cg = this.CreateGraphics())
                 {
@@ -161,7 +156,7 @@ namespace Tester
         private void ClickOnButTheme(object sender, EventArgs e)
         {
             var but = (Button)sender;
-            var dirs = Directory.GetDirectories(pathData+"\\"+but.Text, "*.*", SearchOption.TopDirectoryOnly);
+            var dirs = Directory.GetDirectories(pathData + "\\" + but.Text, "*.*", SearchOption.TopDirectoryOnly);
             int countElems = dirs.Length;
             if (but.Tag.ToString() == false.ToString())
             {
@@ -183,13 +178,13 @@ namespace Tester
                         butDown.Width = (int)size.Width;
                     }
                     butDown.Width = flowLayoutPanel1.Width - 50;
-                    butDown.BackColor = Color.FromArgb(183, 109, 201);
+                    butDown.BackColor = Properties.Settings.Default.ButTaskColor;
                     flowLayoutPanel1.Controls.Add(butDown);
                     flowLayoutPanel1.Controls.SetChildIndex(butDown, flowLayoutPanel1.Controls.GetChildIndex(but) + 1);
                 }
                 but.Tag = true;
             }
-            else 
+            else
             {
                 for (int i = 0; i < countElems; i++)
                 {
@@ -211,12 +206,12 @@ namespace Tester
             label2.Visible = true;
             label3.Visible = true;
             var but = (Button)sender;
-            if (but.Tag.ToString() == false.ToString()) 
+            if (but.Tag.ToString() == false.ToString())
             {
                 but.Tag = true;
                 prevButton.Tag = false;
-                but.BackColor = Color.FromArgb(126, 78, 138);
-                prevButton.BackColor = Color.FromArgb(183, 109, 201);
+                but.BackColor = Properties.Settings.Default.PickButColor;
+                prevButton.BackColor = Properties.Settings.Default.ButTaskColor;
                 prevButton = but;
             }
             taskName = pathData + but.Name;
@@ -244,24 +239,29 @@ namespace Tester
         private void button2_Click(object sender, EventArgs e)
         {
             flowLayoutPanel2.Controls.Clear();
-            dataGridView1.Visible = false;
             OpenFileDialog opf = new OpenFileDialog();
             opf.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             opf.Filter = "All files (*.*)|*.*|C# (*.cs)|*.cs|Python (*.py)|*.py|Java (*.java)|*.java";
             opf.Multiselect = true;
             if (opf.ShowDialog() == DialogResult.OK)
             {
+                dataGridView1.Visible = false;
                 foreach (string file in opf.FileNames)
                 {
                     DataGridView dgv = new DataGridView();
-                    flowLayoutPanel2.Controls.Add(dgv);
                     flowLayoutPanel2.ControlAdded += FlowLayoutPanel2_ControlAdded;
+                    flowLayoutPanel2.Controls.Add(dgv);
+                    Label lab = new Label();
+                    lab.Text = file.Substring(file.LastIndexOf("\\") + 1);
+                    lab.BorderStyle = BorderStyle.FixedSingle;
+                    lab.BackColor = Color.White;
+                    flowLayoutPanel2.Controls.Add(lab);
                     GenerateTable.GenerataTable(countLen, columnsNames, dgv);
                     dgv.RowHeadersVisible = false;
                     dgv.AllowUserToAddRows = false;
                     dgv.Width = flowLayoutPanel2.Width - 20;
                     dgv.Height = dataGridView1.Rows.GetRowsHeight(DataGridViewElementStates.Visible) + dataGridView1.ColumnHeadersHeight;
-                    dgv.Tag = taskName.Substring(taskName.LastIndexOf('\\') + 1) + " Имя файла:"+file.Substring(file.LastIndexOf("\\")+1);
+                    dgv.Tag = taskName.Substring(taskName.LastIndexOf('\\') + 1) + " Имя файла:" + file.Substring(file.LastIndexOf("\\") + 1);
                     ProcGenTable(taskName, dgv);
                     //создаёшь экземпляр класса
                     TestProject test = new TestProject(file, taskName + "\\input.txt", ref dgv);
@@ -285,8 +285,9 @@ namespace Tester
 
         private void байтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
+            for (int w = 1; w < flowLayoutPanel2.Controls.Count; w += 2)
             {
+                DataGridView dgv = (DataGridView)flowLayoutPanel2.Controls[w];
                 if (dgv.Columns.Count > 0)
                 {
                     байтыToolStripMenuItem.Checked = true;
@@ -307,8 +308,9 @@ namespace Tester
 
         private void килобайтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
+            for (int w = 1; w < flowLayoutPanel2.Controls.Count; w+=2)
             {
+                DataGridView dgv = (DataGridView)flowLayoutPanel2.Controls[w];
                 if (dgv.Columns.Count > 0)
                 {
                     байтыToolStripMenuItem.Checked = false;
@@ -329,8 +331,9 @@ namespace Tester
 
         private void мегабайтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
+            for (int w = 1; w < flowLayoutPanel2.Controls.Count; w += 2)
             {
+                DataGridView dgv = (DataGridView)flowLayoutPanel2.Controls[w];
                 if (dgv.Columns.Count > 0)
                 {
                     байтыToolStripMenuItem.Checked = false;
@@ -351,8 +354,9 @@ namespace Tester
 
         private void миллисекундыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
+            for (int w = 1; w < flowLayoutPanel2.Controls.Count; w += 2)
             {
+                DataGridView dgv = (DataGridView)flowLayoutPanel2.Controls[w];
                 if (dgv.Columns.Count > 0)
                 {
                     миллисекундыToolStripMenuItem.Checked = true;
@@ -373,8 +377,9 @@ namespace Tester
 
         private void секундыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
+            for (int w = 1; w < flowLayoutPanel2.Controls.Count; w += 2)
             {
+                DataGridView dgv = (DataGridView)flowLayoutPanel2.Controls[w];
                 if (dgv.Columns.Count > 0)
                 {
                     миллисекундыToolStripMenuItem.Checked = false;
@@ -395,8 +400,9 @@ namespace Tester
 
         private void минутыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (DataGridView dgv in flowLayoutPanel2.Controls)
+            for (int w = 1; w < flowLayoutPanel2.Controls.Count; w += 2)
             {
+                DataGridView dgv = (DataGridView)flowLayoutPanel2.Controls[w];
                 if (dgv.Columns.Count > 0)
                 {
                     миллисекундыToolStripMenuItem.Checked = false;
