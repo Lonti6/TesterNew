@@ -6,7 +6,7 @@ namespace ConsoleApp3
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(int.Parse(Console.ReadLine()) * 5);
+            Console.WriteLine(int.Parse(Console.ReadLine()) * 3);
         }
     }
 }
