@@ -1,7 +1,24 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Tester.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="ErrorBGColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">DarkRed</Value>
+    </Setting>
+    <Setting Name="TrueBGColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">LightGreen</Value>
+    </Setting>
+    <Setting Name="FalseBGColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Red</Value>
+    </Setting>
+    <Setting Name="ButThemeColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">95, 30, 112</Value>
+    </Setting>
+    <Setting Name="ButTaskColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">183, 109, 201</Value>
+    </Setting>
+    <Setting Name="PickButColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">126, 78, 138</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

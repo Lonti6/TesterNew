@@ -210,14 +210,14 @@ namespace Tester
             if (dgv[2, procID[process.Id]].Value == dgv[3, procID[process.Id]].Value)
             {
                 foreach (DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
-                    item.Style.BackColor = Color.LightGreen;
+                    item.Style.BackColor = Properties.Settings.Default.TrueBGColor;
             }
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
             var process = (Process)sender;
-            if (dgv.Rows[procID[process.Id]].Cells[0].Style.BackColor == Color.DarkRed)
+            if (dgv.Rows[procID[process.Id]].Cells[0].Style.BackColor == Properties.Settings.Default.ErrorBGColor)
                 return;
             //записываем выходные данные
             dgv[3, procID[process.Id]].Value += e.Data;
@@ -226,12 +226,12 @@ namespace Tester
             {
                 //окрашиваем всё как в смешариках
                 foreach (DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
-                    item.Style.BackColor = Color.LightGreen;
+                    item.Style.BackColor = Properties.Settings.Default.TrueBGColor;
             }
             else
             {
                 foreach (DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
-                    item.Style.BackColor = Color.Red;
+                    item.Style.BackColor = Properties.Settings.Default.FalseBGColor;
             }
         }
 
@@ -245,7 +245,7 @@ namespace Tester
             var process = (Process)sender;
             //окрашиваем кровью существ обитающих в аду
             foreach(DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
-                item.Style.BackColor = Color.DarkRed;
+                item.Style.BackColor = Properties.Settings.Default.ErrorBGColor;
             //записываем бэгус
             dgv[3, procID[process.Id]].Value += "[ERROR] "+ e.Data + " [ERROR] ";
             //в память пишем еррор
