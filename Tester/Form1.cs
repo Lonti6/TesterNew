@@ -253,8 +253,9 @@ namespace Tester
                     flowLayoutPanel2.Controls.Add(dgv);
                     Label lab = new Label();
                     lab.Text = file.Substring(file.LastIndexOf("\\") + 1);
-                    lab.BorderStyle = BorderStyle.FixedSingle;
-                    lab.BackColor = Color.White;
+                    lab.Font = new Font(lab.Font.FontFamily, 10, FontStyle.Bold);
+                    /*lab.BorderStyle = BorderStyle.FixedSingle;
+                    lab.BackColor = Color.White;*/
                     flowLayoutPanel2.Controls.Add(lab);
                     GenerateTable.GenerataTable(countLen, columnsNames, dgv);
                     dgv.RowHeadersVisible = false;
