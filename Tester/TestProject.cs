@@ -133,7 +133,7 @@ namespace Tester
                         process = Process.Start(new ProcessStartInfo
                         {
                             FileName = "cmd",
-                            Arguments = "/c cd " + path + " & java -classpath . " + file.Substring(0, file.IndexOf(".")),
+                            Arguments = "/c cd " + path + " & java -classpath . " + file +"." + language,
                             CreateNoWindow = true,
                             UseShellExecute = false,
                             RedirectStandardOutput = true,

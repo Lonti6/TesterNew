@@ -244,13 +244,14 @@ namespace Tester
         private void button2_Click(object sender, EventArgs e)
         {
             flowLayoutPanel2.Controls.Clear();
-            dataGridView1.Visible = false;
+
             OpenFileDialog opf = new OpenFileDialog();
             opf.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             opf.Filter = "All files (*.*)|*.*|C# (*.cs)|*.cs|Python (*.py)|*.py|Java (*.java)|*.java";
             opf.Multiselect = true;
             if (opf.ShowDialog() == DialogResult.OK)
             {
+                dataGridView1.Visible = false;
                 foreach (string file in opf.FileNames)
                 {
                     DataGridView dgv = new DataGridView();
