@@ -94,5 +94,17 @@ namespace Tester.Properties {
                 this["PickButColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192, 0, 192")]
+        public global::System.Drawing.Color DownButsColor {
+            get {
+                return ((global::System.Drawing.Color)(this["DownButsColor"]));
+            }
+            set {
+                this["DownButsColor"] = value;
+            }
+        }
     }
 }

@@ -20,5 +20,8 @@
     <Setting Name="PickButColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">126, 78, 138</Value>
     </Setting>
+    <Setting Name="DownButsColor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">192, 0, 192</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

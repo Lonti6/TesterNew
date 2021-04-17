@@ -48,6 +48,8 @@ namespace Tester
             InitializeComponent();
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.AllowUserToAddRows = false;
+            flowLayoutPanel1.Height = this.Height - 110;
+            dataGridView1.Width = this.Width - 290;
         }
         private void добавитьТестToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -230,6 +232,8 @@ namespace Tester
             RefreshTree();
             байтыToolStripMenuItem.Checked = true;
             миллисекундыToolStripMenuItem.Checked = true;
+            button1.BackColor = Properties.Settings.Default.DownButsColor;
+            button2.BackColor = Properties.Settings.Default.DownButsColor;
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -245,6 +249,7 @@ namespace Tester
             opf.Multiselect = true;
             if (opf.ShowDialog() == DialogResult.OK)
             {
+                int i = 0;
                 dataGridView1.Visible = false;
                 foreach (string file in opf.FileNames)
                 {
@@ -254,9 +259,9 @@ namespace Tester
                     Label lab = new Label();
                     lab.Text = file.Substring(file.LastIndexOf("\\") + 1);
                     lab.Font = new Font(lab.Font.FontFamily, 10, FontStyle.Bold);
-                    /*lab.BorderStyle = BorderStyle.FixedSingle;
-                    lab.BackColor = Color.White;*/
                     flowLayoutPanel2.Controls.Add(lab);
+                    flowLayoutPanel2.Controls[i].Margin = new Padding(0, 30, 0, 0);
+                    i += 2;
                     GenerateTable.GenerataTable(countLen, columnsNames, dgv);
                     dgv.RowHeadersVisible = false;
                     dgv.AllowUserToAddRows = false;
@@ -426,6 +431,25 @@ namespace Tester
         {
             ColorsSettings programm = new ColorsSettings();
             programm.ShowDialog();
+            button1.BackColor = Properties.Settings.Default.DownButsColor;
+            button2.BackColor = Properties.Settings.Default.DownButsColor;
+        }
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            Form form = (Form)sender;
+            flowLayoutPanel1.Height = form.Height - 110;
+            dataGridView1.Width = form.Width - 290;
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            pictureBox1.BorderStyle = BorderStyle.FixedSingle;
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            pictureBox1.BorderStyle = BorderStyle.None;
         }
     }
 }

@@ -45,6 +45,7 @@
             this.миллисекундыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.секундыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.минутыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.контрольЦветовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
@@ -57,7 +58,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.контрольЦветовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -143,7 +143,7 @@
             this.килобайтыToolStripMenuItem,
             this.мегабайтыToolStripMenuItem});
             this.оЗУToolStripMenuItem.Name = "оЗУToolStripMenuItem";
-            this.оЗУToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.оЗУToolStripMenuItem.Size = new System.Drawing.Size(218, 26);
             this.оЗУToolStripMenuItem.Text = "ОЗУ";
             // 
             // байтыToolStripMenuItem
@@ -174,7 +174,7 @@
             this.секундыToolStripMenuItem,
             this.минутыToolStripMenuItem});
             this.времяToolStripMenuItem.Name = "времяToolStripMenuItem";
-            this.времяToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.времяToolStripMenuItem.Size = new System.Drawing.Size(218, 26);
             this.времяToolStripMenuItem.Text = "Время";
             // 
             // миллисекундыToolStripMenuItem
@@ -198,6 +198,13 @@
             this.минутыToolStripMenuItem.Text = "Минуты";
             this.минутыToolStripMenuItem.Click += new System.EventHandler(this.минутыToolStripMenuItem_Click);
             // 
+            // контрольЦветовToolStripMenuItem
+            // 
+            this.контрольЦветовToolStripMenuItem.Name = "контрольЦветовToolStripMenuItem";
+            this.контрольЦветовToolStripMenuItem.Size = new System.Drawing.Size(218, 26);
+            this.контрольЦветовToolStripMenuItem.Text = "Контроль цветов";
+            this.контрольЦветовToolStripMenuItem.Click += new System.EventHandler(this.контрольЦветовToolStripMenuItem_Click);
+            // 
             // оПрограммеToolStripMenuItem
             // 
             this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
@@ -220,10 +227,11 @@
             // 
             // button1
             // 
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.button1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(43, 517);
+            this.button1.Location = new System.Drawing.Point(43, 519);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(188, 31);
             this.button1.TabIndex = 5;
@@ -242,10 +250,11 @@
             // 
             // button2
             // 
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.button2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(882, 517);
+            this.button2.Location = new System.Drawing.Point(882, 519);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(188, 31);
             this.button2.TabIndex = 7;
@@ -255,7 +264,8 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(774, 521);
+            this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.textBox1.Location = new System.Drawing.Point(774, 523);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(102, 25);
             this.textBox1.TabIndex = 8;
@@ -264,7 +274,8 @@
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(552, 521);
+            this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.textBox2.Location = new System.Drawing.Point(552, 523);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(102, 25);
             this.textBox2.TabIndex = 9;
@@ -273,8 +284,9 @@
             // 
             // label1
             // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(672, 523);
+            this.label1.Location = new System.Drawing.Point(672, 525);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(99, 19);
             this.label1.TabIndex = 10;
@@ -282,8 +294,9 @@
             // 
             // label2
             // 
+            this.label2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(440, 524);
+            this.label2.Location = new System.Drawing.Point(440, 526);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(109, 19);
             this.label2.TabIndex = 11;
@@ -291,8 +304,9 @@
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(268, 523);
+            this.label3.Location = new System.Drawing.Point(268, 525);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(123, 19);
             this.label3.TabIndex = 12;
@@ -301,8 +315,9 @@
             // 
             // pictureBox1
             // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pictureBox1.Image = global::Tester.Properties.Resources.refresh;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 517);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 519);
             this.pictureBox1.MaximumSize = new System.Drawing.Size(100, 25);
             this.pictureBox1.MinimumSize = new System.Drawing.Size(25, 25);
             this.pictureBox1.Name = "pictureBox1";
@@ -311,6 +326,8 @@
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
+            this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
+            this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
             // 
             // flowLayoutPanel2
             // 
@@ -320,20 +337,13 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(735, 473);
             this.flowLayoutPanel2.TabIndex = 13;
             // 
-            // контрольЦветовToolStripMenuItem
-            // 
-            this.контрольЦветовToolStripMenuItem.Name = "контрольЦветовToolStripMenuItem";
-            this.контрольЦветовToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.контрольЦветовToolStripMenuItem.Text = "Контроль цветов";
-            this.контрольЦветовToolStripMenuItem.Click += new System.EventHandler(this.контрольЦветовToolStripMenuItem_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(1082, 551);
+            this.ClientSize = new System.Drawing.Size(1082, 553);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.label3);
@@ -348,12 +358,13 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.MaximumSize = new System.Drawing.Size(1100, 598);
-            this.MinimumSize = new System.Drawing.Size(1100, 598);
+            this.MaximumSize = new System.Drawing.Size(1100, 600);
+            this.MinimumSize = new System.Drawing.Size(1100, 600);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Tester";
+            this.Text = "5";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

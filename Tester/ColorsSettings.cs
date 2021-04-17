@@ -26,6 +26,7 @@ namespace Tester
             pictureBox4.BackColor = Properties.Settings.Default.ButThemeColor;
             pictureBox5.BackColor = Properties.Settings.Default.ButTaskColor;
             pictureBox6.BackColor = Properties.Settings.Default.PickButColor;
+            pictureBox7.BackColor = Properties.Settings.Default.DownButsColor;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -90,6 +91,13 @@ namespace Tester
             Close();
         }
 
-        
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+            if (colorDialog1.ShowDialog() == DialogResult.Cancel)
+                return;
+            Properties.Settings.Default.DownButsColor = colorDialog1.Color;
+            pictureBox7.BackColor = Properties.Settings.Default.DownButsColor;
+            Properties.Settings.Default.Save();
+        }
     }
 }
