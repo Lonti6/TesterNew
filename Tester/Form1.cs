@@ -272,7 +272,7 @@ namespace Tester
                     //создаёшь экземпляр класса
                     TestProject test = new TestProject(file, taskName + "\\input.txt", ref dgv);
                     //метод возвращает List<string> с данными которые вывела прога. первое - путь на cs файл, второе путь к входным данным.
-                    test.start();
+                    test.startAsync();
                     //label3.Text = "Правильно " + countTrue.ToString() + " из " + dgv.Rows.Count.ToString();
                     //countTrue = 0;
                 }

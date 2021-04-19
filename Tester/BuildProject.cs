@@ -7,15 +7,20 @@ namespace Tester
 {
     class BuildProject
     {
+        private string cache = Environment.CurrentDirectory + @"\cache\";
+        string fileName = null, language = null; // имя файла c расширением
+
         public CompilerResults CreateExe(string pathProgram)
         {
             Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\cache");
-            string language = pathProgram.Substring(pathProgram.LastIndexOf(".")+1);
+            fileName = pathProgram.Substring(pathProgram.LastIndexOf(@"\")+1);
+            language = fileName.Substring(fileName.LastIndexOf(".") + 1);
+            fileName = fileName.Substring(0, fileName.LastIndexOf("."));
             CodeDomProvider provider = CodeDomProvider.CreateProvider(language);
             CompilerParameters parameters = new CompilerParameters() { GenerateExecutable = false,
                 GenerateInMemory = true,
                 //OutputAssembly = pathProgram.Substring(pathProgram.LastIndexOf(@"\")+1),
-                OutputAssembly = @"cache\default.exe",
+                OutputAssembly = cache + fileName + ".exe",
                 CompilerOptions = "/target:winexe" };
             CompilerResults compilerResult = provider.CompileAssemblyFromFile(parameters, pathProgram);
             //вывод ошибок
