@@ -106,5 +106,29 @@ namespace Tester.Properties {
                 this["DownButsColor"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MaxTime {
+            get {
+                return ((int)(this["MaxTime"]));
+            }
+            set {
+                this["MaxTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int MaxMem {
+            get {
+                return ((int)(this["MaxMem"]));
+            }
+            set {
+                this["MaxMem"] = value;
+            }
+        }
     }
 }

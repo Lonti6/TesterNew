@@ -218,6 +218,8 @@ namespace Tester
             }
             taskName = pathData + but.Name;
             ProcGenTable(taskName, dataGridView1);
+            textBox1.Text = Properties.Settings.Default.MaxMem.ToString();
+            textBox2.Text = Properties.Settings.Default.MaxTime.ToString();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -299,14 +301,17 @@ namespace Tester
                     байтыToolStripMenuItem.Checked = true;
                     килобайтыToolStripMenuItem.Checked = false;
                     мегабайтыToolStripMenuItem.Checked = false;
-                    dgv.Columns[4].HeaderText = "Memoty (Byte)";
+
                     if (dgv.Rows[0].Cells[4].Value != null)
                     {
                         for (int i = 0; i < dgv.Rows.Count; i++)
                         {
-                            GenerateTable.ReValue(i, 4, dgv, outputPrgoram[1][i]);
+                            if (dgv.Columns[4].HeaderText == "Memory (Byte)") GenerateTable.ReValue(i, 4, dgv, (double.Parse(dgv.Rows[i].Cells[4].Value.ToString())).ToString());
+                            else if (dgv.Columns[4].HeaderText == "Memory (MB)") GenerateTable.ReValue(i, 4, dgv, (double.Parse(dgv.Rows[i].Cells[4].Value.ToString()) * 1024 * 1024).ToString());
+                            else GenerateTable.ReValue(i, 4, dgv, (double.Parse(dgv.Rows[i].Cells[4].Value.ToString()) * 1024).ToString());
                         }
                     }
+                    dgv.Columns[4].HeaderText = "Memory (Byte)";
                 }
                 else MessageBox.Show("Вначале выберите тест!");
             }
@@ -314,7 +319,7 @@ namespace Tester
 
         private void килобайтыToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            for (int w = 1; w < flowLayoutPanel2.Controls.Count; w+=2)
+            for (int w = 1; w < flowLayoutPanel2.Controls.Count; w += 2)
             {
                 DataGridView dgv = (DataGridView)flowLayoutPanel2.Controls[w];
                 if (dgv.Columns.Count > 0)
@@ -322,14 +327,17 @@ namespace Tester
                     байтыToolStripMenuItem.Checked = false;
                     килобайтыToolStripMenuItem.Checked = true;
                     мегабайтыToolStripMenuItem.Checked = false;
-                    dgv.Columns[4].HeaderText = "Memoty (KB)";
+
                     if (dgv.Rows[0].Cells[4].Value != null)
                     {
                         for (int i = 0; i < dgv.Rows.Count; i++)
                         {
-                            GenerateTable.ReValue(i, 4, dgv, (double.Parse(outputPrgoram[1][i]) / 1024).ToString());
+                            if (dgv.Columns[4].HeaderText == "Memory (Byte)") GenerateTable.ReValue(i, 4, dgv, (double.Parse(dgv.Rows[i].Cells[4].Value.ToString()) / 1024).ToString());
+                            else if (dgv.Columns[4].HeaderText == "Memory (MB)") GenerateTable.ReValue(i, 4, dgv, (double.Parse(dgv.Rows[i].Cells[4].Value.ToString()) * 1024).ToString());
+                            else GenerateTable.ReValue(i, 4, dgv, (double.Parse(dgv.Rows[i].Cells[4].Value.ToString())).ToString());
                         }
                     }
+                    dgv.Columns[4].HeaderText = "Memory (KB)";
                 }
                 else MessageBox.Show("Вначале выберите тест!");
             }
@@ -345,14 +353,16 @@ namespace Tester
                     байтыToolStripMenuItem.Checked = false;
                     килобайтыToolStripMenuItem.Checked = false;
                     мегабайтыToolStripMenuItem.Checked = true;
-                    dgv.Columns[4].HeaderText = "Memoty (MB)";
                     if (dgv.Rows[0].Cells[4].Value != null)
                     {
                         for (int i = 0; i < dgv.Rows.Count; i++)
                         {
-                            GenerateTable.ReValue(i, 4, dgv, (double.Parse(outputPrgoram[1][i]) / 1024 / 1024).ToString());
+                            if (dgv.Columns[4].HeaderText == "Memory (Byte)") GenerateTable.ReValue(i, 4, dgv, (double.Parse(dgv.Rows[i].Cells[4].Value.ToString()) / 1024 / 1024).ToString());
+                            else if (dgv.Columns[4].HeaderText == "Memory (MB)") GenerateTable.ReValue(i, 4, dgv, (double.Parse(dgv.Rows[i].Cells[4].Value.ToString())).ToString());
+                            else GenerateTable.ReValue(i, 4, dgv, (double.Parse(dgv.Rows[i].Cells[4].Value.ToString()) / 1024).ToString());
                         }
                     }
+                    dgv.Columns[4].HeaderText = "Memory (MB)";
                 }
                 else MessageBox.Show("Вначале выберите тест!");
             }
@@ -368,14 +378,16 @@ namespace Tester
                     миллисекундыToolStripMenuItem.Checked = true;
                     секундыToolStripMenuItem.Checked = false;
                     минутыToolStripMenuItem.Checked = false;
-                    dgv.Columns[5].HeaderText = "Time(MiliSeconds)";
                     if (dgv.Rows[0].Cells[5].Value != null)
                     {
                         for (int i = 0; i < dgv.Rows.Count; i++)
                         {
-                            GenerateTable.ReValue(i, 5, dgv, outputPrgoram[2][i]);
+                            if (dgv.Columns[5].HeaderText == "Time (MiliSecond)") GenerateTable.ReValue(i, 5, dgv, (double.Parse(dgv.Rows[i].Cells[5].Value.ToString())).ToString());
+                            else if (dgv.Columns[5].HeaderText == "Time (Seconds)") GenerateTable.ReValue(i, 5, dgv, (double.Parse(dgv.Rows[i].Cells[5].Value.ToString()) * 1000).ToString());
+                            else GenerateTable.ReValue(i, 5, dgv, (double.Parse(dgv.Rows[i].Cells[5].Value.ToString()) * 1000 * 60).ToString());
                         }
                     }
+                    dgv.Columns[5].HeaderText = "Time (MiliSecond)";
                 }
                 else MessageBox.Show("Вначале выберите тест!");
             }
@@ -391,14 +403,16 @@ namespace Tester
                     миллисекундыToolStripMenuItem.Checked = false;
                     секундыToolStripMenuItem.Checked = true;
                     минутыToolStripMenuItem.Checked = false;
-                    dgv.Columns[5].HeaderText = "Time(Seconds)";
                     if (dgv.Rows[0].Cells[5].Value != null)
                     {
                         for (int i = 0; i < dgv.Rows.Count; i++)
                         {
-                            GenerateTable.ReValue(i, 5, dgv, (double.Parse(outputPrgoram[2][i]) / 1000).ToString());
+                            if (dgv.Columns[5].HeaderText == "Time (MiliSecond)") GenerateTable.ReValue(i, 5, dgv, (double.Parse(dgv.Rows[i].Cells[5].Value.ToString()) / 1000).ToString());
+                            else if (dgv.Columns[5].HeaderText == "Time (Seconds)") GenerateTable.ReValue(i, 5, dgv, (double.Parse(dgv.Rows[i].Cells[5].Value.ToString())).ToString());
+                            else GenerateTable.ReValue(i, 5, dgv, (double.Parse(dgv.Rows[i].Cells[5].Value.ToString()) * 60).ToString());
                         }
                     }
+                    dgv.Columns[5].HeaderText = "Time (Seconds)";
                 }
                 else MessageBox.Show("Вначале выберите тест!");
             }
@@ -414,14 +428,16 @@ namespace Tester
                     миллисекундыToolStripMenuItem.Checked = false;
                     секундыToolStripMenuItem.Checked = false;
                     минутыToolStripMenuItem.Checked = true;
-                    dgv.Columns[5].HeaderText = "Time(Minutes)";
                     if (dgv.Rows[0].Cells[5].Value != null)
                     {
                         for (int i = 0; i < dgv.Rows.Count; i++)
                         {
-                            GenerateTable.ReValue(i, 5, dgv, (double.Parse(outputPrgoram[2][i]) / 1000 / 60).ToString());
+                            if (dgv.Columns[5].HeaderText == "Time (MiliSecond)") GenerateTable.ReValue(i, 5, dgv, (double.Parse(dgv.Rows[i].Cells[5].Value.ToString()) / 1000 / 60).ToString());
+                            else if (dgv.Columns[5].HeaderText == "Time (Seconds)") GenerateTable.ReValue(i, 5, dgv, (double.Parse(dgv.Rows[i].Cells[5].Value.ToString()) / 60).ToString());
+                            else GenerateTable.ReValue(i, 5, dgv, (double.Parse(dgv.Rows[i].Cells[5].Value.ToString())).ToString());
                         }
                     }
+                    dgv.Columns[5].HeaderText = "Time (Minutes)";
                 }
                 else MessageBox.Show("Вначале выберите тест!");
             }
@@ -450,6 +466,18 @@ namespace Tester
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             pictureBox1.BorderStyle = BorderStyle.None;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox1.Text != "") Properties.Settings.Default.MaxMem = int.Parse(textBox1.Text);
+            Properties.Settings.Default.Save();
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox2.Text != "")  Properties.Settings.Default.MaxTime = int.Parse(textBox2.Text);
+            Properties.Settings.Default.Save();
         }
     }
 }

@@ -23,5 +23,11 @@
     <Setting Name="DownButsColor" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">192, 0, 192</Value>
     </Setting>
+    <Setting Name="MaxTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="MaxMem" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
