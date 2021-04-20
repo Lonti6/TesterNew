@@ -12,7 +12,6 @@ namespace Tester
 
         public CompilerResults CreateExe(string pathProgram)
         {
-            Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\cache");
             fileName = pathProgram.Substring(pathProgram.LastIndexOf(@"\")+1);
             language = fileName.Substring(fileName.LastIndexOf(".") + 1);
             fileName = fileName.Substring(0, fileName.LastIndexOf("."));

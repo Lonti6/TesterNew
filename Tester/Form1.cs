@@ -228,7 +228,9 @@ namespace Tester
             button1.FlatStyle = FlatStyle.Flat;
             button2.FlatAppearance.BorderSize = 0;
             button2.FlatStyle = FlatStyle.Flat;
-            Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/data");
+            Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\data");
+            Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\cache");
+            Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\logs");
             RefreshTree();
             байтыToolStripMenuItem.Checked = true;
             миллисекундыToolStripMenuItem.Checked = true;

@@ -146,7 +146,6 @@ namespace Tester
                     File.Delete(cache + manifest);
                     file = cache + jar;
                     goto case "jar";
-                    break;
 
                 case "class":
                     classFile = fileName + ".class";
@@ -178,7 +177,6 @@ namespace Tester
                     File.Delete(cache + classFile);
                     file = cache + jar;
                     goto case "jar";
-                    break;
 
                 default:
                     i = 0;
@@ -220,7 +218,7 @@ namespace Tester
 
                     }
                     process.WaitForExit();
-                    File.Delete(cache + fileName + ".exe");
+                    //File.Delete(cache + fileName + ".exe");
                     break;
             }
         }
