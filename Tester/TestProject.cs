@@ -230,6 +230,12 @@ namespace Tester
         {
             var process = (Process)sender;
             dgv[5, procID[process.Id]].Value = (process.ExitTime - process.StartTime).Milliseconds.ToString();
+            if (int.Parse(dgv[5, procID[process.Id]].Value.ToString()) >= int.Parse(Properties.Settings.Default.MaxTime.ToString()))
+            {
+                //окрашиваем всё как в смешариках
+                foreach (DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
+                    item.Style.BackColor = Properties.Settings.Default.FalseBGColor;
+            }
         }
 
         private void Process_OutputDataReceived(object sender, DataReceivedEventArgs e)
@@ -239,6 +245,12 @@ namespace Tester
             try
             {
                 dgv[4, procID[process.Id]].Value = process.PeakWorkingSet64.ToString();
+                if (int.Parse(dgv[4, procID[process.Id]].Value.ToString()) >= int.Parse(Properties.Settings.Default.MaxMem.ToString()))
+                {
+                    //окрашиваем всё как в смешариках
+                    foreach (DataGridViewCell item in dgv.Rows[procID[process.Id]].Cells)
+                        item.Style.BackColor = Properties.Settings.Default.FalseBGColor;
+                }
             }
             catch (Exception err)
             {
